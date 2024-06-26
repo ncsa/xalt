@@ -845,7 +845,11 @@ void wrapper_for_myfini(int signum)
   sigaction(signum, &action, NULL);
   signal_hdlr_called = signum;
   myfini();
-  raise(signum);
+
+  // Ignore USR2 to trigger pre-emptive log without killing processes without USR2 handler
+  if (signum != 12){
+      raise(signum);
+  }
 }
 
 static void close_out(FILE* fp, int xalt_err)
@@ -874,6 +878,10 @@ void myfini()
       close(STDERR_FILENO);
       dup2(errfd, STDERR_FILENO);
       my_stderr = fdopen(errfd,"w");
+      if (!xalt_err)
+      {
+        xalt_err = stderr;
+      }
     }
 
 
@@ -905,7 +913,7 @@ void myfini()
 
       DEBUG(my_stderr,"    -> exiting because reject is set to: %s for program: %s\n}\n\n",
              xalt_reasonA[reject_flag], exec_path);
-      close_out(my_stderr, xalt_err);
+      close_out(my_stderr, xalt_err;
       return;
     }
 
