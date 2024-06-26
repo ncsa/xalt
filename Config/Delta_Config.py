@@ -15,7 +15,6 @@ hostname_patterns = [
   ['KEEP', r'gpuc0[0-6]\..*'], # gpu nodes type c
   ['KEEP', r'gpud0[0-6]\..*'], # gpu nodes type d 
   ['SKIP', r'dt-login0[0-5]\..*'], #track login nodes for debugging
-  ['SKIP', '.*'] # skip tracking on all other nodes (login, internal, etc) 
   ]
 
 #------------------------------------------------------------
@@ -72,7 +71,6 @@ path_patterns = [
     ['KEEP', r'^\/delta\/scratch\/*'],
     ['KEEP', r'^\/projects\/*'],
     # root directories that do not need to be tracked
-    ['SKIP', r'^\/usr\/.*'],
     ['SKIP', r'^\/usr\/.*'],
     ['SKIP', r'^\/boot\/.*'], 
     ['SKIP', r'^\/dev\/.*'],
@@ -224,7 +222,6 @@ env_patterns = [
     [ 'KEEP', r'^CUDA_HOME=.*' ],
     [ 'KEEP', r'^CMAKE_PREFIX_PATH=.*' ],
     [ 'KEEP', r'^MODULEPATH=.*' ],
-    [ 'KEEP', r'^CMAKE_PREFIX_PATH=.*' ],
     [ 'KEEP', r'^PATH=.*' ],
 
   ]
