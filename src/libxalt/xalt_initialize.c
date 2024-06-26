@@ -172,7 +172,7 @@ static xalt_status  reject_flag           = XALT_SUCCESS;
 static int          run_mask              = 0;
 static int          have_uuid             = 0;
 static long         always_record         = 0L;
-static double       probability           = 1.0;
+static double    clo   probability           = 1.0;
 static double       testing_runtime       = -1.0;
 static int          orig_pid              = 0;
 static pid_t        ppid                  = 0;
@@ -913,7 +913,7 @@ void myfini()
 
       DEBUG(my_stderr,"    -> exiting because reject is set to: %s for program: %s\n}\n\n",
              xalt_reasonA[reject_flag], exec_path);
-      close_out(my_stderr, xalt_err;
+      close_out(my_stderr, xalt_err);
       return;
     }
 
