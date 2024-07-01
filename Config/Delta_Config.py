@@ -215,15 +215,7 @@ mpi_interval_array = [
 
 # TODO - modify these
 env_patterns = [
-    [ 'KEEP', r'^HOSTNAME=.*' ],
-    [ 'KEEP', r'^LOADEDMODULES=.*' ],
-    [ 'KEEP', r'^CONDA_PYTHON_EXE=.*' ],
-    [ 'KEEP', r'^CC=.*' ],
-    [ 'KEEP', r'^CUDA_HOME=.*' ],
-    [ 'KEEP', r'^CMAKE_PREFIX_PATH=.*' ],
-    [ 'KEEP', r'^MODULEPATH=.*' ],
-    [ 'KEEP', r'^PATH=.*' ],
-
+    [ 'KEEP', r'.*' ], # keep all environment variables
   ]
 
 #------------------------------------------------------------
@@ -235,8 +227,6 @@ python_pkg_patterns = [
   { 'k_s' : 'SKIP', 'kind' : 'path', 'patt' : r"^[^/]"               },  # SKIP all built-in packages
   { 'k_s' : 'SKIP', 'kind' : 'name', 'patt' : r"^_"                  },  # SKIP names that start with a underscore
   { 'k_s' : 'SKIP', 'kind' : 'name', 'patt' : r".*\."                },  # SKIP all names that are divided with periods: a.b.
-  { 'k_s' : 'KEEP', 'kind' : 'name', 'patt' : r" .*u\/lib/python[0-9]\.[0-9]\/site-packages\/.*"},
-  { 'k_s' : 'SKIP', 'kind' : 'name', 'patt' : r" .*u\/lib/python[0-9]\.[0-9]\/.*"}, 
   { 'k_s' : 'KEEP', 'kind' : 'path', 'patt' : r".*conda\/.*"          },  # KEEP all packages installed by users
   { 'k_s' : 'KEEP', 'kind' : 'path', 'patt' : r".*\/site-packages\/.*" },  # KEEP all site-packages 
   { 'k_s' : 'KEEP', 'kind' : 'path', 'patt' : r"^\/delta/scratch\/.*"  },  # KEEP all packages the system project directories
