@@ -93,7 +93,7 @@ path_patterns = [
     ['SKIP', r'^\/taiga\/.*'], # double check here
     ['SKIP', r'^\/tmp\/.*'],
     ['SKIP', r'^\/var\/.*'],
-    ['SKIP', r'^\/xcatpost\/.*']
+    ['SKIP', r'^\/xcatpost\/.*'],
     ['SKIP', r'^\/bin\/.*']
    ]
 
@@ -158,18 +158,14 @@ MPI_ALWAYS_RECORD = 128
 # $XALT_SAMPLING equals yes
 
 
-# interval_array = [
-#     [    0.0,              0.05 ],
-#     [ 1800.0,              0.1   ],
-#     [ 7200.0,              1.0    ],
-#     [ sys.float_info.max,  1.0    ]
-# ]
 interval_array = [
-    [    0.0,              1 ],
-    [ 1800.0,              1   ],
-    [ 7200.0,              1.0    ],
-    [ sys.float_info.max,  1.0    ]
+    [ 0.0,                    1.0   ],
+    [ 600.0,                  0.05  ],                      # 10 min 
+    [ 1800.0,                 0.1   ],                      # 30 min
+    [ 7200.0,                 1.0   ],                      # 2 hours
+    [ sys.float_info.max,     1.0   ]                       # End of time
 ]
+
 
 #------------------------------------------------------------
 # Sites can also define a different sampling specification
@@ -177,18 +173,14 @@ interval_array = [
 # mpi_interval_array is given then the interval_array is used
 # for both scalar and mpi programs.
 
-# mpi_interval_array = [
-#     [    0.0,              0.05 ],
-#     [  900.0,              0.1   ],
-#     [ 1800.0,              1.0    ],
-#     [ sys.float_info.max,  1.0    ]
-# ]
 mpi_interval_array = [
-    [    0.0,              1 ],
-    [  900.0,              1   ],
-    [ 1800.0,              1.0    ],
-    [ sys.float_info.max,  1.0    ]
+    [    0.0,              1.0    ],
+    [  600.0,              0.10   ],                        # 10 min
+    [  900.0,              0.2    ],                        # 15 min
+    [ 1800.0,              1.0    ],                        # 2 hours
+    [ sys.float_info.max,  1.0    ]                         # End of time
 ]
+
 
 
 #------------------------------------------------------------
