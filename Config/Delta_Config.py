@@ -62,10 +62,13 @@ path_patterns = [
     ['KEEP',  r'^\/usr\/bin\/apptainer*'],
     ['KEEP',  r'^\/usr\/bin\/c?make*'],
     ['KEEP',  r'^\/usr\/bin\/gcc*'],
+    ['KEEP',  r'^\/usr\/bin\/gfortran*'],
     ['KEEP',  r'^\/usr\/bin\/go*'],
     ['KEEP',  r'^\/usr\/bin\/g++*'],
     ['KEEP',  r'^\/usr\/bin\/pip*'],
     ['KEEP',  r'^\/usr\/local\/*'],
+    ['KEEP',  r'^\/usr\/bin\/srun'],
+    ['KEEP',  r'^\/usr\/bin\/salloc'],
     # other user spaces that might hold executables
     ['KEEP', r'^\/scratch\/*'],
     ['KEEP', r'^\/delta\/scratch\/*'],
