@@ -786,7 +786,7 @@ void myinit(int argc, char **argv)
   // ====================================================== MODIFICATION =============================================
   // Create Start Records for all programs
   v = getenv("XALT_ALWAYS_CREATE_START");
-  DEBUG(stderr, "XALT_START_ALL set to %s \n", v); 
+  DEBUG(stderr, "    -> XALT_START_ALL set to %s \n", v); 
     if (v) 
     {
       DEBUG(stderr, "    -> Recording start record!\n",
