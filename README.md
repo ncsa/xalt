@@ -127,7 +127,86 @@ it turns out that slurm will send these signals out to ONLY job steps, and not c
 signal handling implementation. Running something in the SLURM epilog is almost a certainly better alternative.
 
 
+#### Open-OnDemand
 
+Debugging issues for OOD was what revealed the main problem with improper exits(). However, since the SBATCH scripts used on OOD are controlled by Admin, we can ensure
+that XALT works the way we want it to here. 
+
+##### Option 1 - Handle Signals?
+Assuming that the sbatch script used to launch a OOD service, say Jupyter is something like this 
+```
+#! /bin/bash
+...
+#SBATCH --param=xyz
+
+# Get port information 
+srun jupyter-server
+# OR
+jupyter-server
+```
+if it jupyter is executed as a job-step, turning on signal handling in XALT by setting the environment variable `XALT_SIGNAL_HANDLER=yes` should be sufficient.
+If Jupyter is not a JOB step, then a trap on the batch shell should be good enough. Using the `#SBATCH --signal=B:signum@time_before_timeout` on the script and setting up a trap to send a TERM to the jupyter job using some bash scripting is good.
+
+Here is an example from when we were using USR2 to preempt XALT.
+
+```
+...
+#SBATCH --signal=B:12@60
+usrhandler(){
+    jupyter_process=$(ps xf | grep jupyter-server)
+    jupyter_pid="${jupyter_process:0:8}"
+    kill -s 12 $jupyter_pid
+}
+trap usrhandler 12
+
+jupyter-server
+...
+
+```
+
+
+
+##### Option 2 - Move everything to file-prefix!
+
+If signal management seems to invasive, the trap installed on the bash can simply trigger a copy from `/dev/shm` to the file-prefix. For example, this is very similar to the sample epilog script:
+```
+#! /bin/bash
+#SBATCH --time=00:03:00         # Wall time limit (hh:mm:ss)
+#SBATCH --ntasks=1              # Number of tasks (processes)
+....
+#SBATCH --cpus-per-task=1       # Number of CPU cores per task
+#SBATCH --mem=4G                # Total memory for the job (4GB)
+#SBATCH --partition=cpu		    # Partition
+
+
+
+sighandler(){
+    # Get YYYYMM
+    date=$(date '+%Y%m');
+
+    # Directories used
+    dir_shm=/dev/shm/
+    xalt_record_dir=/sw/workload/delta/json/$date
+    xalt_pkg_records=$(find $dir_shm -type d -name 'XALT_pkg_*')
+
+    for pkg_record in $xalt_pkg_records
+    do
+            # Create a YYYYMM directory if it doesn't exist 
+            if [ ! -d "$xalt_record_dir" ]; then
+              mkdir $xalt_record_dir
+            fi
+            pkg_record_base=$(basename $pkg_record)
+
+            # Move from /dev/shm to transmission location
+            cp -r $pkg_record $xalt_record_dir/$pkg_record_base
+    done
+}
+
+trap sighandler TERM
+
+...
+
+```
 
 
 
