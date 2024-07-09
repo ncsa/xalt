@@ -38,9 +38,9 @@ This is a fork of XALT for the NCSA. This was developed as a project in the SPIN
 
 XALT is currently located in `/sw/workload/` on Delta. The source (this repository) is in `/sw/workload/xalt2/xalt_src` and the executables are in `/sw/workload/xalt2/xalt`.
 
-Each build of XALT requires a configuration file. The configuration file is [Delta_config.py](https://github.com/ScreamingPigeon/xalt/blob/main/Config/Delta_Config.py).
+Each build of XALT requires a configuration file. The configuration file is in [Delta_config.py](https://github.com/ScreamingPigeon/xalt/blob/main/Config/Delta_Config.py).
 
-Relevant information on configuring XALT can be found 
+Relevant information on configuring XALT can be found here
 - [Downloading XALT and Configuring it for your site](https://xalt.readthedocs.io/en/latest/020_site_configuration.html)
 - [Running Configure and building XALT for your site](https://xalt.readthedocs.io/en/latest/050_install_and_test.html) 
 - [XALT's Environment Variables](https://xalt.readthedocs.io/en/latest/095_xalt_env_vars.html)
@@ -48,7 +48,7 @@ Relevant information on configuring XALT can be found
 The script used to build xalt on Delta can be found at [`ncsa_build/build_xalt.sh`](https://github.com/ScreamingPigeon/xalt/blob/main/ncsa_build/build_xalt.sh).
 The important bit is that XALT is configured to dump files into `/sw/workload/delta/json`. The LMOD reverse map it uses to match paths to modules is in `/sw/workload/delta/process_xalt`.
 
-This configuration of XALT is further supplemented by the modulefile in use. On Delta, this modulefile can be found in [`/sw/workload/xalt2/module/`](https://github.com/ScreamingPigeon/xalt/blob/main/ncsa_build/3.0.2.lua).
+The modulefile further supplements this configuration of XALT in use. On Delta, this modulefile can be found in [`/sw/workload/xalt2/module/`](https://github.com/ScreamingPigeon/xalt/blob/main/ncsa_build/3.0.2.lua).
 This modulefile enables XALT to collect information inside containers, track python imports, etc. Notably, it also overrides the config's file-prefix flag to dump out records in a YYYYMM directory.
 So if XALT was used to track an executable in July 2024, relevant records will be dumped out in `/sw/workload/delta/json/202407/`. 
 
