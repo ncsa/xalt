@@ -104,6 +104,29 @@ The main changes in this fork are
 4. Inclusion of a custom config, build script, modulefile, epilog script, and a python cli-tool
 
 
+### Miscellaneous Notes
+
+#### Profiling
+
+XALT comes with a special build flag `--with-tmpdir=` which allows the user to specify the directory for intermediate logs, as opposed to the default which is `/dev/shm`. Attempting to use $HOME in this flag leads to signifcant slowdowns
+
+Runtime information
+- `/dev/shm`: 0.03-0.04ms for a PKG record
+- `$HOME`: 0.2-0.3ms for a PKG record
+
+While these seem like small numbers, minimizing the transmission time is important.
+Given that a simple task of activating a conda environment leads to about 300 PKG records, and starting up a jupyter notebook creates 800 PKG records.
+These are fairly simple 'toy' examples, but even with just a 1000 PKG records, the savings scale when using /dev/shm
+
+
+
+#### Signals and SLURM
+On the non-preemptible queueus the slurm configuration specifies a gracetime of 30s. This means that slurmd sends a SIGTERM and SIGCONT to the job, waits 30s and then sends a SIGKILL.
+This would imply that jobs could take advantage of XALT's signal handling capabilities, and indeed this was the initial motivation for disabling signal forwarding on USR2. However,
+it turns out that slurm will send these signals out to ONLY job steps, and not child/forked processes. This, in combinatino with guaranteed start record creation led to reverting to the original
+signal handling implementation. Running something in the SLURM epilog is almost a certainly better alternative.
+
+
 
 
 
