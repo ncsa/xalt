@@ -49,19 +49,21 @@ The script used to build xalt on Delta can be found at [`ncsa_build/build_xalt.s
 The important bit is that XALT is configured to dump files into `/sw/workload/delta/json`. The LMOD reverse map it uses to match paths to modules is in `/sw/workload/delta/process_xalt`.
 
 The modulefile further supplements this configuration of XALT in use. On Delta, this modulefile can be found in [`/sw/workload/xalt2/module/`](https://github.com/ScreamingPigeon/xalt/blob/main/ncsa_build/3.0.2.lua).
-This modulefile enables XALT to collect information inside containers, track python imports, etc. Notably, it also overrides the config's file-prefix flag to dump out records in a YYYYMM directory.
+This modulefile enables XALT to collect information inside containers, track Python imports, etc. Notably, it also overrides the config's file-prefix flag to dump out records in a YYYYMM directory.
 So if XALT was used to track an executable in July 2024, relevant records will be dumped out in `/sw/workload/delta/json/202407/`. 
 
-Note: Ensure that the modulefile direcory is added to `$MODULEPATH` if you wish to use XALT.
+Note: Ensure that the modulefile directory is added to `$MODULEPATH` if you wish to use XALT.
 
 #### Record Description
 
 ##### RUN
 These records are generated for all ELF executables that get through the filters in our [Delta_config.py](https://github.com/ScreamingPigeon/xalt/blob/main/Config/Delta_Config.py). So tracking does not work on Login nodes.
-These RUN records are generated in the followin format
-    run.<hostname>.<YYYY>_<MM>_<DD>_<HH>_<mm>_<ssss>_<msmsmsms>.<user>.<aaa_zzz>.<xalt_run_uuid>.json
-The presence of the aaa in a record file name indicates that it is a START record, generated during `xalt_initialize()` before `main()` in user code is called. If there is `zzz` in the record name, then it is an end record -
-generated in `myfini()` after a program calls `exit()`. The presence of a start record but no end record for the same `xalt_run_uuid` usually indicates abnormal exit, possibly due to issues like  job-timeouts and segfaults.
+These RUN records are generated in the following format
+
+> run.<hostname>.<YYYY>_<MM>_<DD>_<HH>_<mm>_<ssss>_<msmsmsms>.<user>.<aaa_zzz>.<xalt_run_uuid>.json
+
+The presence of the aaa in a record file name indicates that it is a START record, generated during `xalt_initialize()` before `main()` in the user code is called. If there is `zzz` in the record name, then it is an end record -
+generated in `myfini()` after a program calls `exit()`. The presence of a start record but no end record for the same `xalt_run_uuid` usually indicates an abnormal exit, possibly due to issues like  job-timeouts and segfaults.
 
 
 ##### LINK
@@ -69,19 +71,21 @@ These records are generated when a compiler is used on a non-login node. XALT in
 granting additional telemetry on the system.
 
 ##### PKG
-These records are generated for python imports. Each import leads to a seperate package record, usually named something like
-    pkg.<hostname>.<datetime>.<user>.<xalt_run_uuid>.<*>.json
-These records are generated due to the presence of `$PYTHONPATH`, which injects `/sw/workload/xalt2/xalt/xalt/site_packages/sitecustomize.py` into the interpreter. This program in turn generates the list of imports and calls one of the XALT executables which
+These records are generated for Python imports. Each import leads to a separate package record, usually named something like
+
+> pkg.<hostname>.<datetime>.<user>.<xalt_run_uuid>.<*>.json
+
+These records are generated due to `$PYTHONPATH`, which injects `/sw/workload/xalt2/xalt/xalt/site_packages/sitecustomize.py` into the interpreter. This program in turn generates the list of imports and calls one of the XALT executables which
 stores this record in `/dev/shm`. These records are then moved to the specified file-prefix when `myfini()` is invoked in order to avoid slowing down user code while it executes. 
 However, this leads to issues with evicting these records in the case of a program not exiting normally. This can be bypassed by putting [`epilog/xalt.sh`](https://github.com/ScreamingPigeon/xalt/blob/main/epilog/xalt.sh) in the slurm epilog.
 Ensure that this is run BEFORE `/dev/shm` is cleared at the end of the job. Since these incomplete records still have the run_uuid, they can be connected to the start record of a job.
 
 #### Debugging
-You can turn on debugging statements by exporting `XALT_TRACING=yes` in the shell you're using.
+You can turn on debugging statements by exporting `XALT_TRACING=yes` in your shell.
 
 
 ### Python CLI Tool
-XALT can be used to help debug user issues. Once the user loads the XALT module, logs will begin generating in the file-prefix directory. A python CLI tool was developed to pull relevant records given any of the following information
+XALT can be used to help debug user issues. Once the user loads the XALT module, logs will begin generating in the file-prefix directory. A Python CLI tool was developed to pull relevant records given any of the following information
 - USER
 - xalt_run_uuid
 - slurm job id
