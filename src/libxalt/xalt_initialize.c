@@ -783,9 +783,9 @@ void myinit(int argc, char **argv)
              num_tasks, (int) always_record, xalt_build_descriptA[build_mask], xalt_run_descriptA[run_mask]);
     }
   
-  
-  // Create a start record for all executions?
-  v = getenv("XALT_START_ALL");
+  // ====================================================== MODIFICATION =============================================
+  // Create Start Records for all programs
+  v = getenv("XALT_ALWAYS_CREATE_START");
   DEBUG(stderr, "XALT_START_ALL set to %s \n", v); 
     if (v) 
     {
@@ -810,7 +810,7 @@ void myinit(int argc, char **argv)
 
       DEBUG(stderr,"    -> uuid: %s\n", uuid_str);
     }
-
+  // ====================================================== MODIFICATION ENDS ========================================
 
 
 
@@ -877,11 +877,14 @@ void wrapper_for_myfini(int signum)
   sigaction(signum, &action, NULL);
   signal_hdlr_called = signum;
   myfini();
-
-  // Ignore USR2 to trigger pre-emptive log without killing processes without USR2 handler
-  if (signum != 12){
-      raise(signum);
-  }
+  
+  /* If you have the signal handler enabled and are using say 
+   * USR1 to preempt logging on XALT, DO NOT RAISE the signal again
+   * as the user may not have written a handler for the signal
+   * leading to the process dieing on preemptiong
+   */ 
+  raise(signum);
+  
 }
 
 static void close_out(FILE* fp, int xalt_err)

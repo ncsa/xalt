@@ -32,6 +32,9 @@ prepend_path("COMPILER_PATH", bin)
 -- XAlT_DATE_TIME creation
 setenv("XALT_FILE_PREFIX", pathJoin(record_dir,formattedDate))
 
+-- XAlT_DATE_TIME creation
+setenv("XALT_ALWAYS_CREATE_START", pathJoin(record_dir,formattedDate))
+
 
 -- Variable needed for Python tracking outside a container 
 prepend_path("PYTHONPATH",  pythonpath)
