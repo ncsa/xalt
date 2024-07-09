@@ -19,7 +19,7 @@ do
         fi
 	
         # Move from /dev/shm to transmission location
-        cp $pkg_record $xalt_record_dir/$pkg_record
+        cp -r $pkg_record $xalt_record_dir/$pkg_record
 done
 
 
