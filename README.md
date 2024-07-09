@@ -60,7 +60,7 @@ Note: Ensure that the modulefile directory is added to `$MODULEPATH` if you wish
 These records are generated for all ELF executables that get through the filters in our [Delta_config.py](https://github.com/ScreamingPigeon/xalt/blob/main/Config/Delta_Config.py). So tracking does not work on Login nodes.
 These RUN records are generated in the following format
 
-> run.<_hostname>.<datetime>.<username>.<aaa_zzz>.<xalt_run_uuid>.json
+> run.<_hostname>.<date_time>.<user_name>.<aaa_zzz>.<xalt_run_uuid>.json
 
 The presence of the aaa in a record file name indicates that it is a START record, generated during `xalt_initialize()` before `main()` in the user code is called. If there is `zzz` in the record name, then it is an end record -
 generated in `myfini()` after a program calls `exit()`. The presence of a start record but no end record for the same `xalt_run_uuid` usually indicates an abnormal exit, possibly due to issues like  job-timeouts and segfaults.
@@ -73,7 +73,7 @@ granting additional telemetry on the system.
 ##### PKG
 These records are generated for Python imports. Each import leads to a separate package record, usually named something like
 
-> pkg.<_hostname>.<datetime>.<username>.<xalt_run_uuid>.<*>.json
+> pkg.<_hostname>.<date_time>.<user_name>.<xalt_run_uuid>.<*>.json
 
 These records are generated due to `$PYTHONPATH`, which injects `/sw/workload/xalt2/xalt/xalt/site_packages/sitecustomize.py` into the interpreter. This program in turn generates the list of imports and calls one of the XALT executables which
 stores this record in `/dev/shm`. These records are then moved to the specified file-prefix when `myfini()` is invoked in order to avoid slowing down user code while it executes. 
