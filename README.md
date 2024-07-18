@@ -70,11 +70,11 @@ So if XALT was used to track an executable in July 2024, relevant records would 
 
 Note: Ensure that the modulefile directory is added to `$MODULEPATH` if you wish to use XALT.
 
-#### Record Description
+### Record Description
 
 An in-depth explanation on XALT's Record description can be found [here](https://xalt.readthedocs.io/en/latest/120_xalt_json.html).
 
-##### RUN
+#### RUN
 These records are generated for all ELF executables that get through the filters in our [Delta_config.py](https://github.com/ScreamingPigeon/xalt/blob/main/Config/Delta_Config.py). So tracking does not work on Login nodes.
 These RUN records are generated in the following format
 
@@ -84,7 +84,7 @@ The presence of the `aaa` in a record file name indicates that it is a START rec
 generated in `myfini()` after a program calls `exit()`. The presence of a start record but no end record for the same `xalt_run_uuid` usually indicates an abnormal exit, possibly due to issues like  job timeouts and segfaults.
 
 
-##### LINK
+#### LINK
 These records are generated when a compiler is used on a non-login node. XALT injects a watermark and UUID in the ELF header for the program. This allows LINK records to be connected to RUN records through a common UUID - 
 granting additional telemetry on the system.
 
@@ -92,7 +92,7 @@ granting additional telemetry on the system.
 
 
 
-##### PKG
+#### PKG
 These records are generated for Python imports. Each import leads to a separate package record, usually named something like
 
 > pkg.<_hostname>.<date_time>.<user_name>.<xalt_run_uuid>.<*>.json
@@ -102,7 +102,7 @@ stores this record in `/dev/shm`. These records are then moved to the specified 
 However, this leads to issues with evicting these records in the case of a program not exiting normally. This can potentially be bypassed by putting [`epilog/xalt.sh`](https://github.com/ScreamingPigeon/xalt/blob/main/epilog/xalt.sh) in the slurm epilog (epilog functionality not yet verified).
 Ensure that this is run BEFORE `/dev/shm` is cleared at the end of the job. Since these incomplete records still have the run_uuid, they can be connected to the start record of a job.
 
-#### Debugging
+### Debugging
 You can turn on debugging statements by exporting `XALT_TRACING=yes` in your shell. Note: XALT will not create debugging statements for `myfini()` when tracking the `lsof` program.
 
 
@@ -159,16 +159,18 @@ Runtime information
 - `$HOME`: 0.2-0.3ms for a PKG record
 
 While these seem like small numbers, minimizing the transmission time is important.
-Given that a simple task of activating a conda environment leads to about 300 PKG records, and starting up a jupyter notebook creates 800 PKG records.
-These are fairly simple 'toy' examples, but even with just a 1000 PKG records, the savings scale when using /dev/shm
+Given that, a simple task of activating a conda environment leads to about 300 PKG records, and starting up a jupyter notebook creates 800 PKG records, it is evident that complicated scripts will lead to a lot more records.
+These savings scale with thousands of jobs.
 
 
 
 #### Signals and SLURM
-On the non-preemptible queueus the slurm configuration specifies a gracetime of 30s. This means that slurmd sends a SIGTERM and SIGCONT to the job, waits 30s and then sends a SIGKILL.
+On the non-preemptible queues, the slurm configuration specifies a gracetime of 30s. This means that slurmd sends a SIGTERM and SIGCONT to the job, waits 30s and then sends a SIGKILL.
 This would imply that jobs could take advantage of XALT's signal handling capabilities, and indeed this was the initial motivation for disabling signal forwarding on USR2. However,
-it turns out that slurm will send these signals out to ONLY job steps, and not child/forked processes. This, in combinatino with guaranteed start record creation led to reverting to the original
-signal handling implementation. Running something in the SLURM epilog is almost a certainly better alternative.
+it turns out that slurm will send these signals out to ONLY job steps, and not child/forked processes. This, in combination with guaranteed start record creation, led to reverting to the original
+signal handling implementation.
+
+If needed, preemptive signal handling can be turned on by setting `XALT_SIGNAL_HANDLER=yes` in your environment
 
 
 #### Open-OnDemand
@@ -177,7 +179,7 @@ Debugging issues for OOD was what revealed the main problem with improper exits(
 that XALT works the way we want it to here. 
 
 ##### Option 1 - Handle Signals?
-Assuming that the sbatch script used to launch a OOD service, say Jupyter is something like this 
+Assuming that the sbatch script used to launch an OOD service, say Jupyter is something like this 
 ```
 #! /bin/bash
 ...
@@ -188,7 +190,7 @@ srun jupyter-server
 # OR
 jupyter-server
 ```
-if it jupyter is executed as a job-step, turning on signal handling in XALT by setting the environment variable `XALT_SIGNAL_HANDLER=yes` should be sufficient.
+if Jupyter is executed as a job step, turning on signal handling in XALT by setting the environment variable `XALT_SIGNAL_HANDLER=yes` should be sufficient.
 If Jupyter is not a JOB step, then a trap on the batch shell should be good enough. Using the `#SBATCH --signal=B:signum@time_before_timeout` on the script and setting up a trap to send a TERM to the jupyter job using some bash scripting is good.
 
 Here is an example from when we were using USR2 to preempt XALT.
@@ -212,7 +214,7 @@ jupyter-server
 
 ##### Option 2 - Move everything to file-prefix!
 
-If signal management seems to invasive, the trap installed on the bash can simply trigger a copy from `/dev/shm` to the file-prefix. For example, this is very similar to the sample epilog script:
+If signal management seems too invasive, the trap installed on the bash can simply trigger a copy from `/dev/shm` to the file-prefix. For example, this is very similar to the sample epilog script:
 ```
 #! /bin/bash
 #SBATCH --time=00:03:00         # Wall time limit (hh:mm:ss)
