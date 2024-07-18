@@ -31,8 +31,24 @@ effective, and systematic way.
 Installation and Use of XALT is provided at https://xalt.readthedocs.io website.
 
 
-## NCSA SPIN Summer 2024 Documentation
+# NCSA SPIN Summer 2024 Documentation
 This is a fork of XALT for the NCSA. This was developed as a project in the SPIN Summer 2024 cohort by Prakhar Gupta.
+
+## For Users
+
+The XALT modulefile is available in the `/sw/workload/xalt2/module/xalt/3.0.2.lua/`. You can enable XALT on a node by running the following commands on the shell
+
+```
+[user@node ~]$ export MODULEPATH=$MODULEPATH:/sw/workload/xalt2/module
+[user@node ~]$ module load xalt/3.0.2
+```
+XALT is deployed as a **sticky** module! So, commands like `module purge` or `module unload xalt` will not get rid of it, unless you use the `--force` flag.  To unload:
+```
+[user@node ~]$ module --force unload xalt/3.0.2
+```
+If you want the XALT module to be always available, simply include the changes to modulepath in your `.bashrc`
+
+## For Administrators
 
 ### Current Configuration on Delta
 
@@ -56,6 +72,8 @@ Note: Ensure that the modulefile directory is added to `$MODULEPATH` if you wish
 
 #### Record Description
 
+An in-depth explanation on XALT's Record description can be found [here](https://xalt.readthedocs.io/en/latest/120_xalt_json.html).
+
 ##### RUN
 These records are generated for all ELF executables that get through the filters in our [Delta_config.py](https://github.com/ScreamingPigeon/xalt/blob/main/Config/Delta_Config.py). So tracking does not work on Login nodes.
 These RUN records are generated in the following format
@@ -70,28 +88,50 @@ generated in `myfini()` after a program calls `exit()`. The presence of a start 
 These records are generated when a compiler is used on a non-login node. XALT injects a watermark and UUID in the ELF header for the program. This allows LINK records to be connected to RUN records through a common UUID - 
 granting additional telemetry on the system.
 
+> link.<_hostname>.<date_time>.<user_name>.<xalt_run_uuid>.<*>.json
+
+
+
 ##### PKG
 These records are generated for Python imports. Each import leads to a separate package record, usually named something like
 
 > pkg.<_hostname>.<date_time>.<user_name>.<xalt_run_uuid>.<*>.json
 
 These records are generated due to `$PYTHONPATH`, which injects `/sw/workload/xalt2/xalt/xalt/site_packages/sitecustomize.py` into the interpreter. This program, in turn, generates the list of imports and calls one of the XALT executables which
-stores this record in `/dev/shm`. These records are then moved to the specified file prefix when `myfini()` is invoked in order to avoid slowing down user code while it executes. 
-However, this leads to issues with evicting these records in the case of a program not exiting normally. This can be bypassed by putting [`epilog/xalt.sh`](https://github.com/ScreamingPigeon/xalt/blob/main/epilog/xalt.sh) in the slurm epilog.
+stores this record in `/dev/shm`. These records are then moved to the specified file prefix when `myfini()` is invoked to avoid slowing down user code while it executes. 
+However, this leads to issues with evicting these records in the case of a program not exiting normally. This can potentially be bypassed by putting [`epilog/xalt.sh`](https://github.com/ScreamingPigeon/xalt/blob/main/epilog/xalt.sh) in the slurm epilog (epilog functionality not yet verified).
 Ensure that this is run BEFORE `/dev/shm` is cleared at the end of the job. Since these incomplete records still have the run_uuid, they can be connected to the start record of a job.
 
 #### Debugging
-You can turn on debugging statements by exporting `XALT_TRACING=yes` in your shell.
+You can turn on debugging statements by exporting `XALT_TRACING=yes` in your shell. Note: XALT will not create debugging statements for `myfini()` when tracking the `lsof` program.
 
 
-### Python CLI Tool
-XALT can be used to help debug user issues. Once the user loads the XALT module, logs will begin generating in the file-prefix directory. A Python CLI tool was developed to pull relevant records given any of the following information
+### Python Utilities
+XALT can be used to help debug user issues. Once the user loads the XALT module, logs will begin generating in the file-prefix directory (`/sw/workload/delta/json/<YYYYMM>`).
+
+XALT's build comes with a few Python utilities, which can be found in `/sw/workload/xalt2/xalt/xalt/sbin/`. For our purposes, here are the useful python utilities:
+- conf_create.py
+- createDB.py
+- xalt_file_to_db.py
+- xalt_scalar_bins_usage_report.py
+- xalt_library_usage.py
+- xalt_usage_report.py
+
+The rest of the files are either helpers or are relevant to the syslog transmission method. These utilities integrate with a MySQL Database that needs to be configured and running somewhere on the cluster. XALT Documentation recommends setting up a VM with XALT and access to the filesystem to run the Database. XALT Documentation on Database setup can be found [here](https://xalt.readthedocs.io/en/latest/060_setup_db.html). For more information on loading JSON records into the database, please refer to the [docs](https://xalt.readthedocs.io/en/latest/070_loading_json_by_file.html)
+
+The python packages needed to run these utilities are 
+- `mysqlclient`
+- `getent` / `pygetent`
+
+Note: `pygetent` utilizes the same functionality as `getent`, it is an updated version of the package, made to be compatible with Python3. `getent`'s PyPI package had not been updated since 2013, and `pygetent` has been republished to provide ease of access for installs through pip.
+
+Alternatively, a Python CLI tool was developed to pull relevant records given any of the following information
 - USER
 - xalt_run_uuid
 - slurm job id
 - DateTime range
 
-The Python tool also requires the path of the file-prefix directory where these records are available. The user running this program must have read access to the file-prefix directory and all records in there.
+This is available in ['cli_tools/xalt_find_records.py'](https://github.com/ScreamingPigeon/xalt/blob/main/cli_tools/xalt_find_records.py) and works by recursively traversing `/sw/workload/json` looking for records that match the filter, and printing a report as `xalt_report.txt` in the directory it was run. This should be able to help administrators pull information from user jobs. Performance will degrade if there are a large number of records in the directory.
 
 ### How does XALT work
 
