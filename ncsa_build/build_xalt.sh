@@ -8,27 +8,35 @@ fi
 
 orig_dir=$PWD
 
-echo "Verifying Directory"
+echo "Changing directories"
 cd /sw/workload
 
 dir=$PWD
 process_xalt_dir="${dir}/delta/process_xalt"
 xalt_dir="${dir}/xalt2"
-config_file=Config/Delta_Config.py
+src_dir="${xalt_dir}/xalt_src"
+git_src="https://github.com/ncsa/xalt"
+rmap_dir=:"${process_xalt_dir}/reverseMapD/xalt_rmapT.json"
+config_file="${src_dir}/Config/Delta_Config.py"
 
-## Cloning XALT
-cd $xalt_dir
-echo "Cloning XALT"
-git clone https://github.com/ncsa/xalt/ xalt_src
+# TODO Automate versioning
+init_modpath="${src_dir}/ncsa_build/3.0.2.lua"
+final_modpath="${xalt_dir}/module/xalt/3.0.2.lua"
 
-rm xalt_src/Config/*
-
-cp ${orig_dir}/Config.py xalt_src/Config/
+if [- d "$src_dir"]; then
+        echo "Source exists. Updating now"
+        cd $src_dir
+        git pull
+        cd ..
+else
+        echo "Source does not exist. Cloning now"
+        git clone $src_dir 
+fi
 
 
 ## Creating Reverse Mapping of Modules
 echo "Creating Reverse Mapping"
-$LMOD_DIR/spider -o xalt_rmapT      $MODULEPATH > ${process_xalt_dir}/reverseMapD/xalt_rmapT.json
+$LMOD_DIR/spider -o xalt_rmapT      $MODULEPATH > ${rmap_dir}
 
 echo "Reverse Map Created"
 
@@ -37,7 +45,7 @@ echo "Configuring XALT"
 
 echo $PWD
 
-cd ${xalt_dir}/xalt_src
+cd $src_dir
 
 ./configure --prefix=$xalt_dir                  \
 --with-config=$config_file                      \
@@ -54,6 +62,7 @@ make install
 
 if [ $? -eq 0 ]; then
         echo "Installation Complete. Loading module now"
+        cp $init_modpath $final_modpath
         export MODULEPATH=$MODULEPATH:/sw/workload/xalt2/module
         module load $module_name
         module list
