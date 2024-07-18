@@ -44,7 +44,7 @@ The XALT modulefile is available in the `/sw/workload/xalt2/module/xalt/3.0.2.lu
 ```
 XALT is deployed as a **sticky** module! So, commands like `module purge` or `module unload xalt` will not get rid of it, unless you use the `--force` flag.  To unload:
 ```
-[user@node ~]$ module unload --force xalt/3.0.2
+[user@node ~]$ module --force unload xalt/3.0.2
 ```
 If you want the XALT module to be always available, simply include the changes to modulepath in your `.bashrc`
 
