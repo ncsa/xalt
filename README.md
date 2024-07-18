@@ -257,8 +257,6 @@ trap sighandler TERM
 
 
 
+### Notes for going to production
 
-
-
-
-
+Going back to the original source of XALT might offer much better performance. Implementing these changes to support telemetry for terminated jobs might overwhelm the filesystem. Turning on signal handling and then sending signals to ALL processes in the epilog might prove to be more maintainable.
