@@ -2,8 +2,8 @@ import os
 import json
 from datetime import datetime
 from datetime import timedelta 
-# root_directory = '/sw/workload/delta/json'
-root_directory = '/home/prakhar/code/work/ncsa'
+root_directory = '/sw/workload/delta/json'
+# root_directory = '/home/prakhar/code/work/ncsa'
 
 
 
@@ -107,8 +107,7 @@ def display_summary(filtered_data, filtered_paths):
         for datum in filtered_data:
             print(datum)
 
-        break
-
+        print("\n")
 
 # Main function
 if __name__ == '__main__':
