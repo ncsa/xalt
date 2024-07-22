@@ -33,7 +33,7 @@ else
 fi
 
 # Setting Source to read and execute
-chmod -R u=rwx,o=rx $src_dir
+# chmod -R u=rwx,o=rx $src_dir
 
 # Configuring XALT now
 echo "Configuring XALT"
