@@ -8,7 +8,7 @@ add_property("lmod","sticky")
 local currentDate = os.date("*t")
 local month = string.format("%02d", currentDate.month)
 local year = currentDate.year
-local formattedDate = month .. year
+local formattedDate = year .. month
 
 -- Filepath used for current configuration of XALT
 local base  = "/sw/workload/xalt2/xalt/xalt"  --> Change to match your site!!!
