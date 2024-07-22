@@ -8,7 +8,7 @@ build_dir=$base_dir/xalt2
 rmap_dir=$base_dir/delta/process_xalt
 json_dir=$base_dir/delta/json
 config_file=Config/Delta_Config.py
-git_repo=https://github.com/screamingpigeon/xalt
+git_repo=https://github.com/ncsa/xalt
 module_name=xalt
 module_ver=3.0.2
 
