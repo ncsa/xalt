@@ -63,3 +63,5 @@ if [ $? -eq 0 ]; then
 else
     echo "Install Failed"
 fi
+
+cd $orig_dir
