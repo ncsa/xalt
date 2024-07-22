@@ -782,6 +782,38 @@ void myinit(int argc, char **argv)
       DEBUG(stderr,"    -> MPI_SIZE: %d < MPI_ALWAYS_RECORD: %d, XALT is build to %s, Current %s -> Not producing a start record\n",
              num_tasks, (int) always_record, xalt_build_descriptA[build_mask], xalt_run_descriptA[run_mask]);
     }
+  
+  // ====================================================== MODIFICATION =============================================
+  // Create Start Records for all programs
+  v = getenv("XALT_ALWAYS_CREATE_START");
+  DEBUG(stderr, "    -> XALT_START_ALL set to %s \n", v); 
+    if (v) 
+    {
+      DEBUG(stderr, "    -> Recording start record!\n",
+             num_tasks, (int) always_record);
+
+      if ( ! have_uuid )
+        {
+          build_uuid(&uuid_str[0]);
+          have_uuid = 1;
+        }
+
+      if (xalt_tracing || xalt_run_tracing)
+        {
+          fprintf(stderr, "  Recording state at beginning of %s user program:\n    %s\n",
+                  xalt_run_short_descriptA[run_mask], exec_path);
+        }
+      
+      run_submission(&xalt_timer, orig_pid, ppid, start_time, end_time, probability, exec_path, num_tasks, num_gpus,
+                     xalt_run_short_descriptA[xalt_kind], uuid_str, watermark, usr_cmdline, xalt_tracing,
+                     always_record, stderr);
+
+      DEBUG(stderr,"    -> uuid: %s\n", uuid_str);
+    }
+  // ====================================================== MODIFICATION ENDS ========================================
+
+
+
 
   /**********************************************************
    * Restore LD_PRELOAD after running xalt_run_submission.
@@ -845,11 +877,14 @@ void wrapper_for_myfini(int signum)
   sigaction(signum, &action, NULL);
   signal_hdlr_called = signum;
   myfini();
-
-  // Ignore USR2 to trigger pre-emptive log without killing processes without USR2 handler
-  if (signum != 12){
-      raise(signum);
-  }
+  
+  /* If you have the signal handler enabled and are using say 
+   * USR1 to preempt logging on XALT, DO NOT RAISE the signal again
+   * as the user may not have written a handler for the signal
+   * leading to the process dieing on preemptiong
+   */ 
+  raise(signum);
+  
 }
 
 static void close_out(FILE* fp, int xalt_err)
