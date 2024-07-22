@@ -1,74 +1,65 @@
-#! /bin/bash
+#!/usr/bin/bash
 
-module_name=xalt
-
-if module is-loaded $module_name; then
-        module --force unload $module_name
-fi
-
+# Variables for build. Change as needed
 orig_dir=$PWD
+base_dir=/sw/workload
+src_dir=$base_dir/xalt2/xalt_src
+build_dir=$base_dir/xalt2
+rmap_dir=$base_dir/delta/process_xalt
+json_dir=$base_dir/delta/json
+config_file=Config/Delta_Config.py
+git_repo=https://github.com/screamingpigeon/xalt
+module_name=xalt
+module_ver=3.0.2
 
-echo "Changing directories"
-cd /sw/workload
 
-dir=$PWD
-process_xalt_dir="${dir}/delta/process_xalt"
-xalt_dir="${dir}/xalt2"
-src_dir="${xalt_dir}/xalt_src"
-git_src="https://github.com/ncsa/xalt"
-rmap_dir=:"${process_xalt_dir}/reverseMapD/xalt_rmapT.json"
-config_file="${src_dir}/Config/Delta_Config.py"
+# Unloading module
+echo Unloading XALT module
+module --force unload $module_name
 
-# TODO Automate versioning
-init_modpath="${src_dir}/ncsa_build/3.0.2.lua"
-final_modpath="${xalt_dir}/module/xalt/3.0.2.lua"
 
-if [- d "$src_dir"]; then
-        echo "Source exists. Updating now"
+# Getting Latest Source
+echo "Verifying Directory"
+if [ -d "$src_dir" ]; then
+        echo Directory exists. Updating now.
         cd $src_dir
         git pull
-        cd ..
+        cd $orig_dir
+
 else
-        echo "Source does not exist. Cloning now"
-        git clone $src_dir 
+        echo Directory does not exist
+        git clone $git_repo xalt_src
+
 fi
 
+# Setting Source to read and execute
+chmod -R u=rwx,o=rx $src_dir
 
-## Creating Reverse Mapping of Modules
-echo "Creating Reverse Mapping"
-$LMOD_DIR/spider -o xalt_rmapT      $MODULEPATH > ${rmap_dir}
-
-echo "Reverse Map Created"
-
-## Configuring XALT
+# Configuring XALT now
 echo "Configuring XALT"
-
-echo $PWD
-
 cd $src_dir
-
-./configure --prefix=$xalt_dir                  \
+./configure --prefix=$build_dir                 \
 --with-config=$config_file                      \
 --with-syshostConfig=nth_name:2                 \
 --with-transmission=file                        \
---with-xaltFilePrefix=${dir}/delta/json/        \
+--with-xaltFilePrefix=$json_dir                 \
 --with-MySQL=no                                 \
 --with-cmdlineRecord=no                         \
 --with-functionTracking=yes                     \
---with-etcDir=$process_xalt_dir
+--with-etcDir=$rmap_dir
 
-echo "Configuration Complete. Beginning Install now"
+# Install
+echo "Configuration Complete. Starting Install now"
 make install
 
 if [ $? -eq 0 ]; then
-        echo "Installation Complete. Loading module now"
-        cp $init_modpath $final_modpath
-        export MODULEPATH=$MODULEPATH:/sw/workload/xalt2/module
-        module load $module_name
-        module list
+        echo "Installation Complete." 
+        chmod -R u+rwx,o+rx $build_dir
+        echo "Updating Modulefile from source"
+        cp $src_dir/ncsa_build/$module_ver.lua $build_dir/module/xalt/$module_ver.lua
+        echo "Add ${base_dir}/module to MODULEPATH to begin using ${module_name}
+        cp $src_dir/ncsa_build/build_xalt.sh $base_dir/build_xalt.sh
+
 else
     echo "Install Failed"
 fi
-
-cd $orig_dir
-
