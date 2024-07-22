@@ -90,7 +90,7 @@ generated in `myfini()` after a program calls `exit()`. The presence of a start 
 These records are generated when a compiler is used on a non-login node. XALT injects a watermark and UUID into the program's ELF header. This allows LINK records to be connected to RUN records through a common UUID - 
 granting additional telemetry on the system.
 
-> link.<site_name>.<date_time>.<user_name>.<xalt_run_uuid>.<*>.json
+> link.<site_name>.<date_time>.<user_name>.<xalt_run_uuid>.json
 
 These records include information on the compiler used, the location of the built executable, and the static (`.a`) and shared (`.so`) libraries used in compilation. It also contains information about the arguments/flags used for compilation.
 
@@ -98,7 +98,7 @@ These records include information on the compiler used, the location of the buil
 #### PKG
 These records are generated for Python imports. Each import leads to a separate package record, usually named something like
 
-> pkg.<site_name>.<date_time>.<user_name>.<xalt_run_uuid>.<*>.json
+> pkg.<site_name>.<date_time>.<user_name>.<xalt_run_uuid>.json
 
 These records are generated due to `$PYTHONPATH`, which injects `/sw/workload/xalt2/xalt/xalt/site_packages/sitecustomize.py` into the interpreter. This program, in turn, generates the list of imports and calls one of the XALT executables which
 stores this record in `/dev/shm`. These records are then moved to the specified file prefix when `myfini()` is invoked to avoid slowing down user code while it executes. 
