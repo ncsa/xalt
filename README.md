@@ -85,7 +85,7 @@ generated in `myfini()` after a program calls `exit()`. The presence of a start 
 
 
 #### LINK
-These records are generated when a compiler is used on a non-login node. XALT injects a watermark and UUID in the ELF header for the program. This allows LINK records to be connected to RUN records through a common UUID - 
+These records are generated when a compiler is used on a non-login node. XALT injects a watermark and UUID into the program's ELF header. This allows LINK records to be connected to RUN records through a common UUID - 
 granting additional telemetry on the system.
 
 > link.<_hostname>.<date_time>.<user_name>.<xalt_run_uuid>.<*>.json
