@@ -61,7 +61,9 @@ Relevant information on configuring XALT can be found here
 - [Running Configure and building XALT for your site](https://xalt.readthedocs.io/en/latest/050_install_and_test.html) 
 - [XALT's Environment Variables](https://xalt.readthedocs.io/en/latest/095_xalt_env_vars.html)
 
-The script used to build xalt on Delta can be found at [`ncsa_build/build_xalt.sh`](https://github.com/ScreamingPigeon/xalt/blob/main/ncsa_build/build_xalt.sh).
+The script used to build xalt on Delta can be found at [`ncsa_build/build_xalt.sh`](https://github.com/ScreamingPigeon/xalt/blob/main/ncsa_build/build_xalt.sh). Running the script to build XALT automatically updates `xalt_src/` from this repository, updates the module file, and finally copies itself into `/sw/workload/xalt2`. 
+
+
 The important bit is that XALT is configured to dump files into `/sw/workload/delta/json`. The LMOD reverse map it uses to match paths to modules is in `/sw/workload/delta/process_xalt`.
 
 The modulefile further supplements this configuration of XALT in use. On Delta, this modulefile can be found in [`/sw/workload/xalt2/module/`](https://github.com/ScreamingPigeon/xalt/blob/main/ncsa_build/3.0.2.lua).
@@ -78,7 +80,7 @@ An in-depth explanation on XALT's Record description can be found [here](https:/
 These records are generated for all ELF executables that get through the filters in our [Delta_config.py](https://github.com/ScreamingPigeon/xalt/blob/main/Config/Delta_Config.py). So tracking does not work on Login nodes.
 These RUN records are generated in the following format
 
-> run.<_hostname>.<date_time>.<user_name>.<aaa_zzz>.<xalt_run_uuid>.json
+> run.<site_name>.<date_time>.<user_name>.<aaa_zzz>.<xalt_run_uuid>.json
 
 The presence of the `aaa` in a record file name indicates that it is a START record, generated during `xalt_initialize()` before `main()` in the user code is called. If there is `zzz` in the record name, then it is an end record -
 generated in `myfini()` after a program calls `exit()`. The presence of a start record but no end record for the same `xalt_run_uuid` usually indicates an abnormal exit, possibly due to issues like  job timeouts and segfaults.
@@ -88,14 +90,15 @@ generated in `myfini()` after a program calls `exit()`. The presence of a start 
 These records are generated when a compiler is used on a non-login node. XALT injects a watermark and UUID into the program's ELF header. This allows LINK records to be connected to RUN records through a common UUID - 
 granting additional telemetry on the system.
 
-> link.<_hostname>.<date_time>.<user_name>.<xalt_run_uuid>.<*>.json
+> link.<site_name>.<date_time>.<user_name>.<xalt_run_uuid>.<*>.json
 
+These records include information on the compiler used, the location of the built executable, and the static (`.a`) and shared (`.so`) libraries used in compilation. It also contains information about the arguments/flags used for compilation.
 
 
 #### PKG
 These records are generated for Python imports. Each import leads to a separate package record, usually named something like
 
-> pkg.<_hostname>.<date_time>.<user_name>.<xalt_run_uuid>.<*>.json
+> pkg.<site_name>.<date_time>.<user_name>.<xalt_run_uuid>.<*>.json
 
 These records are generated due to `$PYTHONPATH`, which injects `/sw/workload/xalt2/xalt/xalt/site_packages/sitecustomize.py` into the interpreter. This program, in turn, generates the list of imports and calls one of the XALT executables which
 stores this record in `/dev/shm`. These records are then moved to the specified file prefix when `myfini()` is invoked to avoid slowing down user code while it executes. 
@@ -257,6 +260,6 @@ trap sighandler TERM
 
 
 
-### Notes for going to production
-
-Going back to the original source of XALT might offer much better performance. Implementing these changes to support telemetry for terminated jobs might overwhelm the filesystem. Turning on signal handling and then sending signals to ALL processes in the epilog might prove to be more maintainable.
+### Existing Issues
+- The generation of link records is not consistent among different compilers. Possibly due to the order in which $PATH is set. Seems to work with the  `/bin/gcc` and the aocc module. Link records do not generate with the gcc module
+- Need to turn on tracking for compilers on login nodes. 
