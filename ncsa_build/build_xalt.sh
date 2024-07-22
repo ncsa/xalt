@@ -57,7 +57,7 @@ if [ $? -eq 0 ]; then
         chmod -R u+rwx,o+rx $build_dir
         echo "Updating Modulefile from source"
         cp $src_dir/ncsa_build/$module_ver.lua $build_dir/module/xalt/$module_ver.lua
-        echo "Add ${base_dir}/module to MODULEPATH to begin using ${module_name}
+        echo "Add ${base_dir}/module to MODULEPATH to begin using ${module_name}"
         cp $src_dir/ncsa_build/build_xalt.sh $base_dir/build_xalt.sh
 
 else
