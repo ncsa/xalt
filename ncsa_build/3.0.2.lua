@@ -26,7 +26,7 @@ setenv("XALT_EXECUTABLE_TRACKING",       "yes")
 -- Environment variables for XALT to run on a Compute Node
 prepend_path{"PATH",          bin, priority="100"}
 prepend_path("XALT_DIR",      base)
-prepend_path("LD_PRELOAD",    pathJoin(base, "$LIB/libxalt_init.so"))
+prepend_path("LD_PRELOAD",    pathJoin(base, "lib64/libxalt_init.so"))
 prepend_path("COMPILER_PATH", bin)
 
 -- XAlT_DATE_TIME creation
