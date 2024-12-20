@@ -17,6 +17,7 @@ local pythonpath   = pathJoin(base,"site_packages")
 local lib_dir = "/lib64"
 local record_dir  = "/sw/workload/delta/json"
 
+
 -- Comma seperated as specified by https://apptainer.org/docs/user/main/bind_paths_and_mounts.html
 local apptainer_bind_dir = "/sw/workload/xalt2/xalt/xalt, /sw/workload/delta"
 
@@ -34,6 +35,7 @@ setenv("XALT_FILE_PREFIX", pathJoin(record_dir,formattedDate))
 
 -- XAlT_DATE_TIME creation
 setenv("XALT_ALWAYS_CREATE_START", pathJoin(record_dir,formattedDate))
+
 
 
 -- Variable needed for Python tracking outside a container 
