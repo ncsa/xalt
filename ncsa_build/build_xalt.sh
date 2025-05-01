@@ -4,10 +4,24 @@
 orig_dir=$PWD
 base_dir=/sw/workload
 
+#configuration variables:
+#  XALT_LOCAL_ONLY
+#  XALT_SETUP_CHECK
+#  XALT_BASE_DIRECTORY
+
+# set environment variable XALT_LOCAL_ONLY to skip downloading
+# or updating source.  This would be if you have local configuration options
+# or customized code.  This skips the create directories download step.  
+
 # set environment variable XALT_SETUP_CHECK to check that the target
 # directory is working right, which will create the build directory,
 # checkout source into it, check that the "configure" does in fact
 # exist, then halt.  
+
+# Setting both XALT_LOCAL_ONLY and XALT_SETUP_CHECK is a way to make sure
+# that at least, apparently, the directory specified in XALT_BASE_DIRECTORY
+# is valid and ready to use, at least as far as that it has a configure
+# script.  
 
 # use this environment variable to put code in a new location
 # for testing and whatnot
@@ -32,15 +46,20 @@ module_ver=3.0.2
 echo Unloading XALT module
 module --force unload $module_name
 
-# Getting Latest Source
-echo "Verifying Directory:$src_dir"
-if [ -d "$src_dir" ]; then
+if [ ${XALT_LOCAL_ONLY} ] ; then
+    echo
+    echo "XALT_LOCAL_ONLY set, using local (possibly modified) source and configurations"
+    echo
+else   
+    # Getting Latest Source
+    echo "Verifying Directory:$src_dir"
+    if [ -d "$src_dir" ]; then
         echo "Directory exists. Updating now."
         cd $src_dir
         git pull
         cd $orig_dir
-
-else
+	
+    else
         echo "source Directory does not exist; about to make build directory $build_dir"
 	mkdir -p $build_dir
 	echo "Made (successfully?), testing existence:"
@@ -50,6 +69,7 @@ else
         git clone $git_repo $XALT_REPO_NAME
 	echo "checking that the git clone actually did something.  Running find:"
 	find $XALT_REPO_NAME | wc -l	
+    fi
 fi
 
 # Setting Source to read and execute
