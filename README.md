@@ -28,7 +28,15 @@ effective, and systematic way.
 
 ## Original Documentation
 
-Installation and Use of XALT is provided at https://xalt.readthedocs.io website.
+* Documentation:   https://xalt.readthedocs.org
+* GitHub:          https://github.com/xalt/xalt
+
+
+## XALT Mailing list
+
+* mailto:xalt-users@lists.sourceforge.net.
+
+Please go to https://sourceforge.net/projects/xalt/lists/xalt-users to join.
 
 
 # NCSA SPIN Summer 2024 Documentation
@@ -55,6 +63,7 @@ If you want the XALT module to be always available, simply include the changes t
 XALT is located in `/sw/workload/` on Delta. The source (this repository) is in `/sw/workload/xalt2/xalt_src` and the executables are in `/sw/workload/xalt2/xalt`.
 
 Each build of XALT requires a configuration file. The configuration file is in [Delta_config.py](https://github.com/ScreamingPigeon/xalt/blob/main/Config/Delta_Config.py).
+Note: XALT tracks linking on all hostnames, so both compute and login nodes.
 
 Relevant information on configuring XALT can be found here
 - [Downloading XALT and Configuring it for your site](https://xalt.readthedocs.io/en/latest/020_site_configuration.html)
@@ -146,12 +155,38 @@ A condensed explanation of the key idea behind XALT is available [here](https://
 
 The main changes in this fork are
 1. XALT was segfaulting when wrapped around `lsof` with debugging on. This was fixed in XALT 3.0.3, but this was forked from 3.0.2 and had a near-identical fix.
-2. This fork of XALT supports creating start records for ALL PROCESSES as opposed to just MPI jobs. This can be achieved by setting `XALT_ALWAYS_CREATE_START=yes` in your environment. This has been included in the modulefile
+2. (No longer available) This fork of XALT supports creating start records for ALL PROCESSES as opposed to just MPI jobs. This can be achieved by setting `XALT_ALWAYS_CREATE_START=yes` in your environment. This has been included in the modulefile
 3. Comments around signal handling in [`src/libxalt/xalt_initialize.c`](https://github.com/ScreamingPigeon/xalt/blob/main/src/libxalt/xalt_initialize.c). 
 4. Inclusion of a custom config, build script, modulefile, epilog script, and a python cli-tool
 
 
 ### Miscellaneous Notes
+
+#### Symlinks
+##### Pre-Execution Filtering
+
+The XALT filters uses the path of the target used to build the symlink, as opposed to the path of the link itself. For example, if you have the rules
+  - KEEP, `/usr/bin/gcc`
+  - SKIP, `/sw/*`
+
+and the following file in `/sw/workload/xalt/`
+```
+lrwxrwxrwx  1 prakhar7      root   12 Jul 23 11:38 gcc -> /usr/bin/gcc
+
+```
+XALT uses the `/usr/bin/gcc` path while filtering. 
+
+##### Record Generation
+Run Records contain references to the symlink's path
+```
+  "cmdlineA": ["/sw/workload/xalt2/gcc"],
+```
+
+However, in the `UserT` key, we see
+```
+    "exec_path": "/usr/bin/gcc",
+```
+Therefore run records capture both paths
 
 #### Profiling
 
@@ -262,4 +297,5 @@ trap sighandler TERM
 
 ### Existing Issues
 - The generation of link records is not consistent among different compilers. Possibly due to the order in which $PATH is set. Seems to work with the  `/bin/gcc` and the aocc module. Link records do not generate with the gcc module
-- Need to turn on tracking for compilers on login nodes. 
+- Need to turn on tracking for compilers on login nodes.
+- The `$APPTAINER_BINDPATH` variable set in the modulefile interferes with building containers. Builds fail due to lack of a mount point for these directories.
