@@ -2,27 +2,70 @@ import sys
 import os
 import re
 from pathlib import Path
-import mariadb
+try:
+  import configparser
+except:
+  import ConfigParser as configparser
+#import mariadb
 import json
+<<<<<<< Updated upstream:ncsa_build/orm.py
 from ClassHelper import PkgObj, LinkObj, RunObj
+=======
+from DeltaUploadClasses import PkgObj, LinkObj, RunObj
+import mysql.connector
+from mysql.connector import Error
+>>>>>>> Stashed changes:ncsa_build/delta_upload_xalt_records.py
 
-def connectDB(username, password, hostname, dbname):
+
+def connectDB(my_config):
     """
     Connect to the MariaDB database using provided credentials.
     """
     try:
-        conn = mariadb.connect(
-            user=username,
-            password=password,
-            host=hostname,
-            port=3306,  # Use integer here
-            database=dbname
-        )
-        print("MariaDB connection established.")
-        return conn
-    except mariadb.Error as e:
-        print(f"Error connecting to MariaDB: {e}")
-        sys.exit(1)
+#        conn = mariadb.connect(
+#            user=username,
+#            password=password,
+#            host=hostname,
+#            port=3306,  # Use integer here
+#            database=dbname
+#        )
+#      my_config.print()
+      my_database=my_config.get("MYSQL","DB")
+      my_host=my_config.get("MYSQL","HOST")
+      my_user=my_config.get("MYSQL","USER")
+      my_password=my_config.get("MYSQL","PASSWD")
+      print(f'parsed config host=>>{my_host}<<')
+      print(f'parsed config user=>>{my_user}<<')
+      print(f'parsed config pwd=>>{my_password}<<')
+      print(f'parsed config db=>>{my_database}<<')
+
+
+      print('about to try DB connection.')
+      
+#      conn = mysql.connector.connect(
+#        my_host=my_config.get("MYSQL","HOST"),
+#        user=my_config.get("MYSQL","USER"),
+#        password=my_config.get("MYSQL","PASSWD"),
+#        database=my_config.get("MYSQL","DB")
+#      )
+      conn = mysql.connector.connect(
+        host=my_host,
+        user=my_user,
+        password=my_password,
+        database=my_database,
+        use_pure=True
+      )
+      print('back from connect call.')
+      print(conn)
+
+      print("DB connection established.")
+      return conn
+    except mysql.Error as e:
+#    finally:
+
+      #print(f"Error connecting to database: {e}")
+      print(f"Error connecting to database:")
+      sys.exit(1)
 
 def createLogList():
     """
@@ -109,23 +152,70 @@ def ingestRunRecords(run_paths):
 
 
 def main():
-    # Validate command-line arguments
-    if len(sys.argv) < 5:
-        print("Usage: script.py <username> <password> <hostname> <dbname>")
-        sys.exit(1)
+
+#    log_root_directory = os.environ.get("XALT_LOG_FILE_DIR")
+#    if not log_root_directory :
+#        print()
+#        print("WARNING: XALT_LOG_FILE_DIR unset!  Nowhere to read files from.")
+#        print("aborting")
+#        print()
+#        exit()
+
+    XALT_ETC_DIR = os.environ.get("XALT_ETC_DIR")
+    if not XALT_ETC_DIR :
+      print()
+      print("WARNING: XALT_ETC_DIR unset!  Without that we have no configuration.")
+      print("aborting")
+      print()
+      exit()
+
+    Configfilename = os.path.join(XALT_ETC_DIR,"xalt_db.conf")
+  
+    print("config filename:")
+    print(Configfilename)
+    print("filename done")
+  
+    print("about to read config file")
+    config = configparser.ConfigParser()     
+    config.read(Configfilename)
+    print("configuration read; printing sections: ")
+    config_sections_list=config.sections()
+    n_sections=len(config_sections_list)
+    print(f"The config file contained {n_sections} non-default sections.")
+    
+
+
+        
+#    # Validate command-line arguments
+#    if len(sys.argv) < 5:
+#        print("Usage: script.py <username> <password> <hostname> <dbname>")
+#        sys.exit(1)
 
     # Parse command-line arguments
-    username, password, hostname, dbname = sys.argv[1:5]
+#    username, password, hostname, dbname = sys.argv[1:5]
 
-    # Fetch log files
+#    # Fetch log files
     logfiles = createLogList()
     print(f"Found {len(logfiles)} log files to process.")
-    # Perform operations with `conn` and `logfiles` as needed.
+#    print("here is the log file list:")
+#    print(logfiles)
+#    print("finished log file list")
+
+    #    # Perform operations with `conn` and `logfiles` as needed.
 
     run, link, pkg = splitLogs(logfiles)
     # Establish database connection
-    # conn = connectDB(username, password, hostname, dbname)
+    conn = connectDB(config)
 
+    if conn.is_connected():
+      print("we're connected to database!")
+    else:
+      print("we are NOT connected.  :-(")
+      
+#    print("regardless, exit to test.")
+#    sys.exit(1)
+
+    
     link_dict = ingestLinkRecords(link)
     pkg_dict = ingestPkgRecords(pkg)
     run_dict = ingestRunRecords(run)
@@ -137,5 +227,74 @@ def main():
     The general ingestion workflow can go like this
     """
 
+    
+    
+    print('about to run dictionary upload of Run objects')
+    for run_key,run_obj in run_dict.items():
+      print(f"******* RUN using key {run_key}")
+      #print(run_obj)
+      print('run object is of type')
+      print(type(run_obj))
+      print('finish type')
+      for run_subobject in run_obj:
+        print('run subobject is of type')
+        print(type(run_subobject))
+        print('finish subobject; now print')
+        print(run_subobject)
+        print('done printing subobject')
+
+#      serialized_run_obj=json.loads(run_obj)
+#      print(json.dumps(serialized_run_obj,indent=5))
+      print("about to write to DB")
+      run_obj[0].writeToDB(conn)
+      
+      
+
+    print('done uploading RUN dictionary')
+
+    print('finished test run on RUN dictionary')
+
+
+    print('about to run dictionary upload of Pkg objects')
+    for pkg_key,pkg_obj in pkg_dict.items():
+      print(f"******* PKG using key {run_key}")
+      #print(run_obj)
+      print('pkg object is of type')
+      print(type(pkg_obj))
+      print('finish type')
+      for pkg_subobject in pkg_obj:
+        print('run subobject is of type')
+        print(type(pkg_subobject))
+        print('finish subobject; now print')
+        print(pkg_subobject)
+        print('done printing subobject')
+
+#      serialized_run_obj=json.loads(run_obj)
+#      print(json.dumps(serialized_run_obj,indent=5))
+      print("about to write to DB")
+      pkg_obj[0].writeToDB(conn)
+      
+      
+
+    print('done uploading PKG dictionary')
+
+    print('finished test run on PKG dictionary')
+
+
+#    print('about to run dictionary upload of Package objects')
+#    for pkg_key,pkg_obj in pkg_dict.items():
+#      print(f"using key {pkg_key}")
+#      print(pkg_obj)
+#      print("about to write to DB")
+#      pkg_obj[0].writeToDB(conn)
+#    print('done uploading PKG dictionary')  
+#    print('about to run dictionary upload of Link objects')
+#    for link_key,link_obj in link_dict.items():
+#      print(f"using key {link_key}")
+#      print(link_obj)
+#      print("about to write to DB")
+#      link_obj[0].writeToDB(conn)
+#    print ('done uploading LINK objects')
+    
 if __name__ == "__main__":
     main()
