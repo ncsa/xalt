@@ -1,0 +1,24 @@
+Build a new installation, as of 2026 March 17 on Delta
+
+get clone the repo
+make a target directory somewhere
+set and export shell variable XALT_BASE_DIRECTORY to the target 
+cd into the repo
+"git checkout" the branch you want
+
+Modify Config/Delta_Config.py in the repo to your wishes as far as target executable and paths and hostnames
+run build script
+
+Modify the following in module file in repo according to above
+  local base  =
+
+  -- LOC local record_dir  = "/sw/workload/delta/json"
+  local record_dir_base = "/work/hdd/bbka/csteffen/xalt_tests/00/log_repo/delta"
+  local record_dir  = pathJoin(record_dir_base,"json")
+
+  -- LOC local apptainer_bind_dir = "/sw/workload/xalt2/xalt/xalt, /sw/workload/delta"
+  local apptainer_bind_dir = base..", "..record_dir_base
+
+add module directory to MODULEPATH
+
+load module
