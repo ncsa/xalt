@@ -1,4 +1,8 @@
 Build a new installation, as of 2026 March 17 on Delta
+KEY:
+unindented sentences are human commands
+  intended statements are explicit shell commands
+
 
 (if you don't already have one, create a parent directory for your xalt work)
 
@@ -22,19 +26,30 @@ run build script
   cd ../ncsa_build
   module load util-linux-uuid
   export CPATH=${CPATH}:${UTIL_LINUX_UUID_HOME}/include
-  
+  ./build_xalt.sh
 
 
-Modify the following in module file in repo according to above
-  local base  =
 
-  -- LOC local record_dir  = "/sw/workload/delta/json"
-  local record_dir_base = "/work/hdd/bbka/csteffen/xalt_tests/00/log_repo/delta"
-  local record_dir  = pathJoin(record_dir_base,"json")
 
-  -- LOC local apptainer_bind_dir = "/sw/workload/xalt2/xalt/xalt, /sw/workload/delta"
-  local apptainer_bind_dir = base..", "..record_dir_base
+create log repository directory
+  cd /work/hdd/bbka/csteffen/xalt_tests/00/
+  mkdir -p log_repo/delta
+
+Modify the following in module file in target according to above
+(file will be something like: /work/hdd/bbka/csteffen/xalt_tests/01/target/xalt2/module/xalt/3.0.2.lua
+# file module example lines
+local base  = "/work/hdd/bbka/csteffen/xalt_tests/01/target/xalt2/xalt/xalt"
+
+-- LOC local record_dir  = "/sw/workload/delta/json"
+local record_dir_base = "/work/hdd/bbka/csteffen/xalt_tests/00/log_repo/delta"
+local record_dir  = pathJoin(record_dir_base,"json")
+
+-- LOC local apptainer_bind_dir = "/sw/workload/xalt2/xalt/xalt, /sw/workload/delta"
+local apptainer_bind_dir = base..", "..record_dir_base
+# end file example lines
 
 add module directory to MODULEPATH
+  cd ..
+  export MODULEPATH=$MODULEPATH:`pwd`
 
 load module
