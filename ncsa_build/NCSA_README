@@ -1,13 +1,29 @@
 Build a new installation, as of 2026 March 17 on Delta
 
-get clone the repo
-make a target directory somewhere
+(if you don't already have one, create a parent directory for your xalt work)
+
+get clone the repo: git clone https://github.com/ncsa/xalt
+make a target (install) directory: mkdir target # or some such
+
 set and export shell variable XALT_BASE_DIRECTORY to the target 
-cd into the repo
-"git checkout" the branch you want
+  cd target
+  export XALT_BASE_DIRECTORY=`pwd`
+  echo $XALT_BASE_DIRECTORY
+
+cd into the repo: cd ../xalt
+
+"git checkout" the branch you want: checkout craigsteffen-2026updates
 
 Modify Config/Delta_Config.py in the repo to your wishes as far as target executable and paths and hostnames
+  cd Config/
+  cp Delta_Config.py_headnodetesting  Delta_Config.py
+
 run build script
+  cd ../ncsa_build
+  module load util-linux-uuid
+  export CPATH=${CPATH}:${UTIL_LINUX_UUID_HOME}/include
+  
+
 
 Modify the following in module file in repo according to above
   local base  =
