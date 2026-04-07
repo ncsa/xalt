@@ -5,8 +5,10 @@ unindented sentences are human commands
 
 
 (if you don't already have one, create a parent directory for your xalt work)
+example: /work/hdd/bbka/csteffen/xalt_tests/00/
 
-get clone the repo: git clone https://github.com/ncsa/xalt
+get clone the repo: 
+  git clone https://github.com/ncsa/xalt
 make a target (install) directory: mkdir target # or some such
 
 set and export shell variable XALT_BASE_DIRECTORY to the target 
@@ -19,19 +21,25 @@ cd into the repo: cd ../xalt
 "git checkout" the branch you want: 
   git checkout craigsteffen-2026updates
 
-# superceded
 # Modify Config/Delta_Config.py in the repo to your wishes as far as target executable and paths and hostnames
-#  cd Config/
-#  cp Delta_Config.py_headnodetesting  Delta_Config.py
+#cd Config/
+#cp Delta_Config.py_headnodetesting  Delta_Config.py
+
 
 run build script
   cd ../ncsa_build
   module load util-linux-uuid
   export CPATH=${CPATH}:${UTIL_LINUX_UUID_HOME}/include
-  ./build_xalt.sh
+  ./build_xalt.sh 
+that populates the inital target directory
 
-TODO: modify xalt_src in target file system
-
+now modify build target for any testing configuration
+  cd ../../target/xalt2/xalt_src/Config
+If you want to harvest from head nodes, for instance, modify line 17 of file Delta_Config.py in this directory from SKIP TO KEEP
+then build again:
+  cd ../../../../xalt/ncsa_build/
+  export XALT_LOCAL_ONLY="yes"
+  ./build_xalt.sh 
 
 create log repository directory
   cd /work/hdd/bbka/csteffen/xalt_tests/00/
