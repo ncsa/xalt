@@ -14,7 +14,7 @@ hostname_patterns = [
   ['KEEP', r'gpu[a-b][0-1][0-9][0-9]\..*'], # gpu nodes type a and b
   ['KEEP', r'gpuc0[0-6]\..*'], # gpu nodes type c
   ['KEEP', r'gpud0[0-6]\..*'], # gpu nodes type d 
-  ['SKIP', r'dt-login0[0-5]\..*'], #track login nodes for debugging
+  ['KEEP', r'dt-login0[0-5]\..*'], #track login nodes for debugging
   ]
 
 #------------------------------------------------------------
@@ -91,7 +91,7 @@ path_patterns = [
     ['SKIP', r'^\/run\/.*'],
     ['SKIP', r'^\/sbin\/.*'],
     ['SKIP', r'^\/srv\/.*'],
-    ['SKIP', r'^\/sw\/.*'],
+    ['KEEP', r'^\/sw\/.*'],
     ['SKIP', r'^\/sys\/.*'],
     ['SKIP', r'^\/taiga\/.*'], # double check here
     ['SKIP', r'^\/tmp\/.*'],
