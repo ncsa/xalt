@@ -65,11 +65,16 @@ add module directory to MODULEPATH
 check if module is available
   module avail xalt # we should be able to see xalt/3.0.2
 
+ensure uuid is loaded 
+  module load util-linux-uuid
+
 load module
   module load xalt
   echo $LD_PRELOAD # to check if xalt is loaded
 
-
+get libuuid.so located so that xalt can find it (this is an ugly hack that we will fix later)
+cd /work/hdd/bbka/csteffen/xalt_tests/04/target/xalt2/xalt/xalt/lib64
+ln -s libuuid.so.1.3.0 libuuid.so
 
 libuuid.so: cannot open shared object file
 
