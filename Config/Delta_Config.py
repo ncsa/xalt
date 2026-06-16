@@ -14,7 +14,7 @@ hostname_patterns = [
   ['KEEP', r'gpu[a-b][0-1][0-9][0-9]\..*'], # gpu nodes type a and b
   ['KEEP', r'gpuc0[0-6]\..*'], # gpu nodes type c
   ['KEEP', r'gpud0[0-6]\..*'], # gpu nodes type d 
-  ['SKIP', r'dt-login0[0-5]\..*'], #track login nodes for debugging
+  ['KEEP', r'dt-login0[0-5]\..*'], #track login nodes for debugging
   ]
 
 #------------------------------------------------------------
