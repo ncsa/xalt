@@ -1,82 +1,278 @@
-Build a new installation, as of 2026 April 21 on Delta
-KEY:
-unindented sentences are human commands
-  intended statements are explicit shell commands
+# XALT local test install on Delta (NCSA)
 
+Last updated: 2026 June. Tested on Delta login nodes (`dt-login*`).
 
-(if you don't already have one, create a parent directory for your xalt work)
-example: ncsa_xalt_test_versions/00/
+This guide builds a **private XALT install** under your own `PREFIX_DIR`, records JSON
+under `PREFIX_DIR/log_repo/`, and restricts Python package (`pkg.*`) logging so you
+mostly collect packages **declared in your script**, not every transitive dependency.
 
-get clone the repo: 
-  git clone https://github.com/ncsa/xalt
+---
 
-make a target (install) directory: 
-  mkdir target # or some such
+## How to read this document
 
-set and export shell variable XALT_BASE_DIRECTORY to the target 
+- **Prose** (like this line) explains what and why.
+- **Indented blocks** are shell commands to run verbatim.
+- **`PREFIX_DIR`** means your install root, e.g. `/u/you/ncsa_xalt_test_versions/00`.
+
+All configuration is done **before** `./build_xalt.sh`. After a successful build you
+only **load** your local module and **run** Python — no hand-editing under `target/`.
+
+---
+
+## What you need first
+
+- Delta account with access to a login node.
+- `git`, `module` (Lmod), and a C++ build environment (load `util-linux-uuid` before build).
+- A Python venv with packages for test scripts (e.g. `matplotlib` for `test3.py`).
+- This repository’s customized `xalt/` tree (`Config/`, `py_src/`, `ncsa_build/`).
+  It already includes the package-filter and direct-import hooks described below.
+
+---
+
+## Directory layout (after setup)
+
+```
+PREFIX_DIR/
+  target/                          ← XALT_BASE_DIRECTORY
+    xalt2/
+      xalt_src/                    ← build source (cloned by build script)
+      xalt/xalt/                   ← installed XALT binaries + site_packages
+      module/xalt/3.0.2.lua        ← generated modulefile (do not edit by hand)
+  log_repo/delta/json/YYYYMM/      ← JSON output (created at build + runtime)
+  xalt/                            ← your working copy (edit Config & py_src here)
+    Config/Delta_Config.py
+    py_src/xalt_sitecustomize.py
+    ncsa_build/build_xalt.sh
+    ncsa_build/load_local_xalt.sh
+    ncsa_build/3.0.2.lua.in
+```
+
+Test scripts live in `ncsa_xalt_test_versions/program_tests/` (sibling of `00/`, `01/`, …).
+
+---
+
+## Step 1 — Create `PREFIX_DIR` and get the `xalt` repo
+
+Pick a fresh directory for this install (example: `ncsa_xalt_test_versions/00`).
+
+  mkdir -p /path/to/ncsa_xalt_test_versions/00
+  cd /path/to/ncsa_xalt_test_versions/00
+
+Copy or clone the **customized** `xalt/` directory into `PREFIX_DIR/xalt/`.
+If you clone vanilla upstream only, you must apply Step 2 yourself.
+
+  # Example if copying from an existing install:
+  # cp -a /path/to/existing/00/xalt ./xalt
+
+Create the build target directory and set `XALT_BASE_DIRECTORY` (required for every build):
+
+  mkdir -p target
   cd target
-  export XALT_BASE_DIRECTORY=`pwd`
+  export XALT_BASE_DIRECTORY=$(pwd)
   echo $XALT_BASE_DIRECTORY
+  # Example output: /path/to/ncsa_xalt_test_versions/00/target
 
-  cd into the repo: cd ../xalt
+---
 
-# Modify Config/Delta_Config.py in the repo to your wishes as far as target executable and paths and hostnames
-  cd Config/
-  cp Delta_Config.py_headnodetesting  Delta_Config.py
+## Step 2 — Configure XALT (before build)
 
+Edit files only under **`PREFIX_DIR/xalt/`**. The build script copies them into
+`target/xalt2/xalt_src/` automatically; you never edit `target/.../Config/` by hand.
 
-run build script
-  cd ../ncsa_build
+### 2a. Hostname filter (required for login-node testing)
+
+File: `xalt/Config/Delta_Config.py` → `hostname_patterns`
+
+For debugging on Delta **login nodes**, line 17 must be **KEEP** (not SKIP):
+
+  ['KEEP', r'dt-login0[0-5]\..*'],
+
+Or start from the head-node template:
+
+  cd PREFIX_DIR/xalt/Config
+  cp Delta_Config.py_headnodetesting Delta_Config.py
+
+Compute nodes (`cn*`, `gpu*`) are already KEEP in the default config.
+
+### 2b. Restrict pkg records — skip Python stdlib (path filter)
+
+File: `xalt/Config/Delta_Config.py` → `python_pkg_patterns`
+
+**Already included** in this repo (verify these lines exist near the end of the list):
+
+  { 'k_s' : 'SKIP', 'kind' : 'path', 'patt' : r'^/usr/lib64/python3\.' },
+  { 'k_s' : 'SKIP', 'kind' : 'path', 'patt' : r'^/usr/lib/python3\.' },
+
+Effect: no `pkg.*` files for stdlib modules (`pickle`, `inspect`, …). First matching
+rule wins; site-packages under `/u/...` are still KEEP.
+
+### 2c. Restrict pkg records — only declared imports (direct-import hook)
+
+File: `xalt/py_src/xalt_sitecustomize.py`
+
+**Already included** in this repo. `RecorderRTM.find_spec()` calls `__report()` only when
+`__keep()` and `_is_direct_user_import()` both pass. That uses `inspect.stack()` to avoid
+recording imports that run entirely inside `site-packages` / stdlib.
+
+Effect: `import matplotlib` records `matplotlib`, but not every package matplotlib loads
+internally. Much smaller `pkg.*` count than stock XALT.
+
+**Limitation (good to know):** compiled packages such as `black` may still pull in a few
+undeclared dependency names (`pytokens`, `*__mypyc`, …). The hook is heuristic, not a
+full AST parse of your source. For stricter matching, an AST whitelist would be a future
+enhancement.
+
+### 2d. Other `Delta_Config.py` tweaks (optional)
+
+- `path_patterns` — which executables to track.
+- `env_patterns` — which environment variables to store in `run.*` JSON.
+
+Only change these if you know you need different tracking scope.
+
+---
+
+## Step 3 — Build and install
+
+From `PREFIX_DIR/xalt/ncsa_build`:
+
+  cd PREFIX_DIR/xalt/ncsa_build
   module load util-linux-uuid
   export CPATH=${CPATH}:${UTIL_LINUX_UUID_HOME}/include
-  ./build_xalt.sh 
-that populates the inital target directory
+  export XALT_BASE_DIRECTORY=PREFIX_DIR/target
+  export XALT_LOCAL_ONLY=yes
+  ./build_xalt.sh
 
-now modify build target for any testing configuration
-  cd ../../target/xalt2/xalt_src/Config
+What the build script does:
 
-If you want to harvest from head nodes, for instance, modify line 17 of file Delta_Config.py in this directory from SKIP TO KEEP
-then build again:
-  cd ../../../../xalt/ncsa_build/
-  export XALT_LOCAL_ONLY="yes"
-  ./build_xalt.sh 
+1. Clones or updates `target/xalt2/xalt_src` (from GitHub if missing).
+2. Copies `xalt/Config/Delta_Config.py` and `xalt/py_src/xalt_sitecustomize.py` into `xalt_src`.
+3. Runs `configure` using **`xalt/Config/Delta_Config.py`** (not a stale copy under `target/`).
+4. Runs `make install` into `target/xalt2/xalt/xalt/`.
+5. Generates `target/xalt2/module/xalt/3.0.2.lua` from `ncsa_build/3.0.2.lua.in`.
+6. Creates `PREFIX_DIR/log_repo/delta/json/`.
 
-create log repository directory
-  cd /ncsa_xalt_test_versions/00/
-  mkdir -p log_repo/delta
+**First build:** omit `XALT_LOCAL_ONLY` once if `target/xalt2/xalt_src` does not exist yet
+(the script will `git clone`). **Every rebuild after you change Config or py_src:** always
+set `XALT_LOCAL_ONLY=yes` so `git pull` does not overwrite your tree.
 
-Modify the following in module file in target according to above
-(file will be something like: ncsa_xalt_test_versions/00/target/xalt2/module/xalt/3.0.2.lua
-########## file module example lines
-local base  = "ncsa_xalt_test_versions/00/target/xalt2/xalt/xalt"
+Verify login-node hostname made it into the build (optional):
 
--- LOC local record_dir  = "/sw/workload/delta/json"
-local record_dir_base = "ncsa_xalt_test_versions/00/log_repo/delta"
-local record_dir  = pathJoin(record_dir_base,"json")
+  grep dt-login PREFIX_DIR/target/xalt2/xalt_src/src/__build__/xalt_hostname_parser.lex
+  # Should show: return KEEP;   (not SKIP)
 
--- LOC local apptainer_bind_dir = "/sw/workload/xalt2/xalt/xalt, /sw/workload/delta"
-local apptainer_bind_dir = base..", "..record_dir_base
-########## end file example lines
+---
 
-add module directory to MODULEPATH
-  cd ncsa_xalt_test_versions/00/target/xalt2/module
-  export MODULEPATH=$MODULEPATH:`pwd`
+## Step 4 — One-time post-build fix (libuuid)
 
-check if module is available
-  module avail xalt # we should be able to see xalt/3.0.2
+XALT needs `libuuid.so` in your install’s `lib64/`. Do this once per install:
 
-ensure uuid is loaded 
+  cd PREFIX_DIR/target/xalt2/xalt/xalt/lib64
+  ln -sf libuuid.so.1.3.0 libuuid.so
+
+---
+
+## Step 5 — Load your local XALT (every new shell)
+
+**Do not use plain `module load xalt` on Delta login nodes.** The system ships a sticky
+production module (`/sw/workload/...`) that conflicts with your install.
+
+Use the helper script (unloads system xalt, loads yours, fixes `LD_PRELOAD`):
+
+  source PREFIX_DIR/xalt/ncsa_build/load_local_xalt.sh PREFIX_DIR
+
+Check:
+
+  echo $LD_PRELOAD
+  # Must be: PREFIX_DIR/target/xalt2/xalt/xalt/lib64/libxalt_init.so
+  # NOT: /sw/workload/...
+
+  echo $XALT_FILE_PREFIX
+  # Example: PREFIX_DIR/log_repo/delta/json/202606
+
+---
+
+## Step 6 — Run Python tests
+
+Activate a venv if your script needs third-party packages:
+
+  source /path/to/your/venv/bin/activate
+
+Run tests (from the program_tests directory or with a full path):
+
+  cd /path/to/ncsa_xalt_test_versions/program_tests
+  python3 test3.py
+  python3 test4.py
+
+Find JSON output (note the **month** subdirectory `YYYYMM`):
+
+  find PREFIX_DIR/log_repo -name '*.json'
+
+### What to expect
+
+| Script   | Declared imports (third-party) | Typical `pkg.*` count |
+|----------|--------------------------------|------------------------|
+| test3.py | matplotlib                     | 1 (`matplotlib`)     |
+| test4.py | black, click, numpy, …         | ~15 (mostly declared; `black` may add a few extras) |
+
+Each run also creates **`run.*.aaa`** (start) and **`run.*.zzz`** (end) JSON files.
+
+Inspect package names recorded:
+
+  grep -h '"package_name"' PREFIX_DIR/log_repo/delta/json/*/*/pkg.*.json | sort -u
+
+---
+
+## Step 7 — Rebuild after config changes
+
+If you change `xalt/Config/Delta_Config.py` or `xalt/py_src/xalt_sitecustomize.py`:
+
+  cd PREFIX_DIR/xalt/ncsa_build
+  export XALT_BASE_DIRECTORY=PREFIX_DIR/target
+  export XALT_LOCAL_ONLY=yes
+  ./build_xalt.sh
+  source PREFIX_DIR/xalt/ncsa_build/load_local_xalt.sh PREFIX_DIR
+
+You do **not** need to re-edit the modulefile or anything under `target/xalt2/xalt_src/Config/`.
+
+---
+
+## Troubleshooting
+
+| Symptom | Likely cause | Fix |
+|---------|----------------|-----|
+| `LD_PRELOAD` shows `/sw/workload/...` | System sticky xalt loaded | `source load_local_xalt.sh` |
+| No JSON files at all | Hostname SKIP in built config | Rebuild; verify KEEP for `dt-login` in `.lex` |
+| Looking in wrong folder | Month bucket | Check `$XALT_FILE_PREFIX` or `log_repo/delta/json/YYYYMM/` |
+| `Permission denied` on `/sw/workload/.../sitecustomize.py` | Production PYTHONPATH | Use `load_local_xalt.sh` |
+| `libuuid.so: cannot open` | Missing symlink | Step 4 |
+| `ModuleNotFoundError` | No venv / missing pip package | `source venv/bin/activate`; `pip install ...` |
+| Too many `pkg.*` files | Stock XALT or filters not built in | Rebuild; confirm `sitecustomize.py` has `_is_direct_user_import` |
+
+Enable XALT debug trace:
+
+  export XALT_TRACING=yes
+  python3 test3.py 2> /tmp/xalt_trace.txt
+  grep -i hostname /tmp/xalt_trace.txt
+
+---
+
+## Quick reference (copy/paste)
+
+Replace `/path/to/ncsa_xalt_test_versions/00` with your real `PREFIX_DIR`.
+
+  export PREFIX_DIR=/path/to/ncsa_xalt_test_versions/00
+  export XALT_BASE_DIRECTORY=$PREFIX_DIR/target
+  export XALT_LOCAL_ONLY=yes
+
+  cd $PREFIX_DIR/xalt/ncsa_build
   module load util-linux-uuid
+  export CPATH=${CPATH}:${UTIL_LINUX_UUID_HOME}/include
+  ./build_xalt.sh
 
-load module
-  module load xalt
-  echo $LD_PRELOAD # to check if xalt is loaded
+  ln -sf libuuid.so.1.3.0 libuuid.so \
+    $PREFIX_DIR/target/xalt2/xalt/xalt/lib64/libuuid.so
 
-get libuuid.so located so that xalt can find it (this is an ugly hack that we will fix later)
-cd /work/hdd/bbka/csteffen/xalt_tests/04/target/xalt2/xalt/xalt/lib64
-ln -s libuuid.so.1.3.0 libuuid.so
-
-libuuid.so: cannot open shared object file
-
-
-
+  source $PREFIX_DIR/xalt/ncsa_build/load_local_xalt.sh $PREFIX_DIR
+  source /path/to/venv/bin/activate
+  python3 $PREFIX_DIR/../program_tests/test3.py
+  find $PREFIX_DIR/log_repo -name '*.json'
