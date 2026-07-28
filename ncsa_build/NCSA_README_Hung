@@ -5,7 +5,7 @@ Last updated: 2026 June. Tested on Delta login nodes (`dt-login*`).
 Start on a **new machine** with an empty directory. Clone the XALT repo from GitHub,
 apply the edits below **once**, build, then run Python test scripts. JSON records land
 under `PREFIX_DIR/log_repo/`. Python `pkg.*` records are restricted to packages your
-script declares (not stdlib noise or most transitive imports).
+script (or interactive session) declares — not stdlib noise or most transitive imports.
 
 ---
 
@@ -91,14 +91,17 @@ Stock XALT logs every import that passes the path filter. Apply these three edit
 
   def _is_direct_user_import(self):
       user_script = os.path.realpath(sys.argv[0]) if sys.argv else None
-      if not user_script or not os.path.isfile(user_script):
-          return False
+      if user_script and not os.path.isfile(user_script):
+          user_script = None
       for frame in inspect.stack()[2:]:
           fn = frame.filename
+          # Interactive REPL / python -c
+          if fn in ("<stdin>", "<string>", "<console>"):
+              return True
           if fn.startswith("<"):
               continue
           real = os.path.realpath(fn)
-          if real == user_script:
+          if user_script and real == user_script:
               return True
           if "site-packages" in real or "/lib/python" in real:
               return False
@@ -117,6 +120,7 @@ to:
       self.__report(fullname, path)
 
 **Why:** `import matplotlib` records `matplotlib`, not every package matplotlib loads.
+Also captures typed imports in an interactive `python3` session (and `python -c`).
 **Limitation:** compiled packages like `black` may still add a few undeclared deps
 (`pytokens`, `*__mypyc`, …). This is a stack heuristic, not an AST parse.
 
@@ -353,11 +357,19 @@ with your config path, and generates the local modulefile from `3.0.2.lua.in`.
   export XALT_BASE_DIRECTORY=$PREFIX_DIR/target
   ./build_xalt.sh
 
-**Every later build** (If you change anything and want to rebuild, e.g., Config or py_src):
+**Rebuild later** (after editing `Config/` or `py_src/` — same tree, no re-clone):
 
+  cd $PREFIX_DIR/xalt/ncsa_build
   export XALT_BASE_DIRECTORY=$PREFIX_DIR/target
   export XALT_LOCAL_ONLY=yes
   ./build_xalt.sh
+  source $PREFIX_DIR/xalt/ncsa_build/load_local_xalt.sh $PREFIX_DIR
+
+Notes:
+- `XALT_LOCAL_ONLY=yes` skips cloning; `build_xalt.sh` still copies your edited
+  `Config/Delta_Config.py` and `py_src/xalt_sitecustomize.py` into the build tree.
+- Re-source `load_local_xalt.sh` after every rebuild so this shell uses the new install.
+- You do **not** need to repeat Steps 2–5; only rebuild when those files change.
 
 The customized `build_xalt.sh`:
 
@@ -413,6 +425,12 @@ Create a minimal test script (or use your own):
   source /path/to/your/venv/bin/activate
   python3 /tmp/test3.py
 
+Interactive (same filter; type then exit):
+
+  python3
+  >>> import numpy
+  >>> exit()
+
 Find JSON (note month bucket `YYYYMM`):
 
   find $PREFIX_DIR/log_repo -name '*.json'
@@ -426,19 +444,12 @@ Inspect package names:
 | Script              | Third-party imports | Typical `pkg.*` count |
 |---------------------|---------------------|------------------------|
 | test3 (`matplotlib`) | matplotlib          | 1                      |
+| interactive `import numpy` | numpy          | 1                      |
 | many-import script   | black, numpy, …     | ~declared count; `black` may add a few extras |
 
 Each run also creates `run.*.aaa` (start) and `run.*.zzz` (end) JSON files.
 
----
-
-## Step 10 — Rebuild after config changes
-
-  cd $PREFIX_DIR/xalt/ncsa_build
-  export XALT_BASE_DIRECTORY=$PREFIX_DIR/target
-  export XALT_LOCAL_ONLY=yes
-  ./build_xalt.sh
-  source $PREFIX_DIR/xalt/ncsa_build/load_local_xalt.sh $PREFIX_DIR
+After Config/py_src edits: use Step 6 **Rebuild later**, then retest here.
 
 ---
 
@@ -447,12 +458,12 @@ Each run also creates `run.*.aaa` (start) and `run.*.zzz` (end) JSON files.
 | Symptom | Cause | Fix |
 |---------|--------|-----|
 | `LD_PRELOAD` is `/sw/workload/...` | System xalt loaded | `source load_local_xalt.sh` |
-| No JSON files | Hostname SKIP in build | Step 2; rebuild; grep `.lex` |
+| No JSON files | Hostname SKIP in build | Step 2; Step 6 rebuild; grep `.lex` |
 | JSON under `target/delta/json` | Stock modulefile | Use customized `build_xalt.sh` + `3.0.2.lua.in` |
 | Permission denied on `/sw/workload/.../sitecustomize.py` | Production PYTHONPATH | `load_local_xalt.sh` |
 | `libuuid.so` missing | No symlink | Step 7 |
 | `ModuleNotFoundError` | No venv | `source venv/bin/activate` |
-| Too many `pkg.*` | Steps 3–4 not applied or not rebuilt | Re-check edits; rebuild with `XALT_LOCAL_ONLY=yes` |
+| Too many `pkg.*` | Steps 3–4 not applied or not rebuilt | Re-check edits; Step 6 **Rebuild later** |
 
 Debug trace:
 
@@ -466,7 +477,7 @@ Debug trace:
 
   export PREFIX_DIR=/path/to/ncsa_xalt_test_versions/00
   export XALT_BASE_DIRECTORY=$PREFIX_DIR/target
-  # Steps 2–5 once, then:
+  # Steps 2–5 once, then first build (Step 6):
   cd $PREFIX_DIR/xalt/ncsa_build && module load util-linux-uuid
   export CPATH=${CPATH}:${UTIL_LINUX_UUID_HOME}/include
   ./build_xalt.sh
@@ -474,3 +485,4 @@ Debug trace:
   source $PREFIX_DIR/xalt/ncsa_build/load_local_xalt.sh $PREFIX_DIR
   source /path/to/venv/bin/activate && python3 /tmp/test3.py
   find $PREFIX_DIR/log_repo -name '*.json'
+  # Later rebuilds: Step 6 **Rebuild later** (XALT_LOCAL_ONLY=yes + re-source load script)

@@ -1,5 +1,6 @@
 #### this should go into sitecustomize.py ####
 import sys, os, subprocess
+import inspect
 
 from xalt_python_pkg_filter import keep_pkg
 
@@ -50,6 +51,25 @@ class RecorderRTM(object):
     cmd = self._cmd + " package_name " + fullname + " package_path " + path
     subprocess.call(cmd, shell=True)
 
+  def _is_direct_user_import(self):
+    user_script = os.path.realpath(sys.argv[0]) if sys.argv else None
+    if user_script and not os.path.isfile(user_script):
+      user_script = None
+    for frame in inspect.stack()[2:]:
+      fn = frame.filename
+      # Interactive REPL / python -c
+      if fn in ("<stdin>", "<string>", "<console>"):
+        return True
+      if fn.startswith("<"):
+        continue
+      real = os.path.realpath(fn)
+      if user_script and real == user_script:
+        return True
+      if "site-packages" in real or "/lib/python" in real:
+        return False
+      if real.endswith(".py") and not real.startswith("/usr/"):
+        return True
+    return False
 
   # Python 3.4+
   def find_spec(self, fullname, path, target=None):
@@ -70,7 +90,10 @@ class RecorderRTM(object):
 
     path = result.origin
 
-    if (self.__keep(fullname, path)):
+    # if (self.__keep(fullname, path)):
+    #   self.__report(fullname, path)
+    
+    if (self.__keep(fullname, path) and self._is_direct_user_import()):
       self.__report(fullname, path)
 
     return result

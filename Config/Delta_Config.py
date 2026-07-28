@@ -232,4 +232,8 @@ python_pkg_patterns = [
   { 'k_s' : 'SKIP', 'kind' : 'path', 'patt' : r"^\/opt"               },  # SKIP all python packages in /opt except for ones in .*/site-packages/
   { 'k_s' : 'SKIP', 'kind' : 'path', 'patt' : r"^\/home"              },  # SKIP all other packages in user locations
   { 'k_s' : 'SKIP', 'kind' : 'path', 'patt' : r"^\/work"              },  # SKIP all other packages in user locations
+  { 'k_s' : 'SKIP', 'kind' : 'path', 'patt' : r'^/usr/lib64/python3\.' },
+  { 'k_s' : 'SKIP', 'kind' : 'path', 'patt' : r'^/usr/lib/python3\.' },
+  { 'k_s' : 'SKIP', 'kind' : 'path', 'patt' : r'^/usr/lib64/python\.' },
+  { 'k_s' : 'SKIP', 'kind' : 'path', 'patt' : r'^/usr/lib/python\.' },
 ]

@@ -1,30 +1,8 @@
 #!/usr/bin/bash
 
-# Variables for build. Change as needed
 orig_dir=$PWD
 base_dir=/sw/workload
 
-#configuration variables:
-#  XALT_LOCAL_ONLY
-#  XALT_SETUP_CHECK
-#  XALT_BASE_DIRECTORY
-
-# set environment variable XALT_LOCAL_ONLY to skip downloading
-# or updating source.  This would be if you have local configuration options
-# or customized code.  This skips the create directories download step.  
-
-# set environment variable XALT_SETUP_CHECK to check that the target
-# directory is working right, which will create the build directory,
-# checkout source into it, check that the "configure" does in fact
-# exist, then halt.  
-
-# Setting both XALT_LOCAL_ONLY and XALT_SETUP_CHECK is a way to make sure
-# that at least, apparently, the directory specified in XALT_BASE_DIRECTORY
-# is valid and ready to use, at least as far as that it has a configure
-# script.  
-
-# use this environment variable to put code in a new location
-# for testing and whatnot
 if [ ${XALT_BASE_DIRECTORY} ] ; then
     echo "taking base directory >${XALT_BASE_DIRECTORY}< from environment"
     base_dir="${XALT_BASE_DIRECTORY}"
@@ -37,58 +15,51 @@ build_dir=$base_dir/xalt2
 src_dir=$build_dir/${XALT_REPO_NAME}
 rmap_dir=$base_dir/delta/process_xalt
 json_dir=$base_dir/delta/json
-config_file=Config/Delta_Config.py
+
+xalt_repo_dir=$(cd "$(dirname "$0")/.." && pwd)
+config_file="$xalt_repo_dir/Config/Delta_Config.py"
+
 git_repo=https://github.com/ncsa/xalt
 module_name=xalt
 module_ver=3.0.2
 
-# Unloading module
 echo Unloading XALT module
-module --force unload $module_name
+module --force unload $module_name 2>/dev/null || true
 
 if [ ${XALT_LOCAL_ONLY} ] ; then
     echo
     echo "XALT_LOCAL_ONLY set, using local (possibly modified) source and configurations"
     echo
-else   
-    # Getting Latest Source
+else
     echo "Verifying Directory:$src_dir"
     if [ -d "$src_dir" ]; then
         echo "Directory exists. Updating now."
         cd $src_dir
         git pull
         cd $orig_dir
-	
     else
         echo "source Directory does not exist; about to make build directory $build_dir"
-	mkdir -p $build_dir
-	echo "Made (successfully?), testing existence:"
-	ls -ld $build_dir
-	echo "verified existence, now go there and \"git clone\""
-	cd $build_dir
+        mkdir -p $build_dir
+        cd $build_dir
         git clone $git_repo $XALT_REPO_NAME
-	echo "checking that the git clone actually did something.  Running find:"
-	find $XALT_REPO_NAME | wc -l	
+        cd $orig_dir
     fi
 fi
 
-# Setting Source to read and execute
-# chmod -R u=rwx,o=rx $src_dir
+echo "Syncing Config and py_src from ${xalt_repo_dir}"
+cp "$xalt_repo_dir/Config/Delta_Config.py" "$src_dir/Config/Delta_Config.py"
+cp "$xalt_repo_dir/py_src/xalt_sitecustomize.py" "$src_dir/py_src/xalt_sitecustomize.py"
 
 if [ ${XALT_SETUP_CHECK} ] ; then
-    echo "checking XALT configuration (XALT_SETUP_CHECK is set)"
     cd $src_dir
-    echo "I'm now in src_dir.  Check for configure:"
     ls -ld ./configure
-    echo "checked for configure; exiting for testing."
     exit
-    echo "should not get here!!!"
 fi
 
 cd $src_dir
-echo "Configuring XALT"
+echo "Configuring XALT with config: $config_file"
 ./configure --prefix=$build_dir                 \
---with-config=$config_file                      \
+--with-config="$config_file"                  \
 --with-syshostConfig=nth_name:2                 \
 --with-transmission=file                        \
 --with-xaltFilePrefix=$json_dir                 \
@@ -97,26 +68,32 @@ echo "Configuring XALT"
 --with-functionTracking=yes                     \
 --with-etcDir=$rmap_dir
 
-# Install
 echo "Configuration Complete. Starting Install now"
 make install
 
 if [ $? -eq 0 ]; then
-        echo "Installation Complete." 
-        chmod -R u+rwx,o+rx $build_dir/xalt
-        echo "Updating Modulefile from source"
-	echo "about to verify module directory exists"
-	mkdir -p $build_dir/module/xalt
-        cp $src_dir/ncsa_build/$module_ver.lua $build_dir/module/xalt/$module_ver.lua
-#        echo "Add ${base_dir}/module to MODULEPATH to begin using ${module_name}"
-        echo "Add ${build_dir}/module to MODULEPATH to begin using ${module_name}"
-	echo "For testing, you may need to customize the file in ${build_dir}/module/xalt/"
-        cp $src_dir/ncsa_build/build_xalt.sh $build_dir/build_xalt.sh
+    echo "Installation Complete."
+    chmod -R u+rwx,o+rx $build_dir/xalt
+    mkdir -p $build_dir/module/xalt
 
+    prefix_dir=$(dirname "$base_dir")
+    xalt_install_base="$build_dir/xalt/xalt"
+    log_repo_base="$prefix_dir/log_repo/delta"
+    mkdir -p "$log_repo_base/json"
+
+    module_template="$xalt_repo_dir/ncsa_build/${module_ver}.lua.in"
+    if [ ! -f "$module_template" ]; then
+        module_template="$xalt_repo_dir/ncsa_build/${module_ver}.lua"
+    fi
+    sed -e "s|@XALT_INSTALL_BASE@|${xalt_install_base}|g" \
+        -e "s|@XALT_LOG_REPO@|${log_repo_base}|g" \
+        "$module_template" > "$build_dir/module/xalt/$module_ver.lua"
+
+    echo "Module written to: ${build_dir}/module/xalt/${module_ver}.lua"
+    cp "$xalt_repo_dir/ncsa_build/build_xalt.sh" "$build_dir/build_xalt.sh"
 else
     echo "Install Failed"
-    echo "If you need to add include directories to make the build work,"
-    echo "    add them to CPATH"
+    echo "If you need to add include directories to make the build work, add them to CPATH"
 fi
 
 cd $orig_dir
