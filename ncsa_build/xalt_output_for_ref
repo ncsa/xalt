@@ -1,0 +1,503 @@
+>>> file_contents=json.load(my_file)                                                                                                                                                                    
+>>> pretty_file=json.dumps(file_contents, indent=5)                                                                                                                                                     
+>>> print(pretty_file)                                                                                                                                                                                  
+{                                                                                                                                                                                                       
+     "crc": "0xB83A",                                                                                                                                                                                   
+     "cmdlineA": [                                                                                                                                                                                      
+          "python",                                                                                                                                                                                     
+          "./test3.py"                                                                                                                                                                                  
+     ],                                                                                                                                                                                                 
+     "hash_id": "953d43717e5940f7e85b7b209e1e8820221b08a9",                                                                                                                                             
+     "libA": [                                                                                                                                                                                          
+          [                                                                                                                                                                                             
+               "/u/csteffen/.conda/envs/xalt_sys_1/lib/libz.so.1.3.1",                                                                                                                                  
+               "0"                                                                                                                                                                                      
+          ],                                                                                                                                                                                            
+          [                                                                                                                                                                                             
+               "/work/hdd/bbka/csteffen/xalt_tests/06/target/xalt2/xalt/3.0.2/lib64/libcrypto.so.3.0.7",                                                                                                
+               "0"                                                                                                                                                                                      
+          ],                                                                                                                                                                                            
+          [                                                                                                                                                                                             
+               "/usr/lib64/libnss_sss.so.2",                                                                                                                                                            
+               "0"                                                                                                                                                                                      
+          ],                                                                                                                                                                                            
+          [                                                                                                                                                                                             
+               "/usr/lib64/libc.so.6",                                                                                                                                                                  
+               "0"                                                                                                                                                                                      
+          ],                                                                                                                                                                                            
+          [                                                                                                                                                                                             
+               "/usr/lib64/libm.so.6",                                                                                                                                                                  
+               "0"                                                                                                                                                                                      
+          ],                                                                                                                                                                                            
+          [                                                                                                                                                                                             
+               "/usr/lib64/libutil.so.1",                                                                                                                                                               
+               "0"                                                                                                                                                                                      
+          ],                                                                                                                                                                                            
+          [                                                                                                                                                                                             
+               "/usr/lib64/libdl.so.2",                                                                                                                                                                 
+               "0"                                                                                                                                                                                      
+          ],                                                                                                                                                                                            
+          [                                                                                                                                                                                             
+               "/usr/lib64/libpthread.so.0",  
+               "0"                                                                                                                                                                             [394/989]
+          ],                                                                                                                                                                                            
+          [                                                                                                                                                                                             
+               "/work/hdd/bbka/csteffen/xalt_tests/06/target/xalt2/xalt/3.0.2/lib64/libuuid.so.1.3.0",                                                                                                  
+               "0"                                                                                                                                                                                      
+          ],                                                                                                                                                                                            
+          [                                                                                                                                                                                             
+               "/usr/lib64/ld-linux-x86-64.so.2",                                                                                                                                                       
+               "0"                                                                                  
+          ]                                                                                                                                                                                             
+     ],                                                                                                                                                                                                 
+     "ptA": [                                                                                                                                                                                           
+          {                                                                                                                                                                                             
+               "cmd_name": "bash",                                                                                                                                                                      
+               "cmd_path": "/usr/bin/bash",                                                                                                                                                             
+               "pid": 38089,                                                                                                                                                                            
+               "cmdlineA": [                                                                                                                                                                            
+                    "-bash"                                                                                                                                                                             
+               ]                                                                                                                                                                                        
+          }                                                                                                                                                                                             
+     ],                                                                                                                                                                                                 
+     "envT": {                                                                                                                                                                                          
+          "SHELL": "/bin/bash",                                                                                                                                                                         
+          "PE_MPICH_GTL_LIBS_amd_gfx90a": "-lmpi_gtl_hsa",                                                                                                                                              
+          "CRAY_LMOD_CPU": "x86-milan/1.0",                                                                                                                                                             
+          "LMOD_SITE_NAME": "NCSA",                                                                                                                                                                     
+          "NCSA_FAMILY_LIBSCI": "cray-libsci",                                                                                                                                                          
+          "MPICH_SMP_SINGLE_COPY_MODE": "NONE",                                                                                                                                                         
+          "_ModuleTable016_": "SUMxdUlGd2lKSHRRVDFOSVgxWkZVbE5KVDA0NkszaDlYQ0lnWFRzZ2RHaGxibHdLSUNBZ0lDQWdJQ0FnSUNBZ09qdGNDaUFnSUNBZ0lDQWdaV3h6WlZ3S0lDQWdJQ0FnSUNBZ0lDQWdYRnhvWVhOb0lDMXlPMXdLSUNBZ0lDQ
+WdJQ0JtYVR0Y0NpQWdJQ0JtYVZ3S0lpd2lJaWs9IgosICJjMlYwWDNOb1pXeHNYMloxYm1OMGFXOXVLQ0pmWDJOdmJtUmhYM0psWVdOMGFYWmhkR1VpTENJZ1hBb2dJQ0FnWldOb2J5QmNJaWRmWDJOdmJtUmhYM0psWVdOMGFYWmhkR1VuSUdseklHUmxjSEpsWTJGM
+FpXUWdZVzVrSUhkcGJHd2dZbVVnY21WdGIzWmxaQ0JwYmlBeU5TNDVMaUJWYzJVZ0oxOWZZMjl1WkdGZllXTjBhWFpoZEdVZ2NtVmhZM1JwZG1GMFpTY2dhVzV6ZEdWaFpDNWNJaUF4UGlZ",                                                       
+          "GCC_PATH": "/opt/rh/gcc-toolset-13/root/usr",                                                                                                                                                
+          "CRAY_DSMML_PREFIX": "/opt/cray/pe/dsmml/0.3.1/dsmml",                                                                                                                                        
+          "_ModuleTable022_": "L21vZHVsZSIsICIvc3cvcmg5LjQvc3BhY2svZGVmYXVsdC9tb2R1bGVzL2xtb2QvbGludXgtcmhlbDkteDg2XzY0L0NvcmUiLCAiL29wdC9jcmF5L3BlL2xtb2QvbW9kdWxlZmlsZXMvY3B1L3g4Ni1taWxhbi8xLjAiCiwgI
+i9vcHQvY3JheS9wZS9sbW9kL21vZHVsZWZpbGVzL21waS9nbnUvMTAuMC9vZmkvMS4wL2NyYXktbXBpY2gvOC4wIiwgIi9vcHQvY3JheS9wZS9sbW9kL21vZHVsZWZpbGVzL2NvbW5ldC9nbnUvMTAuMC9vZmkvMS4wIiwgIi9vcHQvY3JheS9wZS9sbW9kL21vZHVsZ
+WZpbGVzL25ldC9vZmkvMS4wIgosICIvb3B0L2NyYXkvcGUvbG1vZC9tb2R1bGVmaWxlcy9taXhfY29tcGlsZXJzIiwgIi9vcHQvY3JheS9wZS9sbW9kL21vZHVsZWZpbGVzL2NvbXBpbGVy",                                                       
+          "XALT_ALWAYS_CREATE_START": "/u/csteffen/xalt_remote_testing/06/log_repo/delta/json/202608",                                                                                                  
+          "PYTHONUNBUFFERED": "1",                                                                                                                                                                      
+          "HISTCONTROL": "ignoredups",                                                                                                                                                                  
+          "TERM_PROGRAM_VERSION": "3.2a",                                                                                                                                                               
+          "CONDA_EXE": "/sw/rh9.4/user/python/conda-env/pytorch-2.8-cu128/bin/conda",                                                                                                                   
+          "PE_LIBSCI_GENCOMPS_GNU_x86_64": "122",                                                                                                                                                       
+          "_CE_M": "",                                                                                                                                                                                  
+          "LMOD_arch": "x86_64",                                                                                                                                                                        
+          "CRAYPE_VERSION": "2.7.34",                                                                                                                                                                   
+          "CLS_ACTIVE_PERS_FILE": "/u/csteffen/my_CLS/csteffen_active_slurm_pers.CLS",                                                                                                                  
+          "PE_PRODUCT_LIST": "CRAYPE_X86_MILAN:CRAY_ACCEL:CRAY_CUDATOOLKIT",                                                                                                                            
+          "NCSA_FAMILY_CRAYPE_ACCEL": "craype-accel-nvidia80",                                                                                                                                          
+          "TMUX": "/tmp/tmux-28198/default,200146,0",                                                                                                                                                   
+          "PKG_CONFIG_PATH": "/sw/rh9.4/spack/v1.0.0/sw/linux-x86_64_v2/util-linux-uuid-2.41-cvsej3e/lib/pkgconfig:/usr/lib64/pkgconfig:/opt/cray/libfabric/1.22.0/lib64/pkgconfig:/opt/cray/pe/dsmml/0.
+3.1/dsmml/lib/pkgconfig:/opt/cray/pe/craype/2.7.34/pkg-config",                                                                                                                                         
+          "PYTHONNOUSERSITE": "1",                                                                                                                                                                      
+          "PKGCONFIG_ENABLED": "1",                                                                                                                                                                     
+          "LMOD_FAMILY_PRGENV_VERSION": "8.6.0",                                                                                                                                                        
+          "CMAKE_CXX_COMPILER": "CC",                                                                                                                                                                   
+          "PE_MPICH_GTL_LIBS_amd_gfx906": "-lmpi_gtl_hsa",                                                                                                                                              
+          "HOSTNAME": "dt-login01.delta.ncsa.illinois.edu",                                                                                                                                             
+          "HISTSIZE": "50000",                                                                                                                                                                          
+          "PE_MPICH_GTL_LIBS_amd_gfx908": "-lmpi_gtl_hsa",                                                                                                                                              
+          "__LMOD_REF_COUNT_PE_MPICH_PKGCONFIG_LIBS": "mpich:1",                                                                                                                                        
+          "FPATH": "/usr/share/lmod/lmod/init/ksh_funcs",                                                                                                                                               
+          "XALT_FILE_PREFIX": "/u/csteffen/xalt_remote_testing/06/log_repo/delta/json/202608",                                                                                                          
+          "_ModuleTable011_": "CnN0YWNrRGVwdGggPSAyLApzdGF0dXMgPSAiYWN0aXZlIiwKdXNlck5hbWUgPSAiZ2NjLW5hdGl2ZSIsCndWID0gIjAwMDAwMDAxMy4wMDAwMDAwMDIuKnpmaW5hbCIsCn0sCmxpYmZhYnJpYyA9IHsKZm4gPSAiL29wdC9jc
+mF5L21vZHVsZWZpbGVzL2xpYmZhYnJpYy8xLjIyLjAiLApmdWxsTmFtZSA9ICJsaWJmYWJyaWMvMS4yMi4wIiwKbG9hZE9yZGVyID0gMTMsCnByb3BUID0ge30sCnN0YWNrRGVwdGggPSAyLApzdGF0dXMgPSAiYWN0aXZlIiwKdXNlck5hbWUgPSAibGliZmFicmljL
+zEuMjIuMCIsCndWID0gIl4wMDAwMDAwMS4wMDAwMDAwMjIuKnpmaW5hbCIsCn0sClsicHl0aG9uLy5jb25kYS1lbnYvcHl0b3JjaCJdID0gewpmbiA9ICIvc3cvcmg5LjQvdXNlci9tb2R1",                                                       
+          "LMOD_FAMILY_PRGENV": "PrgEnv-gnu",                                                                                                             
+          "PE_GNU_FIXED_PKGCONFIG_PATH": "/opt/cray/pe/mpich/8.1.32/ofi/gnu/11.2/lib/pkgconfig",                                                                                                        
+          "_ModuleTable007_": "YXJnZXRzL2RlZmF1bHQvY3JheXBlLW5ldHdvcmstb2ZpLmx1YSIsCmZ1bGxOYW1lID0gImNyYXlwZS1uZXR3b3JrLW9maSIsCmxvYWRPcmRlciA9IDMsCnByb3BUID0ge30sCnN0YWNrRGVwdGggPSAyLApzdGF0dXMgPSAiY
+WN0aXZlIiwKdXNlck5hbWUgPSAiY3JheXBlLW5ldHdvcmstb2ZpIiwKd1YgPSAiTS4qemZpbmFsIiwKfSwKWyJjcmF5cGUteDg2LW1pbGFuIl0gPSB7CmFjdGlvbkEgPSB7CltbcHJlcGVuZF9wYXRoKCJNT0RVTEVQQVRIIiwiL29wdC9jcmF5L3BlL2xtb2QvbW9kd
+WxlZmlsZXMvY3B1L3g4Ni1taWxhbi8xLjAiKV1dLAp9LApmbiA9ICIvb3B0L2NyYXkvcGUvbG1vZC9tb2R1bGVmaWxlcy9jcmF5cGUtdGFyZ2V0cy9kZWZhdWx0L2NyYXlwZS14ODYtbWls",                                                       
+          "_ModuleTable002_": "b25kYS1lbnYvcHl0b3JjaCIsCn0sCm1UID0gewpbIlByZ0Vudi1nbnUiXSA9IHsKZm4gPSAiL29wdC9jcmF5L3BlL2xtb2QvbW9kdWxlZmlsZXMvY29yZS9QcmdFbnYtZ251LzguNi4wLmx1YSIsCmZ1bGxOYW1lID0gIlByZ
+0Vudi1nbnUvOC42LjAiLApsb2FkT3JkZXIgPSA2LApwcm9wVCA9IHt9LApzdGFja0RlcHRoID0gMSwKc3RhdHVzID0gImFjdGl2ZSIsCnVzZXJOYW1lID0gIlByZ0Vudi1nbnUiLAp3ViA9ICJeMDAwMDAwMDguMDAwMDAwMDA2Lip6ZmluYWwiLAp9LApbImNyYXktZ
+HNtbWwiXSA9IHsKZm4gPSAiL29wdC9jcmF5L3BlL2xtb2QvbW9kdWxlZmlsZXMvY29yZS9jcmF5LWRzbW1sLzAuMy4xLmx1YSIsCmZ1bGxOYW1lID0gImNyYXktZHNtbWwvMC4zLjEiLAps",                                                       
+          "MPICC": "mpicc",                                                                                                                                                                             
+          "NCSA_FAMILY_CRAYPE_VERSION": "2.7.34",                                                   
+          "PE_MPICH_GTL_DIR_nvidia70": "-L/opt/cray/pe/mpich/8.1.32/gtl/lib",                                                                                                                           
+          "CRAY_CUDATOOLKIT_PREFIX": "/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8",                                                                                                                 
+          "PE_PERFTOOLS_MPICH_LIBDIR": "/opt/cray/pe/mpich/8.1.32/ofi/gnu/11.2/lib",                                                                                                                    
+          "__LMOD_REF_COUNT_MODULEPATH": "/u/csteffen/xalt_remote_testing/06/target/xalt2/module:1;/sw/rh9.4/spack/default/modules/lmod/linux-rhel9-x86_64/Core:2;/opt/cray/pe/lmod/modulefiles/cpu/x86-
+milan/1.0:1;/opt/cray/pe/lmod/modulefiles/mpi/gnu/10.0/ofi/1.0/cray-mpich/8.0:1;/opt/cray/pe/lmod/modulefiles/comnet/gnu/10.0/ofi/1.0:1;/opt/cray/pe/lmod/modulefiles/net/ofi/1.0:1;/opt/cray/pe/lmod/mo
+dulefiles/mix_compilers:1;/opt/cray/pe/lmod/modulefiles/compiler/gnu/10.0:1;/sw/rh9.4/user/modules:1;/sw/rh9.4/spack/default/modules/lmod/Core:1;/sw/rh9.4/external/lmood/modulefiles/core:1;/opt/nvidia
+/hpc_sdk/modulefiles:1;/opt/modulefiles:1;/opt/cray/pe/lmod/modulefiles/craype-targets/default:1;/opt/cray/pe/lmod/modulefiles/core:1;/opt/cray/modulefiles:1;/usr/share/lmod/lmod/modulefiles/Core:1", 
+          "PE_PKGCONFIG_PRODUCTS": "PE_DSMML:PE_LIBSCI:PE_MPICH",                                                                                                                                       
+          "MPICH_DIR": "/opt/cray/pe/mpich/8.1.32/ofi/gnu/11.2",                                                                                                                                        
+          "UTIL_LINUX_UUID_HOME": "/sw/rh9.4/spack/v1.0.0/sw/linux-x86_64_v2/util-linux-uuid-2.41-cvsej3e",                                                                                             
+          "HISTTIMEFORMAT": "%h %d %H:%M:%S ",                                                                                                                                                          
+          "_ModuleTable005_": "Lip6ZmluYWwiLAp9LApjcmF5cGUgPSB7CmZuID0gIi9vcHQvY3JheS9wZS9sbW9kL21vZHVsZWZpbGVzL2NvcmUvY3JheXBlLzIuNy4zNC5sdWEiLApmdWxsTmFtZSA9ICJjcmF5cGUvMi43LjM0IiwKbG9hZE9yZGVyID0gM
+iwKcHJvcFQgPSB7fSwKc3RhY2tEZXB0aCA9IDIsCnN0YXR1cyA9ICJhY3RpdmUiLAp1c2VyTmFtZSA9ICJjcmF5cGUiLAp3ViA9ICJeMDAwMDAwMDIuMDAwMDAwMDA3LjAwMDAwMDAzNC4qemZpbmFsIiwKfSwKWyJjcmF5cGUtYWNjZWwtbnZpZGlhODAiXSA9IHsKZ
+m4gPSAiL29wdC9jcmF5L3BlL2xtb2QvbW9kdWxlZmlsZXMvY3JheXBlLXRhcmdldHMvZGVmYXVsdC9jcmF5cGUtYWNjZWwtbnZpZGlhODAubHVhIiwKZnVsbE5hbWUgPSAiY3JheXBlLWFj",                                                       
+          "_ModuleTable021_": "MDAwNDEuKmdjYy4wMDAwMDAwMTMuMDAwMDAwMDAzLjAwMDAwMDAwMS4qemZpbmFsIiwKfSwKeGFsdCA9IHsKZm4gPSAiL3UvY3N0ZWZmZW4veGFsdF9yZW1vdGVfdGVzdGluZy8wNi90YXJnZXQveGFsdDIvbW9kdWxlL3hhb
+HQvMy4wLjIubHVhIiwKZnVsbE5hbWUgPSAieGFsdC8zLjAuMiIsCmxvYWRPcmRlciA9IDE4LApwcm9wVCA9IHsKbG1vZCA9IHsKc3RpY2t5ID0gMSwKfSwKfSwKc3RhY2tEZXB0aCA9IDAsCnN0YXR1cyA9ICJhY3RpdmUiLAp1c2VyTmFtZSA9ICJ4YWx0IiwKd1YgP
+SAiMDAwMDAwMDAzLjAwMDAwMDAwMC4wMDAwMDAwMDIuKnpmaW5hbCIsCn0sCn0sCm1wYXRoQSA9IHsKIi91L2NzdGVmZmVuL3hhbHRfcmVtb3RlX3Rlc3RpbmcvMDYvdGFyZ2V0L3hhbHQy",                                                       
+          "NCSA_FAMILY_CRAYPE_NETWORK_VERSION": "false",                                                                                                                                                
+          "TMUX_PLUGIN_MANAGER_PATH": "/u/csteffen/.tmux/plugins/",                                                                                                                                     
+          "CRAY_LD_LIBRARY_PATH": "/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/math_libs/12.8/lib64:/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/lib64:/opt/cray/pe/dsmml/0.3.1/dsmml/lib:/opt/cray/pe/libs
+ci/25.03.0/GNU/12.2/x86_64/lib:/opt/cray/pe/mpich/8.1.32/ofi/gnu/11.2/lib:/opt/cray/pe/mpich/8.1.32/gtl/lib",                                                                                           
+          "CRAY_LMOD_MPI": "cray-mpich/8.0",                                                                                                                                                            
+          "CRAY_CUDATOOLKIT_VERSION": "12.8",                                                                                                                                                           
+          "NCSA_FAMILY_LIBSCI_VERSION": "25.03.0",                                                                                                                                                      
+          "CUE_CLUSTER_HOME": "/u/csteffen",                                                                                                                                                            
+          "NCSA_FAMILY_CRAYPE_ACCEL_VERSION": "false",                                                                                                                                                  
+          "GCC_VERSION": "13.2",                                                                                                                                                                        
+          "PE_MPICH_PKGCONFIG_LIBS": "mpich",                                                                                                                                                           
+          "PE_LIBSCI_REQUIRED_PRODUCTS": "PE_MPICH",                                                                                                                                                    
+          "PE_MPICH_GTL_LIBS_nvidia90": "-lmpi_gtl_cuda",                                                                                                                                               
+          "CRAY_DSMML_VER": "0.3.1",                                                                                                                                                                    
+          "COMPILER_PATH": "/u/csteffen/xalt_remote_testing/06/target/xalt2/xalt/xalt/bin",                                                                                                             
+          "MPICXX": "mpicxx",                                                                                                                                                                           
+          "XML_CATALOG_FILES": "file:///u/csteffen/.conda/envs/xalt_sys_1/etc/xml/catalog file:///etc/xml/catalog",                                                                                     
+          "LMOD_DIR": "/usr/share/lmod/lmod/libexec",                                                                                                                                                   
+          "PE_LIBSCI_PKGCONFIG_LIBS": "libsci_mpi:libsci",                                                                                                                                              
+          "CRAY_LMOD_NET": "ofi/1.0",                                                                                                                                                                   
+          "CLS_STATIC_PERS_FILE": "/u/csteffen/my_CLS/csteffen_static_slurm_pers.CLS",                                                                                                                  
+          "PWD": "/u/csteffen/xalt_test_client",                                                                                                                                                        
+          "CUE_DOCS": "https://portal.xsede.org/ncsa-delta",                                                                                                                                            
+          "GSETTINGS_SCHEMA_DIR": "/u/csteffen/.conda/envs/xalt_sys_1/share/glib-2.0/schemas",                                                                                                          
+          "LOGNAME": "csteffen",                                                                                                                                                                        
+          "CRAY_MPICH_ROOTDIR": "/opt/cray/pe/mpich/8.1.32",                                                                                                                                            
+          "CRAY_CUDATOOLKIT_POST_LINK_OPTS": "-L/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/lib64 -L/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/nvvm/lib64 -L/opt/nvidia/hpc_sdk/Linux_x86_64/25
+.3/cuda/12.8/extras/CUPTI/lib64 -L/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/math_libs/12.8/lib64  -Wl,--as-needed,-lcupti,-lcudart,--no-as-needed -lcuda",                                                  
+          "NCSA_FAMILY_PYTHON_VERSION": "2.8-cu128",                                                                                                                                                    
+          "__LMOD_REF_COUNT_CRAY_LD_LIBRARY_PATH": "/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/math_libs/12.8/lib64:1;/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/lib64:1;/opt/cray/pe/dsmml/0.3.1/dsmml/
+lib:1;/opt/cray/pe/libsci/25.03.0/GNU/12.2/x86_64/lib:1;/opt/cray/pe/mpich/8.1.32/ofi/gnu/11.2/lib:1;/opt/cray/pe/mpich/8.1.32/gtl/lib:1",                                                              
+          "XDG_SESSION_TYPE": "tty",                                                                                                                                                                    
+          "CONDA_PREFIX": "/u/csteffen/.conda/envs/xalt_sys_1",                                                                                                                                         
+          "NCSA_FAMILY_GCC_COMPILER": "gcc-native",                                                                                                                                                     
+          "__LMOD_REF_COUNT_PE_LIBSCI_REQUIRED_PRODUCTS": "PE_MPICH:1",                                                                                                                                 
+          "PE_MPICH_GTL_DIR_nvidia80": "-L/opt/cray/pe/mpich/8.1.32/gtl/lib",                                                                                                                           
+          "MODULESHOME": "/usr/share/lmod/lmod",                                                                                            
+         "CRAY_MPICH_PREFIX": "/opt/cray/pe/mpich/8.1.32/ofi/gnu/11.2",                                                                                                                                
+          "MANPATH": "/sw/rh9.4/spack/v1.0.0/sw/linux-x86_64_v2/util-linux-uuid-2.41-cvsej3e/share/man:/opt/cray/libfabric/1.22.0/share/man:/opt/cray/pe/dsmml/0.3.1/dsmml/man:/opt/cray/pe/libsci/25.03
+.0/share/man:/opt/cray/pe/mpich/8.1.32/ofi/man:/opt/cray/pe/mpich/8.1.32/man/mpich:/opt/cray/pe/craype/2.7.34/man:/opt/rh/gcc-toolset-13/root/usr/share/man:/usr/share/lmod/lmod/share/man:/opt/puppetla
+bs/puppet/share/man::",                                                                                                                                                                                 
+          "LMOD_FAMILY_PYTHON": "python/.conda-env/pytorch",                                                                                                                                            
+          "LMOD_PREPEND_BLOCK": "normal",                                                                                                                                                               
+          "GSETTINGS_SCHEMA_DIR_CONDA_BACKUP": "",                                                                                                                                                      
+          "CXX": "CC",                                                                                                                                                                                  
+          "_ModuleTable008_": "YW4ubHVhIiwKZnVsbE5hbWUgPSAiY3JheXBlLXg4Ni1taWxhbiIsCmxvYWRPcmRlciA9IDgsCnByb3BUID0ge30sCnN0YWNrRGVwdGggPSAxLApzdGF0dXMgPSAiYWN0aXZlIiwKdXNlck5hbWUgPSAiY3JheXBlLXg4Ni1ta
+WxhbiIsCndWID0gIk0uKnpmaW5hbCIsCn0sCmN1ZGF0b29sa2l0ID0gewpmbiA9ICIvb3B0L2NyYXkvbW9kdWxlZmlsZXMvY3VkYXRvb2xraXQvMjUuM18xMi44IiwKZnVsbE5hbWUgPSAiY3VkYXRvb2xraXQvMjUuM18xMi44IiwKbG9hZE9yZGVyID0gMTQsCnByb
+3BUID0ge30sCnN0YWNrRGVwdGggPSAyLApzdGF0dXMgPSAiYWN0aXZlIiwKdXNlck5hbWUgPSAiY3VkYXRvb2xraXQvMjUuM18xMi44IiwKd1YgPSAiXjAwMDAwMDI1LjAwMDAwMDAwMy4q",                                                       
+          "PE_DSMML_MODULE_NAME": "cray-dsmml",                                                     
+          "__LMOD_REF_COUNT_CMAKE_PREFIX_PATH": "/sw/rh9.4/spack/v1.0.0/sw/linux-x86_64_v2/util-linux-uuid-2.41-cvsej3e:1",                                                                             
+          "CLS_ACTIVE_SYS_FILE": "/u/csteffen/system_parfu_CLS/loc_active_delta.CLS",                                                                                                                   
+          "APPTAINERENV_PYTHONPATH": "/u/csteffen/xalt_remote_testing/06/target/xalt2/xalt/xalt/site_packages",                                                                                         
+          "_ModuleTable013_": "LCAiYzJWMFpXNTJLQ0pmUTBWZlRTSXNJaUlwIgosICJjMlYwWlc1MktDSmZRMDlPUkVGZlJWaEZJaXdpTDNOM0wzSm9PUzQwTDNWelpYSXZjSGwwYUc5dUwyTnZibVJoTFdWdWRpOXdlWFJ2Y21Ob0xUSXVPQzFqZFRFeU9DO
+WlhVzR2WTI5dVpHRWlLUT09IgosICJjMlYwWlc1MktDSmZRMDlPUkVGZlVrOVBWQ0lzSWk5emR5OXlhRGt1TkM5MWMyVnlMM0I1ZEdodmJpOWpiMjVrWVMxbGJuWXZjSGwwYjNKamFDMHlMamd0WTNVeE1qZ2lLUT09IgosICJjMlYwWDNOb1pXeHNYMloxYm1OMGFXO
+XVLQ0pmWDJOdmJtUmhYMkZqZEdsMllYUmxJaXdpSUZ3S0lDQWdJR2xtSUZzZ0xXNGdYQ0lrZTBOUFRrUkJYMUJUTVY5Q1FVTkxWVkE2SzNoOVhDSWdYVHNnZEdobGJsd0tJQ0FnSUNBZ0lD",                                                       
+          "CRAY_LIBSCI_PREFIX": "/opt/cray/pe/libsci/25.03.0/GNU/12.2/x86_64",                                                                                                                          
+          "MOTD_SHOWN": "pam",                                                                                                                                                                          
+          "CRAY_ACCEL_VENDOR": "nvidia",                                                                                                                                                                
+          "__LMOD_REF_COUNT_PATH": "/u/csteffen/xalt_remote_testing/06/target/xalt2/xalt/xalt/bin:1;/sw/rh9.4/spack/v1.0.0/sw/linux-x86_64_v2/util-linux-uuid-2.41-cvsej3e/bin:1;/u/csteffen/.conda/envs
+/xalt_sys_1/bin:1;/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/compute-sanitizer:1;/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/bin:1;/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/libnvvp:1;/o
+pt/nvidia/hpc_sdk/Linux_x86_64/25.3/profilers/Nsight_Compute:1;/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/profilers/Nsight_Systems/bin:1;/opt/cray/libfabric/1.22.0/bin:1;/sw/admin/scripts:2;/u/csteffen/.lo
+cal/bin:1;/u/csteffen/bin:1;/opt/cray/pe/mpich/8.1.32/ofi/gnu/11.2/bin:1;/opt/cray/pe/mpich/8.1.32/bin:1;/opt/cray/pe/craype/2.7.34/bin:1;/opt/rh/gcc-toolset-13/root/usr/bin:1;/sw/rh9.4/user/scripts:1
+;/sw/user/scripts:1;/usr/local/bin:1;/usr/bin:1;/usr/local/sbin:1;/usr/sbin:1;/opt/puppetlabs/bin:1;/opt/cray/pe/bin:1;/u/csteffen/xalt_base/xalt2/xalt/3.0.2/sbin:1",                                  
+          "_ModuleTable018_": "Z0lGOWZZMjl1WkdGZlpYaGxJRndpSkVCY0lpQjhmQ0JjWEhKbGRIVnlianRjQ2lBZ0lDQWdJQ0FnSUNBZ0lGOWZZMjl1WkdGZllXTjBhWFpoZEdVZ2NtVmhZM1JwZG1GMFpWd0tJQ0FnSUNBZ0lDQTdPMXdLSUNBZ0lDQWdJQ
+0FxS1Z3S0lDQWdJQ0FnSUNBZ0lDQWdYMTlqYjI1a1lWOWxlR1VnWENJa1FGd2lYQW9nSUNBZ0lDQWdJRHM3WEFvZ0lDQWdaWE5oWTF3S0lpd2lJaWs9IiwKfSwKfSwKbW9kdWxlS2luZFQgPSB7CmtpbmQgPSAiaGlkZGVuIiwKfSwKcHJvcFQgPSB7fSwKc3RhY2tEZ
+XB0aCA9IDEsCnN0YXR1cyA9ICJhY3RpdmUiLAp1c2VyTmFtZSA9ICJweXRob24vLmNvbmRhLWVudi9weXRvcmNoLzIuOC1jdTEyOCIsCndWID0gIjAwMDAwMDAwMi4wMDAwMDAwMDguKmN1",                                                       
+          "CMAKE_Fortran_COMPILER": "ftn",                                                                                                                                                              
+          "HOME": "/u/csteffen",                                                                                                                                                                        
+          "PE_MPICH_FIXED_PRGENV": "GNU",                                                                                                                                                               
+          "__LMOD_REF_COUNT_PE_MPICH_GENCOMPILERS_GNU": "11.2:1",                                                                                                                                       
+          "_ModuleTable015_": "Q0lrZTE5RFJWOU5PaXQ0ZlZ3aUlGMGdKaVlnV3lBdGJpQmNJaVI3WDBORlgwTlBUa1JCT2l0NGZWd2lJRjA3SUhSb1pXNWNDaUFnSUNBZ0lDQWdYQ0lrUTA5T1JFRmZSVmhGWENJZ0pGOURSVjlOSUNSZlEwVmZRMDlPUkVFZ
+1hDSWtRRndpTzF3S0lDQWdJR1ZzYzJWY0NpQWdJQ0FnSUNBZ1hDSWtRMDlPUkVGZlJWaEZYQ0lnWENJa1FGd2lPMXdLSUNBZ0lHWnBJQ2xjQ2lJc0lpSXAiCiwgImMyVjBYM05vWld4c1gyWjFibU4wYVc5dUtDSmZYMk52Ym1SaFgyaGhjMmh5SWl3aUlGd0tJQ0FnS
+UdsbUlGc2dMVzRnWENJa2UxcFRTRjlXUlZKVFNVOU9PaXQ0ZlZ3aUlGMDdJSFJvWlc1Y0NpQWdJQ0FnSUNBZ1hGeHlaV2hoYzJnN1hBb2dJQ0FnWld4elpWd0tJQ0FnSUNBZ0lDQnBaaUJi",                                                       
+          "_ModuleTable_Sz_": "24",                                                                                                                                                                     
+          "CRAY_MPICH_DIR": "/opt/cray/pe/mpich/8.1.32/ofi/gnu/11.2",                                                                                                                                   
+          "LANG": "C.UTF-8",                                                                                                                                                                            
+          "_ModuleTable023_": "L2dudS8xMC4wIiwgIi9zdy9yaDkuNC91c2VyL21vZHVsZXMiLCAiL3N3L3JoOS40L3NwYWNrL2RlZmF1bHQvbW9kdWxlcy9sbW9kL0NvcmUiCiwgIi9zdy9yaDkuNC9leHRlcm5hbC9sbW9vZC9tb2R1bGVmaWxlcy9jb3JlI
+iwgIi9vcHQvbnZpZGlhL2hwY19zZGsvbW9kdWxlZmlsZXMiLCAiL29wdC9tb2R1bGVmaWxlcyIsICIvb3B0L2NyYXkvcGUvbG1vZC9tb2R1bGVmaWxlcy9jcmF5cGUtdGFyZ2V0cy9kZWZhdWx0IiwgIi9vcHQvY3JheS9wZS9sbW9kL21vZHVsZWZpbGVzL2NvcmUiC
+iwgIi9vcHQvY3JheS9tb2R1bGVmaWxlcyIsICIvdXNyL3NoYXJlL2xtb2QvbG1vZC9tb2R1bGVmaWxlcy9Db3JlIiwKfSwKc3lzdGVtQmFzZU1QQVRIID0gIi9zdy9yaDkuNC91c2VyL21v",                                                       
+          "HISTFILE": "/u/csteffen/.bash_commands.log",                                                                                                                                                 
+          "NCSA_FAMILY_CRAYPE": "craype",                                                                                                                                                               
+          "__LMOD_REF_COUNT_PKG_CONFIG_PATH": "/sw/rh9.4/spack/v1.0.0/sw/linux-x86_64_v2/util-linux-uuid-2.41-cvsej3e/lib/pkgconfig:1;/usr/lib64/pkgconfig:1;/opt/cray/libfabric/1.22.0/lib64/pkgconfig:
+1;/opt/cray/pe/dsmml/0.3.1/dsmml/lib/pkgconfig:1;/opt/cray/pe/craype/2.7.34/pkg-config:1",                                                                                                              
+          "__LMOD_REF_COUNT_INFOPATH": "/opt/rh/gcc-toolset-13/root/usr/share/info:1",                                                                                                                  
+          "CRAY_LMOD_COMPILER": "gnu/10.0",                                                                                                                                                             
+          "__LMOD_REF_COUNT_PE_GNU_FIXED_PKGCONFIG_PATH": "/opt/cray/pe/mpich/8.1.32/ofi/gnu/11.2/lib/pkgconfig:1",                                                                                     
+          "MPIF90": "mpif90",                                                                                                                                                                           
+          "CRAY_LIBSCI_PREFIX_DIR": "/opt/cray/pe/libsci/25.03.0/GNU/12.2/x86_64",                                                                                                                      
+          "CRAY_ACCEL_TARGET": "nvidia80",                                                                                                                                                              
+          "PE_MPICH_GTL_DIR_amd_gfx942": "-L/opt/cray/pe/mpich/8.1.32/gtl/lib",                                                                                                                         
+          "PE_MPICH_GTL_DIR_amd_gfx940": "-L/opt/cray/pe/mpich/8.1.32/gtl/lib",                                                                                                                         
+          "NCSA_FAMILY_GCC_COMPILER_VERSION": "13.2",                                                                                                                                                   
+          "LMOD_FAMILY_GCC_COMPILER_VERSION": "13.2",                                                                                                                                                   
+          "__LMOD_REF_COUNT_CPATH": "/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/include:1;/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/nvvm/include:1;/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda
+/12.8/extras/Debugger/include:1;/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/extras/CUPTI/include:1;/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/math_libs/12.8/include:1",                                 
+          "NCSA_FAMILY_MPI_VERSION": "8.1.32",                                                                                                                                                          
+          "LMOD_SETTARG_FULL_SUPPORT": "no",                                                                                                                                                            
+          "CRAY_LIBSCI_VERSION": "25.03.0",                                                                                                                                                             
+          "CUE_HOME": "/u/csteffen",                         
+          "NCSA_FAMILY_PYTHON": "python/.conda-env/pytorch",                                                                                                                                            
+          "CONDA_PROMPT_MODIFIER": "(xalt_sys_1) ",                                                                                                                                                     
+          "CUE_RESOURCE_ID": "delta-cpu.ncsa.xsede.org",                                                                                                                                                
+          "CMAKE_PREFIX_PATH": "/sw/rh9.4/spack/v1.0.0/sw/linux-x86_64_v2/util-linux-uuid-2.41-cvsej3e",                                                                                                
+          "XALT_EXECUTABLE_TRACKING": "yes",                                                                                                                                                            
+          "MPIF77": "mpif77",                                                                                                                                                                           
+          "_ModuleTable010_": "cHRoID0gMCwKc3RhdHVzID0gImFjdGl2ZSIsCnVzZXJOYW1lID0gImRlZmF1bHQiLAp3ViA9ICJNLip6ZmluYWwiLAp9LApbImdjYy1uYXRpdmUiXSA9IHsKYWN0aW9uQSA9IHsKW1twcmVwZW5kX3BhdGgoIk1PRFVMRVBBV
+EgiLCIvb3B0L2NyYXkvcGUvbG1vZC9tb2R1bGVmaWxlcy9jb21waWxlci9nbnUvMTAuMCIpXV0sIFtbcHJlcGVuZF9wYXRoKCJNT0RVTEVQQVRIIiwiL29wdC9jcmF5L3BlL2xtb2QvbW9kdWxlZmlsZXMvbWl4X2NvbXBpbGVycyIpXV0sCn0sCmZuID0gIi9vcHQvY
+3JheS9wZS9sbW9kL21vZHVsZWZpbGVzL2NvcmUvZ2NjLW5hdGl2ZS8xMy4yLmx1YSIsCmZ1bGxOYW1lID0gImdjYy1uYXRpdmUvMTMuMiIsCmxvYWRPcmRlciA9IDEsCnByb3BUID0ge30s",                                                       
+          "GNU_VERSION": "13.2",                                                                                                                                                                        
+          "APPTAINER_BINDPATH": "/u/csteffen/xalt_remote_testing/06/target/xalt2/xalt/xalt, /u/csteffen/xalt_remote_testing/06/log_repo/delta",                                                         
+          "LMOD_FAMILY_CRAYPE_NETWORK": "craype-network-ofi",                                                                                                                                           
+          "_ModuleTable024_": "ZHVsZXM6L3N3L3JoOS40L3NwYWNrL2RlZmF1bHQvbW9kdWxlcy9sbW9kL0NvcmU6L3N3L3JoOS40L2V4dGVybmFsL2xtb29kL21vZHVsZWZpbGVzL2NvcmU6L29wdC9udmlkaWEvaHBjX3Nkay9tb2R1bGVmaWxlczovb3B0L
+21vZHVsZWZpbGVzOi9vcHQvY3JheS9wZS9sbW9kL21vZHVsZWZpbGVzL2NyYXlwZS10YXJnZXRzL2RlZmF1bHQ6L29wdC9jcmF5L3BlL2xtb2QvbW9kdWxlZmlsZXMvY29yZTovb3B0L2NyYXkvbW9kdWxlZmlsZXM6L3Vzci9zaGFyZS9sbW9kL2xtb2QvbW9kdWxlZ
+mlsZXMvQ29yZSIsCn0K",                                                                                                                                                                                   
+          "NCSA_FAMILY_CRAYPE_CPU": "craype-x86-milan",                                             
+          "LMOD_FAMILY_GCC_COMPILER": "gcc-native",                                                                                                                                                     
+          "MENV": "/work/hdd/bbka/csteffen/",                                                                                                                                                           
+          "XALT_DIR": "/u/csteffen/xalt_remote_testing/06/target/xalt2/xalt/xalt",                                                                                                                      
+          "PE_LIBSCI_PKGCONFIG_VARIABLES": "PE_LIBSCI_OMP_REQUIRES_@openmp@:PE_SCI_EXT_LIBPATH:PE_SCI_EXT_LIBNAME",                                                                                     
+          "LMOD_VERSION": "8.7.65",                                                                                                                                                                     
+          "LMOD_FAMILY_CRAYPE_ACCEL": "craype-accel-nvidia80",                                                                                                                                          
+          "SSH_CONNECTION": "74.119.251.23 61702 141.142.140.194 22",                                                                                                                                   
+          "PE_GCC_EXTERNAL": "native",                                                                                                                                                                  
+          "__LMOD_Priority_PATH": "/u/csteffen/xalt_remote_testing/06/target/xalt2/xalt/xalt/bin:-100",                                                                                                 
+          "__LMOD_REF_COUNT_PE_DSMML_PKGCONFIG_LIBS": "dsmml:1",                                                                                                                                        
+          "NCSA_FAMILY_COMPILER_VERSION": "13.2",                                                                                                                                                       
+          "APPTAINERENV_LD_PRELOAD": "/u/csteffen/xalt_remote_testing/06/target/xalt2/xalt/xalt/lib64/libxalt_init.so",                                                                                 
+          "CRAY_CPU_TARGET": "x86-milan",                                                                                                                                                               
+          "CRAYPE_DIR": "/opt/cray/pe/craype/2.7.34",                                                                                                                                                   
+          "_ModuleTable003_": "b2FkT3JkZXIgPSA3LApwcm9wVCA9IHt9LApzdGFja0RlcHRoID0gMSwKc3RhdHVzID0gImFjdGl2ZSIsCnVzZXJOYW1lID0gImNyYXktZHNtbWwiLAp3ViA9ICJeMDAwMDAwMDAuMDAwMDAwMDAzLjAwMDAwMDAwMS4qemZpb
+mFsIiwKfSwKWyJjcmF5LWxpYnNjaSJdID0gewpmbiA9ICIvb3B0L2NyYXkvcGUvbG1vZC9tb2R1bGVmaWxlcy9jb21waWxlci9nbnUvMTAuMC9jcmF5LWxpYnNjaS8yNS4wMy4wLmx1YSIsCmZ1bGxOYW1lID0gImNyYXktbGlic2NpLzI1LjAzLjAiLApsb2FkT3JkZ
+XIgPSA1LApwcm9wVCA9IHt9LApzdGFja0RlcHRoID0gMiwKc3RhdHVzID0gImFjdGl2ZSIsCnVzZXJOYW1lID0gImNyYXktbGlic2NpIiwKd1YgPSAiXjAwMDAwMDI1LjAwMDAwMDAwMy4q",                                                       
+          "INFOPATH": "/opt/rh/gcc-toolset-13/root/usr/share/info",                                                                                                                                     
+          "MODULEPATH_ROOT": "/",                                                                                                                                                                       
+          "__LMOD_REF_COUNT_XALT_DIR": "/u/csteffen/xalt_remote_testing/06/target/xalt2/xalt/xalt:1",                                                                                                   
+          "__LMOD_REF_COUNT_COMPILER_PATH": "/u/csteffen/xalt_remote_testing/06/target/xalt2/xalt/xalt/bin:1",                                                                                          
+          "LMOD_FAMILY_PYTHON_VERSION": "2.8-cu128",                                                                                                                                                    
+          "PE_MPICH_GTL_LIBS_nvidia80": "-lmpi_gtl_cuda",                                                                                                                                               
+          "CUE_HOSTNAME": "dt-login01.delta.ncsa.illinois.edu",                                                                                                                                         
+          "PE_PKGCONFIG_LIBS": "cray-sdk-cudatoolkit-25.3_12.8:dsmml:libsci_mpi:libsci:mpich",                                                                                                          
+          "__LMOD_REF_COUNT_APPTAINER_BINDPATH": "/u/csteffen/xalt_remote_testing/06/target/xalt2/xalt/xalt, /u/csteffen/xalt_remote_testing/06/log_repo/delta:1",                                      
+          "_CONDA_EXE": "/sw/rh9.4/user/python/conda-env/pytorch-2.8-cu128/bin/conda",                                                                                                                  
+          "PE_MPICH_GENCOMPILERS_GNU": "11.2",                                                                                                                                                          
+          "LMOD_FAMILY_CRAYPE_ACCEL_VERSION": "false",                                                                                                                                                  
+          "_CONDA_ROOT": "/sw/rh9.4/user/python/conda-env/pytorch-2.8-cu128",                                                                                                                           
+          "XDG_SESSION_CLASS": "user",                                                                                                                                                                  
+          "LMOD_PKG": "/usr/share/lmod/lmod",                                                                                                                                                           
+          "PE_LIBSCI_GENCOMPILERS_GNU_x86_64": "12.2",                                                                                                                                                  
+          "PYTHONPATH": "/u/csteffen/xalt_remote_testing/06/target/xalt2/xalt/xalt/site_packages",                                                                                                      
+          "__LMOD_REF_COUNT_PYTHONPATH": "/u/csteffen/xalt_remote_testing/06/target/xalt2/xalt/xalt/site_packages:1",                                                                                   
+          "TERM": "screen-256color",                                                                                                                                                                    
+          "PE_MPICH_GTL_DIR_ponteVecchio": "-L/opt/cray/pe/mpich/8.1.32/gtl/lib",                                                                                                                       
+          "LMOD_FAMILY_CRAYPE_CPU_VERSION": "false",                                                                                                                                                    
+          "_CE_CONDA": "",                                                                                                                                                                              
+          "CLS_STATIC_SYS_FILE": "/u/csteffen/system_parfu_CLS/loc_static_delta.CLS",                                                                                                                   
+          "PE_MPICH_FORTRAN_PKGCONFIG_LIBS": "mpichf90",                                                                                                                                                
+          "DATA": "/work/hdd/bbuz/csteffen",                                                                                                                                                            
+          "LESSOPEN": "||/usr/bin/lesspipe.sh %s",                                                                                                                                                      
+          "NCSA_FAMILY_PRGENV": "PrgEnv-gnu",                                                                                                                                                           
+          "PE_MPICH_GTL_DIR_nvidia90": "-L/opt/cray/pe/mpich/8.1.32/gtl/lib",                                                                                                                           
+          "USER": "csteffen",                
+          "CRAY_DSMML_DIR": "/opt/cray/pe/dsmml/0.3.1/dsmml",                                                                                                                                           
+          "PE_LIBSCI_VOLATILE_PRGENV": "GNU",                                                                                                                                                           
+          "LMOD_FAMILY_LIBSCI_VERSION": "25.03.0",                                                                                                                                                      
+          "TMUX_PANE": "%12",                                                                                                                                                                           
+          "LMOD_FAMILY_CRAYPE_VERSION": "2.7.34",                                                                                                                                                       
+          "__LMOD_REF_COUNT_PE_MPICH_FORTRAN_PKGCONFIG_LIBS": "mpichf90:1",                                                                                                                             
+          "PE_DSMML_PKGCONFIG_LIBS": "dsmml",                                                                                                                                                           
+          "NCSA_FAMILY_COMPILER": "gcc-native",                                                                                                                                                         
+          "PE_MPICH_GTL_LIBS_amd_gfx942": "-lmpi_gtl_hsa",                                                                                                                                              
+          "PE_MPICH_GTL_LIBS_amd_gfx940": "-lmpi_gtl_hsa",                                                                                                                                              
+          "CONDA_SHLVL": "2",                                                                                                                                                                           
+          "CRAY_MPICH_VER": "8.1.32",                                                                                                                                                                   
+          "VISUAL": "emacs -nw",                                                                                                                                                                        
+          "LOADEDMODULES": "gcc-native/13.2:craype/2.7.34:craype-network-ofi:cray-mpich/8.1.32:cray-libsci/25.03.0:PrgEnv-gnu/8.6.0:cray-dsmml/0.3.1:craype-x86-milan:craype-accel-nvidia80:cue-login-en
+v/1.1:slurm-env/0.1:default:libfabric/1.22.0:cudatoolkit/25.3_12.8:python/.conda-env/pytorch/2.8-cu128:pytorch-conda/2.8:util-linux-uuid/2.41-gcc13.3.1:xalt/3.0.2",                                    
+          "PE_LIBSCI_OMP_REQUIRES": " ",                                                                                                                                                                
+          "CRAY_DSMML_ROOTDIR": "/opt/cray/pe/dsmml/0.3.1",                                                                                                                                             
+          "LMOD_ROOT": "/usr/share/lmod",                                                                                                                                                               
+          "LMOD_SETTARG_CMD": ":",                                                                                                                                                                      
+          "NVHPC_CUDA_HOME": "/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8",                     
+          "__LMOD_REF_COUNT_LD_PRELOAD": "/u/csteffen/xalt_remote_testing/06/target/xalt2/xalt/xalt/lib64/libxalt_init.so:1",                                                                           
+          "SHLVL": "2",                                                                                                                                                                                 
+          "_ModuleTable012_": "bGVzL3B5dGhvbi8uY29uZGEtZW52L3B5dG9yY2gvMi44LWN1MTI4Lmx1YSIsCmZ1bGxOYW1lID0gInB5dGhvbi8uY29uZGEtZW52L3B5dG9yY2gvMi44LWN1MTI4IiwKbG9hZE9yZGVyID0gMTUsCm1jbWRUXzY0ID0gewpMM
+04zTDNKb09TNDBMM1Z6WlhJdmNIbDBhRzl1TDJOdmJtUmhMV1Z1ZGk5d2VYUnZjbU5vTFRJdU9DMWpkVEV5T0M5bGRHTXZjSEp2Wm1sc1pTNWtMMk52Ym1SaExuTm8gPSB7CiJjMlYwWlc1MktDSkRUMDVFUVY5UVdWUklUMDVmUlZoRklpd2lMM04zTDNKb09TNDBMM
+1Z6WlhJdmNIbDBhRzl1TDJOdmJtUmhMV1Z1ZGk5d2VYUnZjbU5vTFRJdU9DMWpkVEV5T0M5aWFXNHZjSGwwYUc5dUlpaz0iLCAiYzJWMFpXNTJLQ0pmUTBWZlEwOU9SRUVpTENJaUtRPT0i",                                                       
+          "CRAYPE_NETWORK_TARGET": "ofi",                                                                                                                                                               
+          "__LMOD_REF_COUNT_PE_MPICH_FIXED_PRGENV": "GNU:1",                                                                                                                                            
+          "BASH_ENV": "/usr/share/lmod/lmod/init/bash",                                                                                                                                                 
+          "PE_MPICH_GTL_LIBS_nvidia70": "-lmpi_gtl_cuda",                                                                                                                                               
+          "_ModuleTable006_": "Y2VsLW52aWRpYTgwIiwKbG9hZE9yZGVyID0gOSwKcHJvcFQgPSB7fSwKc3RhY2tEZXB0aCA9IDEsCnN0YXR1cyA9ICJhY3RpdmUiLAp1c2VyTmFtZSA9ICJjcmF5cGUtYWNjZWwtbnZpZGlhODAiLAp3ViA9ICJNLip6ZmluY
+WwiLAp9LApbImNyYXlwZS1uZXR3b3JrLW9maSJdID0gewphY3Rpb25BID0gewpbW3ByZXBlbmRfcGF0aCgiTU9EVUxFUEFUSCIsIi9vcHQvY3JheS9wZS9sbW9kL21vZHVsZWZpbGVzL25ldC9vZmkvMS4wIildXSwgW1twcmVwZW5kX3BhdGgoIk1PRFVMRVBBVEgiL
+CIvb3B0L2NyYXkvcGUvbG1vZC9tb2R1bGVmaWxlcy9jb21uZXQvZ251LzEwLjAvb2ZpLzEuMCIpXV0sCn0sCmZuID0gIi9vcHQvY3JheS9wZS9sbW9kL21vZHVsZWZpbGVzL2NyYXlwZS10",                                                       
+          "CRAY_TCMALLOC_MEMFS_FORCE": "1",                                                                                                                                                             
+          "CRAY_DSMML_BASEDIR": "/opt/cray/pe/dsmml/0.3.1",                                                                                                                                             
+          "CRAYPE_LINK_TYPE": "dynamic",                                                                                                                                                                
+          "LMOD_FULL_SETTARG_SUPPORT": "no",                                                                                                                                                            
+          "LMOD_sys": "Linux",                                                                                                                                                                          
+          "PE_LIBSCI_OMP_REQUIRES_openmp": "_mp",                                                                                                                                                       
+          "_ModuleTable017_": "eU8xd0tJQ0FnSUY5ZlkyOXVaR0ZmWVdOMGFYWmhkR1VnY21WaFkzUnBkbUYwWlZ3S0lpd2lJaWs9IiwgImMyVjBYM05vWld4c1gyWjFibU4wYVc5dUtDSmpiMjVrWVNJc0lpQmNDaUFnSUNCY1hHeHZZMkZzSUdOdFpEMWNJa
+VI3TVMxZlgyMXBjM05wYm1kZlgzMWNJanRjQ2lBZ0lDQmpZWE5sSUZ3aUpHTnRaRndpSUdsdUlGd0tJQ0FnSUNBZ0lDQmhZM1JwZG1GMFpTQjhJR1JsWVdOMGFYWmhkR1VwWEFvZ0lDQWdJQ0FnSUNBZ0lDQmZYMk52Ym1SaFgyRmpkR2wyWVhSbElGd2lKRUJjSWx3S
+0lDQWdJQ0FnSUNBN08xd0tJQ0FnSUNBZ0lDQnBibk4wWVd4c0lId2dkWEJrWVhSbElId2dkWEJuY21Ga1pTQjhJSEpsYlc5MlpTQjhJSFZ1YVc1emRHRnNiQ2xjQ2lBZ0lDQWdJQ0FnSUNB",                                                       
+          "PE_LIBSCI_MODULE_NAME": "cray-libsci/25.03.0",                                                                                                                                               
+          "__LMOD_REF_COUNT_PE_FORTRAN_PKGCONFIG_LIBS": "mpichf90:1",                                                                                                                                   
+          "PE_ENV": "GNU",                                                                                                                                                                              
+          "_ModuleTable009_": "Xy4wMDAwMDAwMTIuMDAwMDAwMDA4Lip6ZmluYWwiLAp9LApbImN1ZS1sb2dpbi1lbnYiXSA9IHsKZm4gPSAiL3N3L3JoOS40L3VzZXIvbW9kdWxlcy9jdWUtbG9naW4tZW52LzEuMS5sdWEiLApmdWxsTmFtZSA9ICJjdWUtb
+G9naW4tZW52LzEuMSIsCmxvYWRPcmRlciA9IDEwLApwcm9wVCA9IHt9LApzdGFja0RlcHRoID0gMSwKc3RhdHVzID0gImFjdGl2ZSIsCnVzZXJOYW1lID0gImN1ZS1sb2dpbi1lbnYiLAp3ViA9ICIwMDAwMDAwMDEuMDAwMDAwMDAxLip6ZmluYWwiLAp9LApkZWZhd
+Wx0ID0gewpmbiA9ICIvc3cvcmg5LjQvdXNlci9tb2R1bGVzL2RlZmF1bHQubHVhIiwKZnVsbE5hbWUgPSAiZGVmYXVsdCIsCmxvYWRPcmRlciA9IDEyLApwcm9wVCA9IHt9LApzdGFja0Rl",                                                       
+          "PE_MPICH_GTL_LIBS_ponteVecchio": "-lmpi_gtl_ze",                                                                                                                                             
+          "__LMOD_REF_COUNT_MANPATH": "/sw/rh9.4/spack/v1.0.0/sw/linux-x86_64_v2/util-linux-uuid-2.41-cvsej3e/share/man:1;/opt/cray/libfabric/1.22.0/share/man:1;/opt/cray/pe/dsmml/0.3.1/dsmml/man:1;/o
+pt/cray/pe/libsci/25.03.0/share/man:1;/opt/cray/pe/mpich/8.1.32/ofi/man:1;/opt/cray/pe/mpich/8.1.32/man/mpich:1;/opt/cray/pe/craype/2.7.34/man:1;/opt/rh/gcc-toolset-13/root/usr/share/man:1;/usr/share/
+lmod/lmod/share/man:1;/opt/puppetlabs/puppet/share/man:1;:2",                                                                                                                                           
+          "CRAY_MPICH_VERSION": "8.1.32",                                                                                                                                                               
+          "XDG_SESSION_ID": "589",                                                                                                                                                                      
+          "NCSA_FAMILY_CRAYPE_NETWORK": "craype-network-ofi",                                                                                                                                           
+          "NCSA_FAMILY_PRGENV_VERSION": "8.6.0",                                                                                                                                                        
+          "NCSA_FAMILY_CRAYPE_CPU_VERSION": "false",                                                                                                                                                    
+          "_ModuleTable001_": "X01vZHVsZVRhYmxlXyA9IHsKTVR2ZXJzaW9uID0gMywKY19yZWJ1aWxkVGltZSA9IDcyMDAuMCwKY19zaG9ydFRpbWUgPSAwLjc4MTQ1Mjg5NDIxMDgyLApkZXB0aFQgPSB7fSwKZmFtaWx5ID0gewpQcmdFbnYgPSAiUHJnR
+W52LWdudSIsCmNvbXBpbGVyID0gImdjYy1uYXRpdmUiLApjcmF5cGUgPSAiY3JheXBlIiwKY3JheXBlX2FjY2VsID0gImNyYXlwZS1hY2NlbC1udmlkaWE4MCIsCmNyYXlwZV9jcHUgPSAiY3JheXBlLXg4Ni1taWxhbiIsCmNyYXlwZV9uZXR3b3JrID0gImNyYXlwZ
+S1uZXR3b3JrLW9maSIsCmdjY19jb21waWxlciA9ICJnY2MtbmF0aXZlIiwKbGlic2NpID0gImNyYXktbGlic2NpIiwKbXBpID0gImNyYXktbXBpY2giLApweXRob24gPSAicHl0aG9uLy5j",                                                       
+          "CUE_HOME_TYPE": "lustre-2.14",                                                                                                                                                               
+          "CONDA_PYTHON_EXE": "/sw/rh9.4/user/python/conda-env/pytorch-2.8-cu128/bin/python",                                                                                                           
+          "LD_LIBRARY_PATH": "/opt/cray/libfabric/1.22.0/lib64:/sw/rh9.4/user/python/conda-env/pytorch-2.8-cu128/lib:/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/math_libs/12.8/lib64:/opt/nvidia/hpc_sdk/Linu
+x_x86_64/25.3/cuda/12.8/extras/CUPTI/lib64:/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/nvvm/lib64:/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/lib64:/opt/cray/pe/lib64",                        
+          "LMOD_FAMILY_CRAYPE_NETWORK_VERSION": "false",                                                                                                                                                
+          "LMOD_FAMILY_COMPILER": "gcc-native",                                            
+         "XDG_RUNTIME_DIR": "/run/user/28198",                                                                                                                                                         
+          "LMOD_COLORIZE": "yes",                                                                                                                                                                       
+          "_ModuleTable014_": "QlFVekU5WENJa1EwOU9SRUZmVUZNeFgwSkJRMHRWVUZ3aU8xd0tJQ0FnSUNBZ0lDQmNYSFZ1YzJWMElFTlBUa1JCWDFCVE1WOUNRVU5MVlZBN1hBb2dJQ0FnWm1rN1hBb2dJQ0FnWEZ4c2IyTmhiQ0JoYzJ0ZlkyOXVaR0U3W
+EFvZ0lDQWdZWE5yWDJOdmJtUmhQVndpSkNoUVV6RTlYQ0lrZTFCVE1Ub3RmVndpSUY5ZlkyOXVaR0ZmWlhobElITm9aV3hzTG5CdmMybDRJRndpSkVCY0lpbGNJaUI4ZkNCY1hISmxkSFZ5Ymp0Y0NpQWdJQ0JjWEdWMllXd2dYQ0lrWVhOclgyTnZibVJoWENJN1hBb
+2dJQ0FnWDE5amIyNWtZVjlvWVhOb2Nsd0tJaXdpSWlrPSIKLCAiYzJWMFgzTm9aV3hzWDJaMWJtTjBhVzl1S0NKZlgyTnZibVJoWDJWNFpTSXNJaUJjQ2lBZ0lDQW9JR2xtSUZzZ0xXNGdY",                                                       
+          "PE_MPICH_GTL_DIR_amd_gfx90a": "-L/opt/cray/pe/mpich/8.1.32/gtl/lib",                                                                                                                         
+          "_ModuleTable004_": "emZpbmFsIiwKfSwKWyJjcmF5LW1waWNoIl0gPSB7CmFjdGlvbkEgPSB7CltbcHJlcGVuZF9wYXRoKCJNT0RVTEVQQVRIIiwiL29wdC9jcmF5L3BlL2xtb2QvbW9kdWxlZmlsZXMvbXBpL2dudS8xMC4wL29maS8xLjAvY3Jhe
+S1tcGljaC84LjAiKV1dLAp9LApmbiA9ICIvb3B0L2NyYXkvcGUvbG1vZC9tb2R1bGVmaWxlcy9jb21uZXQvZ251LzEwLjAvb2ZpLzEuMC9jcmF5LW1waWNoLzguMS4zMi5sdWEiLApmdWxsTmFtZSA9ICJjcmF5LW1waWNoLzguMS4zMiIsCmxvYWRPcmRlciA9IDQsC
+nByb3BUID0ge30sCnN0YWNrRGVwdGggPSAyLApzdGF0dXMgPSAiYWN0aXZlIiwKdXNlck5hbWUgPSAiY3JheS1tcGljaCIsCndWID0gIl4wMDAwMDAwOC4wMDAwMDAwMDEuMDAwMDAwMDMy",                                                       
+          "LMOD_FAMILY_MPI_VERSION": "8.1.32",                                                                                                                                                          
+          "_ModuleTable020_": "c3RhY2tEZXB0aCA9IDEsCnN0YXR1cyA9ICJhY3RpdmUiLAp1c2VyTmFtZSA9ICJzbHVybS1lbnYiLAp3ViA9ICIwMDAwMDAwMDAuMDAwMDAwMDAxLip6ZmluYWwiLAp9LApbInV0aWwtbGludXgtdXVpZCJdID0gewpmbiA9I
+CIvc3cvcmg5LjQvc3BhY2svZGVmYXVsdC9tb2R1bGVzL2xtb2QvbGludXgtcmhlbDkteDg2XzY0L0NvcmUvdXRpbC1saW51eC11dWlkLzIuNDEtZ2NjMTMuMy4xLmx1YSIsCmZ1bGxOYW1lID0gInV0aWwtbGludXgtdXVpZC8yLjQxLWdjYzEzLjMuMSIsCmxvYWRPc
+mRlciA9IDE3LApwcm9wVCA9IHt9LApzdGFja0RlcHRoID0gMCwKc3RhdHVzID0gImFjdGl2ZSIsCnVzZXJOYW1lID0gInV0aWwtbGludXgtdXVpZCIsCndWID0gIjAwMDAwMDAwMi4wMDAw",                                                       
+          "PS1": "(xalt_sys_1) Delta:\\h \\w $ ",                                                                                                                                                       
+          "SSH_CLIENT": "74.119.251.23 63228 22",                                                                                                                                                       
+          "CONDA_DEFAULT_ENV": "xalt_sys_1",                                                                                                                                                            
+          "CMAKE_C_COMPILER": "cc",                                                                                                                                                                     
+          "XTPE_LINK_TYPE": "dynamic",                                                                                                                                                                  
+          "LMOD_FAMILY_MPI": "cray-mpich",                                                                                                                                                              
+          "FC": "ftn",                                                                                                                                                                                  
+          "CRAY_MPICH_BASEDIR": "/opt/cray/pe/mpich/8.1.32/ofi",                                    
+          "which_declare": "declare -f",                                                                                                                                                                
+          "TMOUT": "1296000",                                                                                                                                                                           
+          "LMOD_FAMILY_COMPILER_VERSION": "13.2",                                                                                                                                                       
+          "CUDA_HOME": "/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8",                                                                                                                               
+          "SLURM_MPI_TYPE": "cray_shasta",                                                                                                                                                              
+          "PE_MPICH_GTL_DIR_amd_gfx908": "-L/opt/cray/pe/mpich/8.1.32/gtl/lib",                                                                                                                         
+          "PE_MPICH_GTL_DIR_amd_gfx906": "-L/opt/cray/pe/mpich/8.1.32/gtl/lib",                                                                                                                         
+          "PREFIX_DIR": "/u/csteffen/xalt_remote_testing/06",                                                                                                                                           
+          "XDG_DATA_DIRS": "/u/csteffen/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share",                                                                 
+          "__LMOD_REF_COUNT_PE_PRODUCT_LIST": "CRAYPE_X86_MILAN:1;CRAY_ACCEL:1;CRAY_CUDATOOLKIT:1",                                                                                                     
+          "LMOD_FAMILY_LIBSCI": "cray-libsci",                                                                                                                                                          
+          "__Init_Default_Modules": "1",                                                                                                                                                                
+          "GCC_PREFIX": "/opt/rh/gcc-toolset-13/root/usr",                                                                                                                                              
+          "SLURM_CONF": "/etc/slurm/slurm.conf",                                                                                                                                                        
+          "PATH": "/u/csteffen/xalt_remote_testing/06/target/xalt2/xalt/xalt/bin:/sw/rh9.4/spack/v1.0.0/sw/linux-x86_64_v2/util-linux-uuid-2.41-cvsej3e/bin:/u/csteffen/.conda/envs/xalt_sys_1/bin:/opt/
+nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/compute-sanitizer:/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/bin:/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/libnvvp:/opt/nvidia/hpc_sdk/Linux_x86_6
+4/25.3/profilers/Nsight_Compute:/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/profilers/Nsight_Systems/bin:/opt/cray/libfabric/1.22.0/bin:/sw/admin/scripts:/u/csteffen/.local/bin:/u/csteffen/bin:/opt/cray/pe/
+mpich/8.1.32/ofi/gnu/11.2/bin:/opt/cray/pe/mpich/8.1.32/bin:/opt/cray/pe/craype/2.7.34/bin:/opt/rh/gcc-toolset-13/root/usr/bin:/sw/rh9.4/user/scripts:/sw/user/scripts:/usr/local/bin:/usr/bin:/usr/loca
+l/sbin:/usr/sbin:/opt/puppetlabs/bin:/opt/cray/pe/bin:/u/csteffen/xalt_base/xalt2/xalt/3.0.2/sbin",                                                                                                     
+          "MODULEPATH": "/u/csteffen/xalt_remote_testing/06/target/xalt2/module:/sw/rh9.4/spack/default/modules/lmod/linux-rhel9-x86_64/Core:/opt/cray/pe/lmod/modulefiles/cpu/x86-milan/1.0:/opt/cray/p
+e/lmod/modulefiles/mpi/gnu/10.0/ofi/1.0/cray-mpich/8.0:/opt/cray/pe/lmod/modulefiles/comnet/gnu/10.0/ofi/1.0:/opt/cray/pe/lmod/modulefiles/net/ofi/1.0:/opt/cray/pe/lmod/modulefiles/mix_compilers:/opt/
+cray/pe/lmod/modulefiles/compiler/gnu/10.0:/sw/rh9.4/user/modules:/sw/rh9.4/spack/default/modules/lmod/Core:/sw/rh9.4/external/lmood/modulefiles/core:/opt/nvidia/hpc_sdk/modulefiles:/opt/modulefiles:/
+opt/cray/pe/lmod/modulefiles/craype-targets/default:/opt/cray/pe/lmod/modulefiles/core:/opt/cray/modulefiles:/usr/share/lmod/lmod/modulefiles/Core",                                                    
+          "SQUEUE_FORMAT": "%.12i %.12P %.12j %.14u %.2t %.10M %.6D %.6v %.18R %f",                                                                                                                     
+          "__LMOD_REF_COUNT_PE_PKGCONFIG_PRODUCTS": "PE_DSMML:1;PE_LIBSCI:1;PE_MPICH:1",                                                                                                                
+          "CC": "cc",                                                                                                                                                                                   
+          "_LMFILES_": "/opt/cray/pe/lmod/modulefiles/core/gcc-native/13.2.lua:/opt/cray/pe/lmod/modulefiles/core/craype/2.7.34.lua:/opt/cray/pe/lmod/modulefiles/craype-targets/default/craype-network-
+ofi.lua:/opt/cray/pe/lmod/modulefiles/comnet/gnu/10.0/ofi/1.0/cray-mpich/8.1.32.lua:/opt/cray/pe/lmod/modulefiles/compiler/gnu/10.0/cray-libsci/25.03.0.lua:/opt/cray/pe/lmod/modulefiles/core/PrgEnv-gn
+u/8.6.0.lua:/opt/cray/pe/lmod/modulefiles/core/cray-dsmml/0.3.1.lua:/opt/cray/pe/lmod/modulefiles/craype-targets/default/craype-x86-milan.lua:/opt/cray/pe/lmod/modulefiles/craype-targets/default/crayp
+e-accel-nvidia80.lua:/sw/rh9.4/user/modules/cue-login-env/1.1.lua:/sw/rh9.4/user/modules/slurm-env/0.1.lua:/sw/rh9.4/user/modules/default.lua:/opt/cray/modulefiles/libfabric/1.22.0:/opt/cray/modulefil
+es/cudatoolkit/25.3_12.8:/sw/rh9.4/user/modules/python/.conda-env/pytorch/2.8-cu128.lua:/sw/rh9.4/user/modules/pytorch-conda/2.8.lua:/sw/rh9.4/spack/default/modules/lmod/linux-rhel9-x86_64/Core/util-l
+inux-uuid/2.41-gcc13.3.1.lua:/u/csteffen/xalt_remote_testing/06/target/xalt2/module/xalt/3.0.2.lua",                                                                                                    
+          "CRAY_CUDATOOLKIT_INCLUDE_OPTS": "-I/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/include -I/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/nvvm/include -I/opt/nvidia/hpc_sdk/Linux_x86_64/
+25.3/cuda/12.8/extras/Debugger/include -I/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/extras/CUPTI/include -I/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/math_libs/12.8/include",                          
+          "LMOD_FAMILY_CRAYPE_CPU": "craype-x86-milan",                                                                                                                                                 
+          "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/28198/bus",                                                                                                                                  
+          "CRAY_CUDATOOLKIT_DIR": "/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8",                                                                                                                    
+          "SALLOC_KILL_CMD": "1",                                                                                                                                                                       
+          "LMOD_CMD": "/usr/share/lmod/lmod/libexec/lmod",                                                                                                                                              
+          "CUE_PROMPT_HOST": "dt-login01.delta",                                                                                                                                                        
+          "PE_LIBSCI_VOLATILE_PKGCONFIG_PATH": "/opt/cray/pe/libsci/25.03.0/@PRGENV@/@PE_LIBSCI_GENCOMPS@/@PE_LIBSCI_TARGET@/lib/pkgconfig",                                                            
+          "LMOD_SYSTEM_NAME": "Delta",                                                                                                                                                                  
+          "MAIL": "/var/spool/mail/csteffen",                                                                                                                                                           
+          "SSH_TTY": "/dev/pts/89",                                 
+          "__LMOD_REF_COUNT_LD_LIBRARY_PATH": "/opt/cray/libfabric/1.22.0/lib64:2;/sw/rh9.4/user/python/conda-env/pytorch-2.8-cu128/lib:1;/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/math_libs/12.8/lib64:1;/
+opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/extras/CUPTI/lib64:1;/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/nvvm/lib64:1;/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/lib64:1;/opt/cray/pe/li
+b64:1",                                                                                                                                                                                                 
+          "CRAY_DSMML_VERSION": "0.3.1",                                                                                                                                                                
+          "__LMOD_REF_COUNT_PE_PKGCONFIG_LIBS": "cray-sdk-cudatoolkit-25.3_12.8:1;dsmml:1;libsci_mpi:1;libsci:1;mpich:1",                                                                               
+          "CONDA_PREFIX_1": "/sw/rh9.4/user/python/conda-env/pytorch-2.8-cu128",                                                                                                                        
+          "LMOD_SYSTEM_DEFAULT_MODULES": "default",                                                                                                                                                     
+          "_ModuleTable019_": "LjAwMDAwMDEyOC4qemZpbmFsIiwKfSwKWyJweXRvcmNoLWNvbmRhIl0gPSB7CmZuID0gIi9zdy9yaDkuNC91c2VyL21vZHVsZXMvcHl0b3JjaC1jb25kYS8yLjgubHVhIiwKZnVsbE5hbWUgPSAicHl0b3JjaC1jb25kYS8yL
+jgiLApsb2FkT3JkZXIgPSAxNiwKcHJvcFQgPSB7fSwKc3RhY2tEZXB0aCA9IDAsCnN0YXR1cyA9ICJhY3RpdmUiLAp1c2VyTmFtZSA9ICJweXRvcmNoLWNvbmRhIiwKd1YgPSAiMDAwMDAwMDAyLjAwMDAwMDAwOC4qemZpbmFsIiwKfSwKWyJzbHVybS1lbnYiXSA9I
+HsKZm4gPSAiL3N3L3JoOS40L3VzZXIvbW9kdWxlcy9zbHVybS1lbnYvMC4xLmx1YSIsCmZ1bGxOYW1lID0gInNsdXJtLWVudi8wLjEiLApsb2FkT3JkZXIgPSAxMSwKcHJvcFQgPSB7fSwK",                                                       
+          "LMOD_FAMILY_CRAYPE": "craype",                                                                                                                                                               
+          "CPATH": "/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/include:/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/nvvm/include:/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/extras/Debugger
+/include:/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/extras/CUPTI/include:/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/math_libs/12.8/include",                                                            
+          "NCSA_FAMILY_MPI": "cray-mpich",                                                                                                                                                              
+          "CUDATOOLKIT_HOME": "/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8",                                                                                                                        
+          "CRAY_LIBSCI_BASE_DIR": "/opt/cray/pe/libsci/25.03.0",                                                                                                                                        
+          "PE_MPICH_MODULE_NAME": "cray-mpich",                                                                                                                                                         
+          "TERM_PROGRAM": "tmux",                                                                                                                                                                       
+          "PE_FORTRAN_PKGCONFIG_LIBS": "mpichf90",                                                                                                                                                      
+          "PE_MPICH_PKGCONFIG_VARIABLES": "PE_MPICH_GTL_DIR_@accelerator@:PE_MPICH_GTL_LIBS_@accelerator@",                                                                                             
+          "LMOD_AVAIL_STYLE": "system",                                                                                                                                                                 
+          "_": "/u/csteffen/.conda/envs/xalt_sys_1/bin/python",                                     
+          "OLDPWD": "/u/csteffen",                                                                                                                                                                      
+          "__XALT_INITIAL_STATE__": "LD_PRELOAD",                                                                                                                                                       
+          "__XALT_STATE_PID__": "126260:dt-login01.delta.ncsa.illinois.edu",                                                                                                                            
+          "XALT_RUN_UUID": "c6da8fef-befb-44cc-bd12-0a2fbd383b2c",                                                                                                                                      
+          "XALT_DATE_TIME": "2026_08_04_11_11_58_5119"                                                                                                                                                  
+     },                                                                                                                                                                                                 
+     "userT": {                                                                                                                                                                                         
+          "syshost": "delta",                                                                                                                                                                           
+          "run_uuid": "c6da8fef-befb-44cc-bd12-0a2fbd383b2c",                                                                                                                                           
+          "exec_path": "/u/csteffen/.conda/envs/xalt_sys_1/bin/python3.14",                                                                                                                             
+          "exec_type": "binary",                                                                                                                                                                        
+          "cwd": "/u/csteffen/xalt_test_client",                                                                                                                                                        
+          "currentEpoch": "1785859918.536776",                                                                                                                                                          
+          "start_date": "Tue Aug  4 11:11:58 2026",                                                                                                                                                     
+          "user": "csteffen",                                                                                                                                                                           
+          "execModify": "Fri Jan 30 10:33:44 2026",                                                                                                                                                     
+          "scheduler": "unknown",                                                                                                                                                                       
+          "account": "unknown",                                                                                                                                                                         
+          "job_id": "unknown",                                                                                                                                                                          
+          "queue": "unknown",                                                                                                                                                                           
+          "submit_host": "unknown"                                                                                                                                                                      
+     },                                                                                                                                                                                                 
+     "userDT": {                                                                                                                                                                                        
+          "start_time": 1785859918.5119,                                                                                                                                                                
+          "end_time": 0.0,                                                                                                                                                                              
+          "run_time": 0.0,                                                                                                                                                                              
+          "probability": 1.0,                                                                                                                                                                           
+          "num_tasks": 1.0,                                                                                                                                                                             
+          "num_gpus": 0.0,                                                                                                                                                                              
+          "exec_epoch": 1785859918.0,                                                                                                                                                                   
+          "num_threads": 1.0,                                                                                                                                                                           
+          "num_cores": 1.0,                                                                                                                                                                             
+          "num_nodes": 1.0                                                                                                                                                                              
+     },                                          
+     "xaltLinkT": {},                                                                                                                                                                                   
+     "XALT_measureT": {                                                                                                                                                                                 
+          "04_WalkProcTree__": 0.0001,                                                                                                                                                                  
+          "03_BuildEnvT_____": 0.0019,                                                                                                                                                                  
+          "05_Build_RecordT_": 0.0,                                                                                                                                                                     
+          "01_BuildUserT____": 0.005,                                                                                                                                                                   
+          "02_Sha1_exec_____": 2.1367,                                                                                                                                                                  
+          "06_ParseProcMaps_": 0.0002,                                                                                                                                                                  
+          "07_GPU_Setup_____": 0.0,                                                                                                                                                                     
+          "08____total______": 2.1624                                                                                                                                                                   
+     },                                                                                                                                                                                                 
+     "XALT_qaT": {                                                                                                                                                                                      
+          "XALT_GIT_VERSION": "",                                                                                                                                                                       
+          "XALT_MPI_ALWAYS_RECORD": "128",                                                                                                                                                              
+          "XALT_MPI_TRACKING": "yes",                                                                                                                                                                   
+          "XALT_SCALAR_TRACKING": "yes",                                                                                                                                                                
+          "XALT_SAMPLING": "no",                                                                                                                                                                        
+          "XALT_FILE_PREFIX": "/u/csteffen/xalt_remote_testing/06/target/delta/json",                                                                                                                   
+          "XALT_RESULT_DIR": "/u/csteffen/xalt_remote_testing/06/log_repo/delta/json/202608/340/",                                                                                                      
+          "XALT_RESULT_FILE": "run.delta.2026_08_04_11_11_58_5119.csteffen.aaa.c6da8fef-befb-44cc-bd12-0a2fbd383b2c.json"                                                                               
+     }                                                                                                                                                                                                  
+}                                                                                                                                                                                                       
+>>>>>>                                                                                                                                                             
