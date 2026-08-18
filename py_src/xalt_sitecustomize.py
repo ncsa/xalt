@@ -1,6 +1,6 @@
 #### this should go into sitecustomize.py ####
 import sys, os, subprocess
-import inspect
+import ast, builtins
 
 from xalt_python_pkg_filter import keep_pkg
 
@@ -13,7 +13,7 @@ class RecorderRTM(object):
   """
   Record all requests to load a module by name.
   """
-  __slots__ = ['_cmd','_keepT']
+  __slots__ = ['_cmd','_keepT', '_declared']
 
 
   def __init__(self, uuid, version_str):
@@ -23,6 +23,26 @@ class RecorderRTM(object):
     if (xaltDir):
       self._cmd     = "XALT_EXECUTABLE_TRACKING=no " + os.path.join(xaltDir,"libexec/xalt_record_pkg") + \
                       " -u " + uuid + " program python xalt_run_uuid " + uuid + " package_version " + version_str
+
+      
+    self._declared = set()
+    user_script = os.path.realpath(sys.argv[0]) if sys.argv else None
+    if user_script and os.path.isfile(user_script):
+      try:
+        with open(user_script, 'r') as f:
+          self._declared |= self._roots_from_source(f.read())
+      except Exception:
+        pass
+    # Interactive / python -c: parse each compiled snippet
+    # Use a local (not self._orig_compile) — __slots__ would reject that attribute
+    orig_compile = builtins.compile
+    def _compile(source, filename, mode, *args, **kwargs):
+      if filename in ('<stdin>', '<string>', '<console>', '<input>'):
+        src = source.decode() if isinstance(source, (bytes, bytearray)) else source
+        if isinstance(src, str):
+          self._declared |= self._roots_from_source(src)
+      return orig_compile(source, filename, mode, *args, **kwargs)
+    builtins.compile = _compile
     
   def __keep(self, fullname, path):
     keepT              = self._keepT
@@ -51,26 +71,48 @@ class RecorderRTM(object):
     cmd = self._cmd + " package_name " + fullname + " package_path " + path
     subprocess.call(cmd, shell=True)
 
-  def _is_direct_user_import(self):
-    user_script = os.path.realpath(sys.argv[0]) if sys.argv else None
-    if user_script and not os.path.isfile(user_script):
-      user_script = None
-    for frame in inspect.stack()[2:]:
-      fn = frame.filename
-      # Interactive REPL / python -c
-      if fn in ("<stdin>", "<string>", "<console>"):
-        return True
-      if fn.startswith("<"):
-        continue
-      real = os.path.realpath(fn)
-      if user_script and real == user_script:
-        return True
-      if "site-packages" in real or "/lib/python" in real:
-        return False
-      if real.endswith(".py") and not real.startswith("/usr/"):
-        return True
-    return False
+#   def _is_direct_user_import(self):
+#     user_script = os.path.realpath(sys.argv[0]) if sys.argv else None
+#     if user_script and not os.path.isfile(user_script):
+#       user_script = None
+#     for frame in inspect.stack()[2:]:
+#       fn = frame.filename
+#       # Interactive REPL / python -c
+#       if fn in ("<stdin>", "<string>", "<console>"):
+#         return True
+#       if fn.startswith("<"):
+#         continue
+#       real = os.path.realpath(fn)
+#       if user_script and real == user_script:
+#         return True
+#       if "site-packages" in real or "/lib/python" in real:
+#         return False
+#       if real.endswith(".py") and not real.startswith("/usr/"):
+#         return True
+#     return False
 
+  
+  def _roots_from_source(self, src):
+    roots = set()
+    try:
+      tree = ast.parse(src)
+    except Exception:
+      return roots
+    for node in ast.walk(tree):
+      if isinstance(node, ast.Import):
+        for alias in node.names:
+          roots.add(alias.name.split('.')[0])
+      elif isinstance(node, ast.ImportFrom):
+        if node.level == 0 and node.module:
+          roots.add(node.module.split('.')[0])
+    return roots
+
+  def _is_declared_import(self, fullname):
+    if not fullname or not isinstance(fullname, string_types):
+      return False
+    return fullname.split('.')[0] in self._declared
+  
+  
   # Python 3.4+
   def find_spec(self, fullname, path, target=None):
 
@@ -93,7 +135,11 @@ class RecorderRTM(object):
     # if (self.__keep(fullname, path)):
     #   self.__report(fullname, path)
     
-    if (self.__keep(fullname, path) and self._is_direct_user_import()):
+    # if (self.__keep(fullname, path) and self._is_direct_user_import()):
+    #   self.__report(fullname, path)
+    
+    
+    if (self.__keep(fullname, path) and self._is_declared_import(fullname)):
       self.__report(fullname, path)
 
     return result
