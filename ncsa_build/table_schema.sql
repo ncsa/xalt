@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS `xalt_run` (
   `job_id`        char(64)             NOT NULL,
   `run_uuid`      char(36)             NOT NULL,
   `date`          datetime             NOT NULL,
+  `start_end`     char(3)              NOT NULL,
 
   `syshost`       varchar(64)          NOT NULL,
   `uuid`          char(36)                     ,
