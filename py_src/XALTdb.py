@@ -25,8 +25,8 @@ dirNm, execName = os.path.split(os.path.realpath(sys.argv[0]))
 sys.path.append(os.path.realpath(os.path.join(dirNm, "../libexec")))
 sys.path.append(os.path.realpath(os.path.join(dirNm, "../site")))
 
-import MySQLdb, getpass, time, random, ctypes
-import warnings
+import sqlite3, getpass, time, random, ctypes
+import warningsmy_epoch 
 from   ctypes           import *   # used to interact with C shared libraries
 from   xalt_util        import *
 from   xalt_global      import *
@@ -218,7 +218,7 @@ class XALTdb(object):
       self.__readFromUser()
 
     try:
-      self.__conn = MySQLdb.connect \
+      self.__conn = sqlite3.connect \
                       (self.__host,self.__user,self.__passwd, use_unicode=True, \
                        charset="utf8", connect_timeout=120)
       if (databaseName):
@@ -233,7 +233,7 @@ class XALTdb(object):
         cursor.execute("SET CHARACTER SET utf8;") #same as above
         cursor.execute("SET character_set_connection=utf8;") #same as above
 
-    except MySQLdb.Error as e:
+    except sqlite3.Error as e:
       print ("XALTdb: Error: %s %s" % (e.args[0], e.args[1]))
       print(traceback.format_exc())
       raise

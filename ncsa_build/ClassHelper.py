@@ -2,12 +2,16 @@ from typing import List, Dict, Tuple
 from datetime import datetime
 
 class PkgObj():
-  def __init__(self, data, path):
-      self.path = path
+#  def __init__(self, data, path):
+  def __init__(self, data):
+#      self.path = path
       self.xalt_run_uuid = data.get('xalt_run_uuid')
-      self.pkg_version = data.get('pkg_version')
-      self.pkg_name = data.get('pkg_name')
-      self.pkg_path = data.get('pkg_path')
+      self.pkg_version = data.get('package_version')
+      self.pkg_name = data.get('package_name')
+      self.pkg_path = data.get('package_path')
+#      self.pkg_version = data.get('pkg_version')
+#      self.pkg_name = data.get('pkg_name')
+#      self.pkg_path = data.get('pkg_path')
   def writeToDB(self, conn):
     """
     Write new package data to the database using provided MariaDB connection.
@@ -19,17 +23,23 @@ class PkgObj():
     Returns:
         pkg_id: The ID of the inserted package record
     """
+    print(f"run UUID:{self.xalt_run_uuid}")
+    print(f"package name:{self.pkg_name}")
     cursor = conn.cursor()
     try:
         cursor.execute("""
             INSERT INTO xalt_pkg 
-            (run_id, program, pkg_name, pkg_version, pkg_path)
+            (run_uuid, program, pkg_name, pkg_version, pkg_path)
             VALUES (%s, 'python', %s, %s, %s)
         """, (
-            int(self.xalt_run_uuid),  # Ensure run_id is an integer since it's int(11)
-            self.pkg_name[:64],       # Respect varchar(64) limit
-            self.pkg_version[:32] if self.pkg_version else None,  # Respect varchar(32) limit
-            self.pkg_path[:1024] if self.pkg_path else None      # Respect varchar(1024) limit
+#            int(self.xalt_run_uuid),  # Ensure run_id is an integer since it's int(11)
+            self.xalt_run_uuid,  # Craig removed int() of this value
+            self.pkg_name,       # Respect varchar(64) limit
+            self.pkg_version if self.pkg_version else None,  # Respect varchar(32) limit
+            self.pkg_path if self.pkg_path else None      # Respect varchar(1024) limit
+#            self.pkg_name[:64],       # Respect varchar(64) limit
+#            self.pkg_version[:32] if self.pkg_version else None,  # Respect varchar(32) limit
+#            self.pkg_path[:1024] if self.pkg_path else None      # Respect varchar(1024) limit
         ))
         
         pkg_id = cursor.lastrowid
@@ -53,6 +63,8 @@ class LinkObj:
       self.crc = json_data["crc"]
 
       # Extract resultT fields
+
+
       self.link_program = resultT["link_program"]
       self.link_path = resultT["link_path"]
       self.build_user = resultT["build_user"]
@@ -123,9 +135,10 @@ class LinkObj:
 
 
 class RunObj:
-  def __init__(self, json_data: dict, path):
+#  def __init__(self, json_data: dict, path):
+  def __init__(self, json_data: dict):
       # Extract fields from the json_data dictionary
-      self.path = path
+#      self.path = path
       self.crc = json_data.get("crc", "")
       self.cmdlineA = json_data.get("cmdlineA", [])
       self.hash_id = json_data.get("hash_id", "")
@@ -192,3 +205,66 @@ class RunObj:
           f"libA={self.libA}, ptA={self.ptA}, envT={self.envT}, userT={self.userT}, "
           f"userDT={self.userDT}, XALT_measureT={self.XALT_measureT}, XALT_qaT={self.XALT_qaT})"
       )
+  def writeToDB(self, conn):
+    """
+    structure copied from Prakhar's link object definition with mods for 
+    minimal output testing 2026Feb
+    """
+    print('starting writetoDB() test')
+    cursor = conn.cursor()
+    #    try:
+    #      cursor.execute("""
+    #            INSERT INTO links
+    #            (run_uuid,start_time,user,cwd,cmdline)
+    #            VALUES (%s, %s, %s, %s, %s)
+    #      """, (
+    
+    # test
+    my_user=self.userT["user"]
+    my_start_date=self.userT["start_date"]
+    command_count=0
+    print(f'user={my_user} date={my_start_date}')
+    print('writeToDB test: about to output type')
+    print(type(self.ptA))
+    print(f'ptA length={len(self.ptA)}')
+    print('writeToDB test: about to loop')
+    #      for command_dict in self.ptA.blahblah:
+    #        command_count += 1
+    #        my_command=command_dict[cmd_name]
+    #        print(f'Command {command_count} = {my_command}')
+    
+    print('finished looping')
+    
+    #      print('writetoDB for run test')
+    
+    #      return 0
+    
+    
+    cursor.execute("""
+        INSERT INTO xalt_run
+        (run_uuid,date,syshost,start_time,user,cwd)
+        VALUES (%s, %s, %s, %s, %s, %s)
+    """, (
+      self.userT["run_uuid"],
+#      self.userT["start_date"],  # original;
+      datetime.fromtimestamp(self.userDT["start_time"]).strftime('%Y-%m-%d %H:%M:%S'),  # Current timestamp for date
+      self.userT["syshost"],
+      self.userDT["start_time"],
+      my_user,
+      self.userT["cwd"]
+    ))
+#    ),use_pure=True)
+    
+    print('cursor ran; return value:{link_id}')
+    link_id = cursor.lastrowid # new index just inserted
+    conn.commit()
+    print('commit() ran; returning from writeToDB()')
+    
+    return link_id
+
+#    except Exception as e:
+#      conn.rollback() # undo in case of error
+#      raise exception(f"Error writing run to database: {str(e)}")
+
+#    finally:
+#      return

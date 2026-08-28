@@ -2,9 +2,9 @@ import os
 import json
 from datetime import datetime
 from datetime import timedelta 
-root_directory = '/sw/workload/delta/json'
+#root_directory = '/sw/workload/delta/json'
 # root_directory = '/home/prakhar/code/work/ncsa'
-
+root_directory = '/u/csteffen/xalt_base/records/json'
 
 
 # Function to process JSON files and collect data
