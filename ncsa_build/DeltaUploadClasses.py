@@ -128,11 +128,7 @@ class LinkObj:
         raise Exception(f"Error writing link to database: {str(e)}")
 
     finally:
-        return      # Close the cursor after operation
-
-
-
-
+      return      # Close the cursor after operation
 
 class RunObj:
 #  def __init__(self, json_data: dict, path):
@@ -199,6 +195,7 @@ class RunObj:
       self.XALT_qaT = json_data.get("XALT_qaT", {})
       self.xalt_run_uuid = self.userT['run_uuid']
 
+      
   def __repr__(self):
       return (
           f"RunObj(crc={self.crc}, cmdlineA={self.cmdlineA}, hash_id={self.hash_id}, "
@@ -238,12 +235,19 @@ class RunObj:
     #      print('writetoDB for run test')
     
     #      return 0
-    
+
+    test_string=self.XALT_qaT["XALT_RESULT_FILE"]
+
+    #    if test_string.contains(".aaa."):
+    if ".aaa." in test_string:
+      start_tag="aaa"
+    else:
+      start_tag=""
     
     cursor.execute("""
         INSERT INTO xalt_run
-        (run_uuid,date,syshost,start_time,user,cwd)
-        VALUES (%s, %s, %s, %s, %s, %s)
+        (run_uuid,date,syshost,start_time,user,cwd,start_end)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
     """, (
       self.userT["run_uuid"],
 #      self.userT["start_date"],  # original;
@@ -251,7 +255,8 @@ class RunObj:
       self.userT["syshost"],
       self.userDT["start_time"],
       my_user,
-      self.userT["cwd"]
+      self.userT["cwd"],
+      start_tag
     ))
 #    ),use_pure=True)
     
