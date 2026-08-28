@@ -8,13 +8,9 @@ except:
   import ConfigParser as configparser
 #import mariadb
 import json
-<<<<<<< Updated upstream:ncsa_build/orm.py
-from ClassHelper import PkgObj, LinkObj, RunObj
-=======
 from DeltaUploadClasses import PkgObj, LinkObj, RunObj
 import mysql.connector
 from mysql.connector import Error
->>>>>>> Stashed changes:ncsa_build/delta_upload_xalt_records.py
 
 
 def connectDB(my_config):
@@ -242,12 +238,11 @@ def main():
         print('finish subobject; now print')
         print(run_subobject)
         print('done printing subobject')
-
-#      serialized_run_obj=json.loads(run_obj)
-#      print(json.dumps(serialized_run_obj,indent=5))
-      print("about to write to DB")
-      run_obj[0].writeToDB(conn)
-      
+        #      serialized_run_obj=json.loads(run_obj)
+        #      print(json.dumps(serialized_run_obj,indent=5))
+        print("about to write to DB")
+        #      run_obj[0].writeToDB(conn)
+        run_subobject.writeToDB(conn)
       
 
     print('done uploading RUN dictionary')
@@ -268,12 +263,11 @@ def main():
         print('finish subobject; now print')
         print(pkg_subobject)
         print('done printing subobject')
-
-#      serialized_run_obj=json.loads(run_obj)
-#      print(json.dumps(serialized_run_obj,indent=5))
-      print("about to write to DB")
-      pkg_obj[0].writeToDB(conn)
-      
+        #      serialized_run_obj=json.loads(run_obj)
+        #      print(json.dumps(serialized_run_obj,indent=5))
+        print("about to write to DB")
+        #pkg_obj[0].writeToDB(conn)
+        pkg_subobject.writeToDB(conn)
       
 
     print('done uploading PKG dictionary')

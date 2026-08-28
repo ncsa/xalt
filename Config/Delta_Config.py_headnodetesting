@@ -91,7 +91,7 @@ path_patterns = [
     ['SKIP', r'^\/run\/.*'],
     ['SKIP', r'^\/sbin\/.*'],
     ['SKIP', r'^\/srv\/.*'],
-    ['SKIP', r'^\/sw\/.*'],
+    ['KEEP', r'^\/sw\/.*'],
     ['SKIP', r'^\/sys\/.*'],
     ['SKIP', r'^\/taiga\/.*'], # double check here
     ['SKIP', r'^\/tmp\/.*'],

@@ -1,0 +1,65 @@
+Build a new installation, as of 2026 March 17 on Delta
+KEY:
+unindented sentences are human commands
+  intended statements are explicit shell commands
+
+
+(if you don't already have one, create a parent directory for your xalt work)
+example: /work/hdd/bbka/csteffen/xalt_tests/00/
+
+get clone the repo: 
+  git clone https://github.com/ncsa/xalt
+make a target (install) directory: mkdir target # or some such
+
+set and export shell variable XALT_BASE_DIRECTORY to the target 
+  cd target
+  export XALT_BASE_DIRECTORY=`pwd`
+  echo $XALT_BASE_DIRECTORY
+
+cd into the repo: cd ../xalt
+
+"git checkout" the branch you want: 
+  git checkout craigsteffen-2026updates
+
+# Modify Config/Delta_Config.py in the repo to your wishes as far as target executable and paths and hostnames
+#cd Config/
+#cp Delta_Config.py_headnodetesting  Delta_Config.py
+
+
+run build script
+  cd ../ncsa_build
+  module load util-linux-uuid
+  export CPATH=${CPATH}:${UTIL_LINUX_UUID_HOME}/include
+  ./build_xalt.sh 
+that populates the inital target directory
+
+now modify build target for any testing configuration
+  cd ../../target/xalt2/xalt_src/Config
+If you want to harvest from head nodes, for instance, modify line 17 of file Delta_Config.py in this directory from SKIP TO KEEP
+then build again:
+  cd ../../../../xalt/ncsa_build/
+  export XALT_LOCAL_ONLY="yes"
+  ./build_xalt.sh 
+
+create log repository directory
+  cd /work/hdd/bbka/csteffen/xalt_tests/00/
+  mkdir -p log_repo/delta
+
+Modify the following in module file in target according to above
+(file will be something like: /work/hdd/bbka/csteffen/xalt_tests/01/target/xalt2/module/xalt/3.0.2.lua
+########## file module example lines
+local base  = "/work/hdd/bbka/csteffen/xalt_tests/01/target/xalt2/xalt/xalt"
+
+-- LOC local record_dir  = "/sw/workload/delta/json"
+local record_dir_base = "/work/hdd/bbka/csteffen/xalt_tests/00/log_repo/delta"
+local record_dir  = pathJoin(record_dir_base,"json")
+
+-- LOC local apptainer_bind_dir = "/sw/workload/xalt2/xalt/xalt, /sw/workload/delta"
+local apptainer_bind_dir = base..", "..record_dir_base
+########## end file example lines
+
+add module directory to MODULEPATH
+  cd ..
+  export MODULEPATH=$MODULEPATH:`pwd`
+
+load module

@@ -108,11 +108,15 @@ if [ $? -eq 0 ]; then
 	echo "about to verify module directory exists"
 	mkdir -p $build_dir/module/xalt
         cp $src_dir/ncsa_build/$module_ver.lua $build_dir/module/xalt/$module_ver.lua
-        echo "Add ${base_dir}/module to MODULEPATH to begin using ${module_name}"
+#        echo "Add ${base_dir}/module to MODULEPATH to begin using ${module_name}"
+        echo "Add ${build_dir}/module to MODULEPATH to begin using ${module_name}"
+	echo "For testing, you may need to customize the file in ${build_dir}/module/xalt/"
         cp $src_dir/ncsa_build/build_xalt.sh $build_dir/build_xalt.sh
 
 else
     echo "Install Failed"
+    echo "If you need to add include directories to make the build work,"
+    echo "    add them to CPATH"
 fi
 
 cd $orig_dir
