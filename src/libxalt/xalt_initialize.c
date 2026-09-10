@@ -913,10 +913,13 @@ void myfini()
       close(STDERR_FILENO);
       dup2(errfd, STDERR_FILENO);
       my_stderr = fdopen(errfd,"w");
-      if (!xalt_err)
-      {
-        xalt_err = stderr;
-      }
+      
+			// This if is never true. In gcc 13, xalt_err = stderr does not throw an error, but in gcc 14 it does.
+			// if (!xalt_err)
+      // {
+      //   xalt_err = stderr; // type mismatch: int = FILE*
+      // }
+			
     }
 
 
