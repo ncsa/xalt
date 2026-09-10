@@ -298,6 +298,8 @@ xalt_repo_dir=$(cd "$(dirname "$0")/.." && pwd)
 config_file="$xalt_repo_dir/Config/Delta_Config.py"
 
 git_repo=https://github.com/ncsa/xalt
+git_branch=hung # Can change to main later after merge
+
 module_name=xalt
 module_ver=3.0.2
 
@@ -313,13 +315,17 @@ else
     if [ -d "$src_dir" ]; then
         echo "Directory exists. Updating now."
         cd $src_dir
-        git pull
+        # git pull
+        git fetch origin
+        git checkout "$git_branch"
+        git pull origin "$git_branch"
         cd $orig_dir
     else
         echo "source Directory does not exist; about to make build directory $build_dir"
         mkdir -p $build_dir
         cd $build_dir
-        git clone $git_repo $XALT_REPO_NAME
+        # git clone $git_repo $XALT_REPO_NAME
+        git clone -b "$git_branch" "$git_repo" "$XALT_REPO_NAME"
         cd $orig_dir
     fi
 fi
