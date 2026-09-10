@@ -42,6 +42,7 @@ PREFIX_DIR/
   export XALT_BASE_DIRECTORY=$PREFIX_DIR/target
 
 Use your fork or branch if your team maintains one (e.g. `git clone -b hung ...`).
+e.g., git clone -b hung $XALT_REPO xalt
 
 ---
 
