@@ -7,12 +7,12 @@ local month = string.format("%02d", currentDate.month)
 local year = currentDate.year
 local formattedDate = year .. month
 
-local base  = "/sw/workload/xalt_test_2026_01/target/xalt2/xalt/xalt"
+local base  = "@XALT_INSTALL_BASE@"
 local bin   = pathJoin(base,"bin")
 local pythonpath   = pathJoin(base,"site_packages")
 local lib_dir = "/lib64"
 
-local record_dir_base = "/sw/workload/xalt_test_2026_01/log_repo/delta"
+local record_dir_base = "@XALT_LOG_REPO@"
 local record_dir  = pathJoin(record_dir_base,"json")
 record_dir = pathJoin(record_dir,os.getenv("USER"))
 
