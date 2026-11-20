@@ -59,10 +59,12 @@ void transmit(const char* transmission, const char* jsonStr, const char* kind, c
           DEBUG(my_stderr,"    resultFn is NULL, $HOME or $USER might be undefined -> No XALT output\n");
           return;
         }
-
-      int err = mkpath(resultDir, 0700);
+			
+			mode_t old_umask = umask(027);
+      int err = mkpath(resultDir, 0750);
       if (err)
         {
+					umask(old_umask);
           if (xalt_tracing)
             {
               perror("Error: ");
@@ -77,6 +79,8 @@ void transmit(const char* transmission, const char* jsonStr, const char* kind, c
       asprintf(&fn, "%s%s",resultDir, resultFn);
 
       FILE* fp = fopen(tmpFn,"w");
+			umask(old_umask);
+			
       if (fp == NULL)
         {
           if (xalt_tracing)
